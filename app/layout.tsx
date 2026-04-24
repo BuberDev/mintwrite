@@ -4,6 +4,9 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 import './globals.css'
 import { Toast } from '@/components/ui/Toast'
+import { cn } from "@/lib/utils";
+
+// Removed missing Geist font
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -55,7 +58,7 @@ export default function RootLayout({
         }
       }}
     >
-      <html lang="en" className={`dark ${inter.variable} ${outfit.variable}`}>
+      <html lang="en" className={cn("dark", inter.variable, outfit.variable)}>
         <body className="font-sans">
           {children}
           <Toast />
