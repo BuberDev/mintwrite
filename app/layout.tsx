@@ -1,0 +1,66 @@
+import { Inter, Outfit } from 'next/font/google'
+import type { Metadata } from 'next'
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
+import './globals.css'
+import { Toast } from '@/components/ui/Toast'
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
+
+const outfit = Outfit({ 
+  subsets: ['latin'],
+  variable: '--font-outfit',
+})
+
+export const metadata: Metadata = {
+  title: {
+    default: 'CryptoScribe AI — Web3 Content Marketing Platform',
+    template: '%s | CryptoScribe AI',
+  },
+  description:
+    'Generate Twitter threads, Discord announcements, tokenomics explainers, and more for your Web3 project in under 60 seconds.',
+  keywords: [
+    'Web3 content generator',
+    'crypto Twitter thread writer',
+    'Discord announcement generator crypto',
+    'tokenomics explainer',
+    'blockchain content marketing',
+    'DeFi marketing tool',
+  ],
+  openGraph: {
+    title: 'CryptoScribe AI — Web3 Content Marketing Platform',
+    description: 'AI content marketing for Web3 founders. No generic AI. Built for crypto.',
+    type: 'website',
+  },
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <ClerkProvider 
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: '#00D4AA',
+          colorBackground: '#080f17',
+          colorInputBackground: '#131e2b',
+          colorInputText: '#f8fafc',
+          colorTextOnPrimaryBackground: '#040810',
+        }
+      }}
+    >
+      <html lang="en" className={`dark ${inter.variable} ${outfit.variable}`}>
+        <body className="font-sans">
+          {children}
+          <Toast />
+        </body>
+      </html>
+    </ClerkProvider>
+  )
+}
