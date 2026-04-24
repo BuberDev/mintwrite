@@ -34,7 +34,7 @@ const UserButton = React.forwardRef<HTMLButtonElement, UserButtonProps>(
     
     const variants = {
       default: "bg-white text-black hover:bg-gray-100",
-      primary: "bg-brand-500 text-dark-950 hover:bg-brand-400 shadow-lg shadow-brand-500/10",
+      primary: "bg-brand-500 text-primary-foreground hover:bg-brand-400 shadow-lg shadow-primary/10",
       secondary: "bg-gray-800 text-white hover:bg-gray-700",
       ghost: "hover:bg-gray-800/50 text-white",
       gradient: "bg-gradient-to-b from-white via-white/95 to-white/60 text-black hover:scale-105 active:scale-95"
@@ -75,12 +75,12 @@ const Features = () => {
   ]
 
   return (
-    <section id="features" className="py-32 px-6 bg-dark-950/50">
+    <section id="features" className="py-32 px-6 bg-background/50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-24">
           <Badge variant="pro" className="mb-6">7 Core Templates</Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 font-display tracking-tight">The ultimate Web3 content engine</h2>
-          <p className="text-dark-300 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
             Generic AI doesn't understand your protocol. We do. Our engine is trained on thousands of successful Web3 launches.
           </p>
         </div>
@@ -99,7 +99,7 @@ const Features = () => {
                   <type.icon className="h-7 w-7 text-brand-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">{type.title}</h3>
-                <p className="text-dark-300 text-sm leading-relaxed">{type.desc}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{type.desc}</p>
               </Card>
             </motion.div>
           ))}
@@ -113,7 +113,7 @@ const Features = () => {
             <Card variant="glass" className="h-full p-8 rounded-[2rem] border-brand-500/20 bg-brand-500/5 flex flex-col items-center justify-center text-center group cursor-pointer">
               <Sparkles className="h-10 w-10 text-brand-500 mb-4 animate-pulse" />
               <h3 className="text-xl font-bold mb-2">More coming</h3>
-              <p className="text-dark-400 text-xs">V2.0 Roadmap: Full Content Calendars & Brand Voice Training</p>
+              <p className="text-muted-foreground/80 text-xs">V2.0 Roadmap: Full Content Calendars & Brand Voice Training</p>
             </Card>
           </motion.div>
         </div>
@@ -160,7 +160,7 @@ const Pricing = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 font-display">Simple, value-based pricing</h2>
-          <p className="text-dark-300 text-lg">Stop paying $5,000/mo to agencies. Scale with AI.</p>
+          <p className="text-muted-foreground text-lg">Stop paying $5,000/mo to agencies. Scale with AI.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -174,7 +174,7 @@ const Pricing = () => {
               )}
             >
               {tier.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-500 text-dark-950 text-[10px] font-black uppercase tracking-widest py-1 px-4 rounded-full">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-500 text-primary-foreground text-[10px] font-black uppercase tracking-widest py-1 px-4 rounded-full">
                   Recommended
                 </div>
               )}
@@ -182,14 +182,14 @@ const Pricing = () => {
                 <h3 className="text-xl font-bold mb-2">{tier.name}</h3>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-bold font-display">${tier.price}</span>
-                  <span className="text-dark-400 text-sm">/month</span>
+                  <span className="text-muted-foreground text-sm">/month</span>
                 </div>
-                <p className="text-dark-300 text-sm mt-4">{tier.desc}</p>
+                <p className="text-muted-foreground text-sm mt-4">{tier.desc}</p>
               </div>
 
               <div className="space-y-4 mb-10 flex-1">
                 {tier.features.map((f) => (
-                  <div key={f} className="flex items-center gap-3 text-sm text-dark-200">
+                  <div key={f} className="flex items-center gap-3 text-sm text-foreground/80">
                     <div className="h-5 w-5 rounded-full bg-brand-500/10 flex items-center justify-center shrink-0">
                       <Check className="h-3 w-3 text-brand-500" />
                     </div>
@@ -202,7 +202,7 @@ const Pricing = () => {
                 variant={tier.variant} 
                 className={cn(
                   "w-full h-14 rounded-2xl font-bold text-base",
-                  tier.name === "Pro" && "bg-brand-500 text-dark-950 hover:bg-brand-400"
+                  tier.name === "Pro" && "bg-brand-500 text-primary-foreground hover:bg-brand-400"
                 )}
               >
                 {tier.cta}
@@ -220,11 +220,11 @@ const Pricing = () => {
 const CTA = () => {
   return (
     <section className="py-32 px-6">
-      <div className="max-w-5xl mx-auto bg-dark-900 border border-white/5 rounded-[3.5rem] p-12 md:p-24 text-center relative overflow-hidden group">
+      <div className="max-w-5xl mx-auto bg-card border border-border rounded-[3.5rem] p-12 md:p-24 text-center relative overflow-hidden group">
         <div className="absolute inset-0 bg-brand-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
         <Badge variant="pro" className="mb-8">Join 200+ founders</Badge>
         <h2 className="text-4xl md:text-6xl font-bold mb-8 font-display tracking-tight">Ready to scale <br className="hidden md:block" /> your community?</h2>
-        <p className="text-dark-300 text-lg mb-12 max-w-xl mx-auto leading-relaxed">
+        <p className="text-muted-foreground text-lg mb-12 max-w-xl mx-auto leading-relaxed">
           Generate your first content pack in under 60 seconds. No credit card required to start.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
@@ -248,7 +248,7 @@ const CTA = () => {
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-dark-950 text-white selection:bg-brand-500/30 selection:text-brand-200">
+    <div className="flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/30 selection:text-primary-foreground">
       <main>
         <HeroSection />
         <Features />

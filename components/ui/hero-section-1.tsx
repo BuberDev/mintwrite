@@ -402,10 +402,10 @@ const Logo = ({ className }: { className?: string }) => {
                     x2="10"
                     y2="20"
                     gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#00D4AA" />
+                    <stop stopColor="#fbbf24" />
                     <stop
                         offset="1"
-                        stopColor="#00A882"
+                        stopColor="#d97706"
                     />
                 </linearGradient>
             </defs>

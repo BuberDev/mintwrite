@@ -10,66 +10,66 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        border: "hsl(var(--border) / <alpha-value>)",
+        input: "hsl(var(--input) / <alpha-value>)",
+        ring: "hsl(var(--ring) / <alpha-value>)",
+        background: "hsl(var(--background) / <alpha-value>)",
+        foreground: "hsl(var(--foreground) / <alpha-value>)",
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
         },
         secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
+          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
         },
         destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
+          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
         },
         muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
+          DEFAULT: "hsl(var(--muted) / <alpha-value>)",
+          foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
+          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+          foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
           teal: '#00D4AA',
           purple: '#A855F7',
           blue: '#3B82F6',
         },
         popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
+          DEFAULT: "hsl(var(--popover) / <alpha-value>)",
+          foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
         },
         card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
+          DEFAULT: "hsl(var(--card) / <alpha-value>)",
+          foreground: "hsl(var(--card-foreground) / <alpha-value>)",
         },
         brand: {
-          50:  '#e6fff9',
-          100: '#b3ffee',
-          200: '#66ffe0',
-          300: '#1affd0',
-          400: '#00e8b8',
-          500: '#00D4AA', // primary accent teal
-          600: '#00a882',
-          700: '#007d60',
-          800: '#00533f',
-          900: '#002a1f',
+          50:  'hsl(var(--accent) / <alpha-value>)',
+          100: 'hsl(var(--accent) / <alpha-value>)',
+          200: 'hsl(var(--accent-foreground) / <alpha-value>)',
+          300: 'hsl(var(--primary) / <alpha-value>)',
+          400: 'hsl(var(--primary) / <alpha-value>)',
+          500: 'hsl(var(--primary) / <alpha-value>)', // primary accent amber
+          600: 'hsl(var(--primary) / <alpha-value>)',
+          700: 'hsl(var(--accent-foreground) / <alpha-value>)',
+          800: 'hsl(var(--accent-foreground) / <alpha-value>)',
+          900: 'hsl(var(--accent-foreground) / <alpha-value>)',
         },
         dark: {
-          950: '#040810',
-          900: '#080f17', // page background
-          800: '#0d1520', // card background
-          700: '#131e2b', // elevated card
-          600: '#1a2737', // border/subtle
-          500: '#3d5068', // muted elements (shifted from 400)
-          400: '#6b8099', // placeholder text (shifted from 300)
-          300: '#9ab0c5', // secondary text (shifted from 200)
-          200: '#c8d8e6', // body text (shifted from 100)
-          100: '#e8f0f6', // primary text (shifted from 50)
-          50:  '#f8fafc', // brightest
+          950: 'hsl(var(--background) / <alpha-value>)',
+          900: 'hsl(var(--background) / <alpha-value>)', // page background
+          800: 'hsl(var(--card) / <alpha-value>)', // card background
+          700: 'hsl(var(--muted) / <alpha-value>)', // elevated card
+          600: 'hsl(var(--border) / <alpha-value>)', // border/subtle
+          500: 'hsl(var(--muted-foreground) / <alpha-value>)', 
+          400: 'hsl(var(--muted-foreground) / <alpha-value>)', 
+          300: 'hsl(var(--muted-foreground) / <alpha-value>)', 
+          200: 'hsl(var(--foreground) / <alpha-value>)', 
+          100: 'hsl(var(--foreground) / <alpha-value>)', 
+          50:  'hsl(var(--foreground) / <alpha-value>)', 
         },
       },
       fontFamily: {

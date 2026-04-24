@@ -56,20 +56,20 @@ const footerLinks: FooterSection[] = [
 
 export function Footer() {
 	return (
-		<footer className="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-[3rem] border-t border-dark-600 bg-dark-900 px-6 py-12 lg:py-16 overflow-hidden">
+		<footer className="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-[3rem] border-t border-border bg-card px-6 py-12 lg:py-16 overflow-hidden">
 			<div className="absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 bg-brand-500/50 blur-sm" />
 
 			<div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8 relative z-10">
 				<AnimatedContainer className="space-y-4">
 					<div className="flex items-center gap-2">
                         <div className="h-8 w-8 rounded-lg bg-brand-500 flex items-center justify-center">
-                            <span className="text-dark-950 font-bold text-xl">C</span>
+                            <span className="text-primary-foreground font-bold text-xl">C</span>
                         </div>
                         <span className="font-bold text-xl tracking-tight">
                             Crypto<span className="text-brand-500">Scribe</span>
                         </span>
                     </div>
-					<p className="text-dark-300 mt-8 text-sm md:mt-0">
+					<p className="text-muted-foreground mt-8 text-sm md:mt-0">
 						© {new Date().getFullYear()} CryptoScribe AI. All rights reserved.
 					</p>
 				</AnimatedContainer>
@@ -78,8 +78,8 @@ export function Footer() {
 					{footerLinks.map((section, index) => (
 						<AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
 							<div className="mb-10 md:mb-0">
-								<h3 className="text-xs font-bold text-dark-100 uppercase tracking-widest">{section.label}</h3>
-								<ul className="text-dark-400 mt-4 space-y-2 text-sm">
+								<h3 className="text-xs font-bold text-foreground uppercase tracking-widest">{section.label}</h3>
+								<ul className="text-muted-foreground mt-4 space-y-2 text-sm">
 									{section.links.map((link) => (
 										<li key={link.title}>
 											<a
