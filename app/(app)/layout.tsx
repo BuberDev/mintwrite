@@ -38,12 +38,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar Desktop */}
       <aside className="hidden w-64 border-r border-dark-600 bg-dark-900 lg:flex flex-col sticky top-0 h-screen">
         <div className="p-6">
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-none bg-brand-500 flex items-center justify-center">
-              <span className="text-dark-950 font-bold text-xl">C</span>
+          <Link href="/dashboard" className="flex items-center gap-3">
+            <div className="h-9 w-9 bg-black border border-dark-600 flex items-center justify-center rounded-none overflow-hidden p-1.5">
+              <img src="/logo_mint_write.png" alt="Mint Write Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="font-bold text-xl tracking-tight">
-              Crypto<span className="text-brand-500">Scribe</span>
+            <span className="font-bold text-xl tracking-tighter uppercase">
+              Mint <span className="text-brand-500">Write</span>
             </span>
           </Link>
         </div>

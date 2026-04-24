@@ -14,20 +14,20 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "default", size = "default", className = "", children, ...props }, ref) => {
     const baseStyles = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-    
+
     const variants = {
       default: "bg-white text-black hover:bg-gray-100",
       secondary: "bg-gray-800 text-white hover:bg-gray-700",
       ghost: "hover:bg-gray-800/50 text-white",
       gradient: "bg-gradient-to-b from-white via-white/95 to-white/60 text-black hover:scale-105 active:scale-95"
     }
-    
+
     const sizes = {
       default: "h-10 px-4 py-2 text-sm",
       sm: "h-10 px-5 text-sm",
       lg: "h-12 px-8 text-base"
     }
-    
+
     return (
       <button
         ref={ref}
@@ -52,9 +52,9 @@ const Navigation = React.memo(() => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-none bg-brand-500 flex items-center justify-center text-dark-950 font-bold text-xs">C</div>
-            <span className="text-xl font-bold text-white tracking-tight">CryptoScribe</span>
+            <span className="text-xl font-bold text-white tracking-tight">MintWrite</span>
           </div>
-          
+
           <div className="hidden md:flex items-center justify-center gap-8 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <a href="#features" className="text-sm text-white/60 hover:text-white transition-colors">
               Features
@@ -162,7 +162,7 @@ const Hero = React.memo(() => {
       </h1>
 
       <p className="text-base md:text-lg text-center text-dark-300 max-w-2xl px-6 mb-12 animate-slide-up [animation-delay:200ms]">
-        Generate professional Twitter threads, Discord updates, and blog posts 
+        Generate professional Twitter threads, Discord updates, and blog posts
         tailored for your protocol in seconds.
       </p>
 

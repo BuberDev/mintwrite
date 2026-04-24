@@ -6,17 +6,17 @@ import { ContentOutput } from "@/components/output/ContentOutput"
 import { useState, useEffect } from "react"
 import { useCompletion } from "ai/react"
 import { toast } from "sonner"
-import { 
-  ChevronLeft, 
-  Sparkles, 
-  Wand2, 
-  Twitter, 
-  MessagesSquare, 
-  Users, 
-  BarChart3, 
-  FileText, 
-  Mic2, 
-  BookOpen 
+import {
+  ChevronLeft,
+  Sparkles,
+  Wand2,
+  Twitter,
+  MessagesSquare,
+  Users,
+  BarChart3,
+  FileText,
+  Mic2,
+  BookOpen
 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -61,7 +61,7 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
     api: '/api/generate',
     onFinish: async (prompt, result) => {
       toast.success("Content generated successfully!")
-      
+
       try {
         const project = projects.find(p => p.id === selectedProjectId)
         await fetch('/api/generations', {
@@ -90,7 +90,7 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
       toast.error("Please select or create a project first")
       return
     }
-    
+
     setLastContext(context)
     await complete('', {
       body: {
@@ -107,7 +107,7 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
 
   return (
     <div className="max-w-7xl mx-auto space-y-12 pb-24 px-4">
-      <motion.header 
+      <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-dark-600 pb-12"
@@ -151,7 +151,7 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Form Column */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
@@ -161,21 +161,21 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <span className="text-6xl font-black font-mono">01</span>
             </div>
-            
+
             <div className="flex items-center gap-4 mb-10 border-b border-dark-800 pb-8">
               <div className="space-y-1">
                 <p className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.2em]">Calibration Phase</p>
                 <h3 className="text-lg font-bold tracking-tight">Context Injection</h3>
               </div>
             </div>
-            
-            <GenerationForm 
-              contentType={contentType} 
-              onSubmit={handleSubmit} 
-              isLoading={isLoading} 
+
+            <GenerationForm
+              contentType={contentType}
+              onSubmit={handleSubmit}
+              isLoading={isLoading}
             />
           </div>
-          
+
           <div className="p-8 rounded-none bg-brand-500/[0.02] border border-brand-500/10 flex items-start gap-6 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-brand-500/[0.05] to-transparent pointer-events-none" />
             <div className="h-12 w-12 rounded-none bg-brand-500/10 border border-brand-500/20 flex items-center justify-center shrink-0">
@@ -185,14 +185,14 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
               <p className="text-[10px] font-mono text-brand-500 uppercase tracking-widest">Vector Tuning</p>
               <h4 className="text-sm font-bold text-dark-100 uppercase tracking-tighter">Strategic Insight</h4>
               <p className="text-sm text-dark-400 leading-relaxed italic">
-                "Inject specific metrics like TVL or Holder count. Generic AI drafts for users; CryptoScribe drafts for investors."
+                "Inject specific metrics like TVL or Holder count. Generic AI drafts for users; MintWrite drafts for investors."
               </p>
             </div>
           </div>
         </motion.div>
 
         {/* Output Column */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
@@ -203,9 +203,9 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
             {isLoading && (
               <div className="absolute inset-0 bg-brand-500/5 blur-[100px] animate-pulse rounded-full" />
             )}
-            <ContentOutput 
-              content={completion} 
-              contentType={contentType} 
+            <ContentOutput
+              content={completion}
+              contentType={contentType}
               isGenerating={isLoading}
               onRegenerate={handleRegenerate}
             />

@@ -1,9 +1,9 @@
 "use client"
 
 import React, { useState } from "react"
-import { 
-  ArrowRight, Menu, X, Check, Zap, Shield, Sparkles, 
-  ChevronRight, Twitter, MessageSquare, BookOpen, 
+import {
+  ArrowRight, Menu, X, Check, Zap, Shield, Sparkles,
+  ChevronRight, Twitter, MessageSquare, BookOpen,
   FileText, Users, Presentation, Lightbulb, Play
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -31,7 +31,7 @@ interface UserButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 const UserButton = React.forwardRef<HTMLButtonElement, UserButtonProps>(
   ({ variant = "default", size = "default", className = "", children, ...props }, ref) => {
     const baseStyles = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
-    
+
     const variants = {
       default: "bg-white text-black hover:bg-gray-100",
       primary: "bg-brand-500 text-primary-foreground hover:bg-brand-400 shadow-lg shadow-primary/10",
@@ -39,13 +39,13 @@ const UserButton = React.forwardRef<HTMLButtonElement, UserButtonProps>(
       ghost: "hover:bg-gray-800/50 text-white",
       gradient: "bg-gradient-to-b from-white via-white/95 to-white/60 text-black hover:scale-105 active:scale-95"
     };
-    
+
     const sizes = {
       default: "h-10 px-4 py-2 text-sm",
       sm: "h-10 px-5 text-sm",
       lg: "h-12 px-8 text-base"
     };
-    
+
     return (
       <button
         ref={ref}
@@ -84,7 +84,7 @@ const Capabilities = () => {
           <div className="max-w-sm text-zinc-400 pt-4 border-t border-primary/20">
             <p className="text-sm font-mono uppercase tracking-widest mb-4">Core Capabilities // v2.4</p>
             <p className="text-base leading-relaxed">
-              Standard LLMs fail in Web3 because they lack protocol-level context. CryptoScribe is a specific intelligence layer designed for founders.
+              Standard LLMs fail in Web3 because they lack protocol-level context. Mint Write is a specific intelligence layer designed for founders.
             </p>
           </div>
         </div>
@@ -163,7 +163,7 @@ const PricingMatrix = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 border border-white/5 rounded-none overflow-hidden bg-black/40 backdrop-blur-xl">
           {tiers.map((tier, i) => (
-            <div 
+            <div
               key={tier.name}
               className={cn(
                 "p-12 flex flex-col border-white/5",
@@ -197,8 +197,8 @@ const PricingMatrix = () => {
                 ))}
               </div>
 
-              <Button 
-                variant={tier.primary ? "default" : "outline"} 
+              <Button
+                variant={tier.primary ? "default" : "outline"}
                 className={cn(
                   "w-full h-14 rounded-none font-bold uppercase tracking-[0.2em] text-xs transition-all",
                   tier.primary ? "bg-primary text-black hover:bg-primary/90" : "border-white/10 hover:bg-white/5",
@@ -244,7 +244,7 @@ export default function LandingPage() {
       <main>
         <HeroSection />
         <Capabilities />
-        
+
         <Demo />
 
         <PricingMatrix />

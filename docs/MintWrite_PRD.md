@@ -1,4 +1,4 @@
-# CryptoScribe AI — Product Requirements Document
+# MintWrite AI — Product Requirements Document
 
 > **Version:** 1.0 · **Status:** Draft · **Date:** April 2026 · **CONFIDENTIAL**
 
@@ -14,11 +14,11 @@
 
 ## 1. Executive Summary
 
-CryptoScribe AI is a web-based SaaS platform that generates professional marketing and community content for Web3 projects — Twitter/X threads, Discord announcements, whitepaper drafts, tokenomics explainers, blog posts, and AMA scripts — in under 60 seconds.
+MintWrite AI is a web-based SaaS platform that generates professional marketing and community content for Web3 projects — Twitter/X threads, Discord announcements, whitepaper drafts, tokenomics explainers, blog posts, and AMA scripts — in under 60 seconds.
 
 Web3 founders are technical builders, not copywriters. Generic AI tools like ChatGPT don't understand blockchain terminology, tokenomics vocabulary, community culture, or regulatory disclaimers. The result is either bad content that damages credibility, or expensive marketing agencies at $5,000–$20,000/month.
 
-CryptoScribe AI fills this gap at **$49/month**.
+MintWrite AI fills this gap at **$49/month**.
 
 ### The Core Problem
 
@@ -31,9 +31,9 @@ Every Web3 project needs consistent, high-quality content to build community tru
 
 ### The Solution
 
-A founder inputs their project data once (name, token, category, key milestones). CryptoScribe AI generates a complete, platform-ready content pack in under 60 seconds — with correct Web3 terminology, community tone, and built-in "not financial advice" disclaimers where needed.
+A founder inputs their project data once (name, token, category, key milestones). MintWrite AI generates a complete, platform-ready content pack in under 60 seconds — with correct Web3 terminology, community tone, and built-in "not financial advice" disclaimers where needed.
 
-**Cross-sell opportunity:** TokenForge AI users can import their tokenomics data directly into CryptoScribe to generate tokenomics explainer content. Two products, same customer, natural funnel.
+**Cross-sell opportunity:** TokenForge AI users can import their tokenomics data directly into MintWrite to generate tokenomics explainer content. Two products, same customer, natural funnel.
 
 ---
 
@@ -49,7 +49,7 @@ A founder inputs their project data once (name, token, category, key milestones)
 | Web3 market size (2026) | $4.97 Billion |
 | Web3 market size (2031, projected) | $29.97 Billion |
 | Market CAGR | 43.21% |
-| CryptoScribe AI price | $49–$149/month |
+| MintWrite AI price | $49–$149/month |
 | Cost advantage vs. agency | **100x cheaper** |
 
 ### 2.2 Why Now
@@ -69,7 +69,7 @@ Three forces converge in 2026 that make this the right moment:
 | Copy.ai | Generic content | Same as Jasper. |
 | Lunar Strategy | Web3 marketing agency | $5K–$20K/month. Not a product. |
 | Coinbound | Web3 marketing agency | Enterprise only. No self-serve. |
-| **CryptoScribe AI** | **AI-native Web3 content** | **Web3-specific. $49/month. 60-second output.** |
+| **MintWrite AI** | **AI-native Web3 content** | **Web3-specific. $49/month. 60-second output.** |
 
 **Verdict:** No direct AI-native Web3 content SaaS competitor exists at the SMB price point. The market is served only by expensive agencies and generic tools that require heavy manual editing.
 
@@ -123,7 +123,7 @@ The entire experience from landing to first generated content must take **under 
 | **2. Sign Up** | Google OAuth or email. No credit card required for free tier. |
 | **3. Project Setup** | One-time setup: project name, token ticker, category (DeFi/GameFi/DAO/RWA/Infra), tagline, key links. Saved to profile. |
 | **4. Content Request** | User selects a content type (e.g., "Token Launch Thread") and fills 3–5 context fields (milestone, key metrics, target audience). |
-| **5. AI Generation** | CryptoScribe generates platform-ready content in 15–30 seconds. |
+| **5. AI Generation** | MintWrite generates platform-ready content in 15–30 seconds. |
 | **6. Preview & Edit** | User sees formatted output. Can inline-edit directly in the app. |
 | **7. Copy / Export** | One-click copy formatted for Twitter, Discord, or Medium. Pro: export as PDF or download content calendar. |
 | **8. Regenerate** | Doesn't like the tone? One click to regenerate with a different angle. |
@@ -178,7 +178,7 @@ Identical to TokenForge AI — zero new infrastructure to learn, fast to ship.
 
 ### 6.2 AI Prompt Architecture
 
-CryptoScribe uses a two-layer prompt system — same pattern as TokenForge AI, different domain knowledge.
+MintWrite uses a two-layer prompt system — same pattern as TokenForge AI, different domain knowledge.
 
 **System Prompt encodes:**
 - Web3 content best practices (hook structures, thread formatting, Discord markdown)
@@ -203,7 +203,7 @@ CryptoScribe uses a two-layer prompt system — same pattern as TokenForge AI, d
 
 Users who also have a TokenForge AI account can connect the two:
 
-1. On CryptoScribe project setup, add optional "Import from TokenForge" button
+1. On MintWrite project setup, add optional "Import from TokenForge" button
 2. On click: call TokenForge API (or allow JSON paste) to pull `AllocationItem[]` and `VestingEntry[]`
 3. Pre-fill "Tokenomics Explainer" and "Token Launch Blog Post" context fields automatically
 4. Cross-sell prompt: TokenForge free tier users see "Generate content for your tokenomics" CTA after viewing results
@@ -225,7 +225,7 @@ Users who also have a TokenForge AI account can connect the two:
 
 Differentiated from TokenForge AI to feel like a separate product, but same design system:
 
-| Element | TokenForge AI | CryptoScribe AI |
+| Element | TokenForge AI | MintWrite AI |
 |---|---|---|
 | Primary accent | Purple `#6C63FF` | Teal `#00D4AA` |
 | Background | `#0a0c1a` (dark navy) | `#080f17` (dark slate) |
@@ -274,7 +274,7 @@ Differentiated from TokenForge AI to feel like a separate product, but same desi
 
 ### Cross-Sell Economics
 
-TokenForge AI funnels directly into CryptoScribe AI — same customer, adjacent pain point. If TokenForge reaches 150 Pro users (Month 12 target), and 30% convert to CryptoScribe Pro, that's 45 paying customers **before a single marketing dollar is spent on CryptoScribe**.
+TokenForge AI funnels directly into MintWrite AI — same customer, adjacent pain point. If TokenForge reaches 150 Pro users (Month 12 target), and 30% convert to MintWrite Pro, that's 45 paying customers **before a single marketing dollar is spent on MintWrite**.
 
 ---
 
@@ -285,8 +285,8 @@ TokenForge AI funnels directly into CryptoScribe AI — same customer, adjacent 
 Before any public marketing, activate the existing TokenForge AI audience:
 
 - Email all TokenForge beta users: *"You've designed your tokenomics — now let AI write your launch content"*
-- Add CryptoScribe upsell banner on TokenForge results page
-- Offer TokenForge Pro users 30-day free CryptoScribe Pro trial
+- Add MintWrite upsell banner on TokenForge results page
+- Offer TokenForge Pro users 30-day free MintWrite Pro trial
 
 This should generate the first 10–20 paying users with zero acquisition cost.
 
@@ -299,7 +299,7 @@ This should generate the first 10–20 paying users with zero acquisition cost.
 ### Phase 2 — Launch (Week 5–6): ProductHunt + Content Push
 
 - ProductHunt launch (Tuesday morning UTC, same playbook as TokenForge)
-- Show side-by-side: *"ChatGPT wrote this tokenomics explainer vs CryptoScribe AI wrote this"* — let quality speak
+- Show side-by-side: *"ChatGPT wrote this tokenomics explainer vs MintWrite AI wrote this"* — let quality speak
 - Reddit: r/CryptoStartups, r/ethdev — educational threads about Web3 content marketing
 - 60-second demo video: from blank project to complete Twitter thread in real time
 
@@ -313,7 +313,7 @@ This should generate the first 10–20 paying users with zero acquisition cost.
 
 ## 10. Development Timeline
 
-Based on 4–8 hours per week, parallel to TokenForge AI maintenance. CryptoScribe is architecturally simpler than TokenForge (no complex validation logic, no charts) — MVP is faster to ship.
+Based on 4–8 hours per week, parallel to TokenForge AI maintenance. MintWrite is architecturally simpler than TokenForge (no complex validation logic, no charts) — MVP is faster to ship.
 
 | Week | Deliverable |
 |---|---|
@@ -340,7 +340,7 @@ Reviewed monthly. These are go/no-go signals, not vanity metrics.
 | Monthly Churn Rate | < 7% |
 | NPS Score | > 45 |
 | Avg. Generations per Active User/Month | > 8 |
-| TokenForge → CryptoScribe Cross-sell Rate | > 25% |
+| TokenForge → MintWrite Cross-sell Rate | > 25% |
 
 ### Kill Criteria
 
@@ -368,11 +368,11 @@ Reviewed monthly. These are go/no-go signals, not vanity metrics.
 
 ## 13. Product Synergy Map
 
-CryptoScribe AI is product #2 in a growing Web3 founder toolkit. The long-term vision:
+MintWrite AI is product #2 in a growing Web3 founder toolkit. The long-term vision:
 
 ```
 TokenForge AI         →    Design your tokenomics
-CryptoScribe AI       →    Write your launch content
+MintWrite AI       →    Write your launch content
 [Future: AuditPrep]   →    Prepare your smart contracts for audit
 [Future: DeckForge]   →    Build your investor pitch deck
 ```
@@ -381,4 +381,4 @@ Each product targets the same customer at a different stage of their project lif
 
 ---
 
-*CryptoScribe AI · PRD v1.0 · April 2026 · CONFIDENTIAL*
+*MintWrite AI · PRD v1.0 · April 2026 · CONFIDENTIAL*

@@ -79,7 +79,7 @@ export default function PricingPage() {
 
           <div className="flex items-center justify-center gap-4">
             <span className={`text-sm ${!isAnnual ? 'text-dark-100' : 'text-dark-500'}`}>Monthly</span>
-            <button 
+            <button
               onClick={() => setIsAnnual(!isAnnual)}
               className="w-12 h-6 rounded-none bg-dark-700 relative p-1 transition-colors"
             >
@@ -93,8 +93,8 @@ export default function PricingPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {plans.map((plan) => (
-            <Card 
-              key={plan.name} 
+            <Card
+              key={plan.name}
               variant={plan.highlight ? 'glass-elevated' : 'default'}
               className={`flex flex-col h-full border-dark-600 ${plan.highlight ? 'ring-2 ring-brand-500' : ''}`}
             >
@@ -104,7 +104,7 @@ export default function PricingPage() {
                 </div>
                 <h3 className="text-xl font-bold">{plan.name}</h3>
               </div>
-              
+
               <div className="mb-8">
                 <div className="flex items-baseline">
                   <span className="text-5xl font-bold">{plan.price}</span>
@@ -126,8 +126,8 @@ export default function PricingPage() {
               </ul>
 
               <Link href={plan.href} className="w-full">
-                <Button 
-                  variant={plan.highlight ? 'primary' : 'secondary'} 
+                <Button
+                  variant={plan.highlight ? 'primary' : 'secondary'}
                   className="w-full h-12 text-md"
                 >
                   {plan.buttonText}
@@ -140,7 +140,7 @@ export default function PricingPage() {
         <div className="mt-24 max-w-3xl mx-auto text-center border-t border-dark-600 pt-16">
           <h2 className="text-2xl font-bold mb-6 italic text-dark-400">"This article is for informational purposes only and does not constitute financial advice. Always do your own research."</h2>
           <p className="text-dark-500 text-sm">
-            That's the disclaimer our AI automatically inserts where needed. Just one of the many reasons why generic AI tools are no match for CryptoScribe AI.
+            That's the disclaimer our AI automatically inserts where needed. Just one of the many reasons why generic AI tools are no match for MintWrite AI.
           </p>
         </div>
       </div>

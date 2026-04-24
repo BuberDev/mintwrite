@@ -1,4 +1,4 @@
-# CryptoScribe AI
+# MintWrite AI
 
 AI-powered content marketing platform for Web3 projects. Generates Twitter threads, Discord announcements, tokenomics explainers, blog posts, AMA scripts, and whitepaper summaries in under 60 seconds.
 

@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Check, Zap, Building2, Crown } from "lucide-react"
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
 
 export default function BillingPage() {
   const [tierInfo, setTierInfo] = useState<any>(null)

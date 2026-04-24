@@ -1,6 +1,6 @@
 import { anthropic } from '@ai-sdk/anthropic'
 import { streamText } from 'ai'
-import { CRYPTOSCRIBE_SYSTEM_PROMPT } from '@/lib/ai/prompts/system'
+import { MINTWRITE_SYSTEM_PROMPT } from '@/lib/ai/prompts/system'
 import { getContentType } from '@/lib/ai/content-types'
 import { GenerateRequestSchema } from '@/lib/ai/schema'
 import { NextResponse } from 'next/server'
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
 
     const response = await streamText({
       model: anthropic('claude-3-5-sonnet-20240620'),
-      system: CRYPTOSCRIBE_SYSTEM_PROMPT,
+      system: MINTWRITE_SYSTEM_PROMPT,
       prompt: userPrompt,
       temperature: 0.7,
     })
