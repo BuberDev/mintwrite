@@ -6,10 +6,31 @@ import { ContentOutput } from "@/components/output/ContentOutput"
 import { useState, useEffect } from "react"
 import { useCompletion } from "ai/react"
 import { toast } from "sonner"
-import { ChevronLeft, Sparkles, Wand2 } from "lucide-react"
+import { 
+  ChevronLeft, 
+  Sparkles, 
+  Wand2, 
+  Twitter, 
+  MessagesSquare, 
+  Users, 
+  BarChart3, 
+  FileText, 
+  Mic2, 
+  BookOpen 
+} from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+
+const ICON_MAP: Record<string, any> = {
+  'twitter': Twitter,
+  'discord': MessagesSquare,
+  'users': Users,
+  'bar-chart': BarChart3,
+  'file-text': FileText,
+  'mic': Mic2,
+  'book-open': BookOpen,
+}
 
 export default function GeneratePage({ params }: { params: { type: string } }) {
   const contentType = getContentType(params.type)
@@ -85,45 +106,69 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-10 pb-20">
+    <div className="max-w-7xl mx-auto space-y-12 pb-24 px-4">
       <motion.header 
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center gap-6"
+        className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-dark-600 pb-12"
       >
-        <Link href="/dashboard">
-          <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl bg-dark-800 border border-dark-600 hover:bg-dark-700 transition-colors">
-            <ChevronLeft className="h-6 w-6" />
-          </Button>
-        </Link>
-        <div className="flex items-center gap-5">
-          <div className="h-16 w-16 rounded-[1.5rem] bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-4xl shadow-2xl shadow-brand-500/5">
-            {contentType.icon}
+        <div className="flex items-center gap-6">
+          <Link href="/dashboard">
+            <Button variant="ghost" size="icon" className="h-14 w-14 rounded-none bg-dark-900 border border-dark-600 hover:bg-dark-800 transition-all group">
+              <ChevronLeft className="h-6 w-6 group-hover:-translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+          <div className="flex items-center gap-6">
+            <div className="h-20 w-20 rounded-none bg-brand-500/5 border border-brand-500/20 flex items-center justify-center text-brand-500/60 shadow-2xl shadow-brand-500/5">
+              {(() => {
+                const Icon = ICON_MAP[contentType.icon] || Sparkles
+                return <Icon className="size-10" />
+              })()}
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <div className="size-1.5 bg-brand-500 animate-pulse" />
+                <span className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.3em]">Engine Active // {contentType.id.toUpperCase()}</span>
+              </div>
+              <h1 className="text-4xl font-display font-bold tracking-tight leading-none">{contentType.label}</h1>
+              <p className="text-dark-400 text-sm">{contentType.description}</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-display font-bold">{contentType.label}</h1>
-            <p className="text-dark-300">{contentType.description}</p>
+        </div>
+
+        <div className="hidden xl:flex items-center gap-6 bg-dark-900/50 p-6 border border-dark-600 backdrop-blur-sm">
+          <div className="space-y-1 text-right">
+            <p className="text-[9px] font-mono text-dark-500 uppercase tracking-widest">Model Latency</p>
+            <p className="text-sm font-bold font-mono">14.2MS</p>
+          </div>
+          <div className="h-8 w-px bg-dark-700" />
+          <div className="space-y-1 text-right">
+            <p className="text-[9px] font-mono text-dark-500 uppercase tracking-widest">Auth Level</p>
+            <p className="text-sm font-bold uppercase tracking-tighter">Foundational</p>
           </div>
         </div>
       </motion.header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Form Column */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
-          className="lg:col-span-5 space-y-8"
+          className="lg:col-span-5 space-y-10"
         >
-          <div className="p-8 rounded-[2.5rem] bg-dark-800/80 border border-dark-600 shadow-2xl backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-8 border-b border-dark-700 pb-6">
-              <div className="h-8 w-8 rounded-lg bg-dark-700 flex items-center justify-center">
-                <span className="text-xs font-bold text-dark-300">01</span>
-              </div>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-dark-100">
-                Provide Context
-              </h3>
+          <div className="p-10 rounded-none bg-black/20 border border-dark-600 shadow-2xl backdrop-blur-md relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 opacity-10">
+              <span className="text-6xl font-black font-mono">01</span>
             </div>
+            
+            <div className="flex items-center gap-4 mb-10 border-b border-dark-800 pb-8">
+              <div className="space-y-1">
+                <p className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.2em]">Calibration Phase</p>
+                <h3 className="text-lg font-bold tracking-tight">Context Injection</h3>
+              </div>
+            </div>
+            
             <GenerationForm 
               contentType={contentType} 
               onSubmit={handleSubmit} 
@@ -131,14 +176,16 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
             />
           </div>
           
-          <div className="p-6 rounded-[2rem] bg-brand-500/5 border border-brand-500/10 flex items-start gap-4">
-            <div className="h-10 w-10 rounded-xl bg-brand-500/20 flex items-center justify-center shrink-0">
-              <Wand2 className="h-5 w-5 text-brand-500" />
+          <div className="p-8 rounded-none bg-brand-500/[0.02] border border-brand-500/10 flex items-start gap-6 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-brand-500/[0.05] to-transparent pointer-events-none" />
+            <div className="h-12 w-12 rounded-none bg-brand-500/10 border border-brand-500/20 flex items-center justify-center shrink-0">
+              <Wand2 className="h-6 w-6 text-brand-500" />
             </div>
-            <div>
-              <h4 className="text-sm font-bold text-brand-400 mb-1">Senior Designer Tip</h4>
-              <p className="text-xs text-dark-300 leading-relaxed">
-                Add specific metrics (e.g., "$1.2M TVL", "10k Holders") to make the AI output more authoritative and high-conversion.
+            <div className="space-y-2">
+              <p className="text-[10px] font-mono text-brand-500 uppercase tracking-widest">Vector Tuning</p>
+              <h4 className="text-sm font-bold text-dark-100 uppercase tracking-tighter">Strategic Insight</h4>
+              <p className="text-sm text-dark-400 leading-relaxed italic">
+                "Inject specific metrics like TVL or Holder count. Generic AI drafts for users; CryptoScribe drafts for investors."
               </p>
             </div>
           </div>

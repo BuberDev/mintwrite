@@ -1,8 +1,8 @@
 "use client"
 
 import { ContentType } from "@/types"
-import { Button } from "@/components/ui/Button"
-import { Card } from "@/components/ui/Card"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { Copy, Check, RefreshCw, Download } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
@@ -37,7 +37,7 @@ export function ContentOutput({ content, contentType, isGenerating, onRegenerate
       return (
         <div className="space-y-4">
           {tweets.map((tweet, i) => (
-            <div key={i} className="bg-dark-900/50 rounded-xl p-4 border border-dark-600 relative group">
+            <div key={i} className="bg-dark-900/50 rounded-none p-4 border border-dark-600 relative group">
               <span className="absolute top-4 right-4 text-[10px] font-bold text-dark-500 uppercase">
                 Tweet {i + 1}
               </span>
@@ -52,7 +52,7 @@ export function ContentOutput({ content, contentType, isGenerating, onRegenerate
 
     // Default markdown/plain text display
     return (
-      <div className="bg-dark-900/50 rounded-xl p-6 border border-dark-600 prose prose-invert max-w-none">
+      <div className="bg-dark-900/50 rounded-none p-6 border border-dark-600 prose prose-invert max-w-none">
         <p className="whitespace-pre-wrap text-sm leading-relaxed">
           {content}
         </p>
@@ -94,7 +94,7 @@ export function ContentOutput({ content, contentType, isGenerating, onRegenerate
         ) : content ? (
           renderFormattedContent()
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-dark-500 border-2 border-dashed border-dark-700 rounded-2xl">
+          <div className="flex flex-col items-center justify-center h-full text-dark-500 border-2 border-dashed border-dark-700 rounded-none">
             <p className="text-sm">Generated content will appear here</p>
           </div>
         )}

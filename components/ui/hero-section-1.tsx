@@ -33,8 +33,8 @@ export function HeroSection() {
                 <div
                     aria-hidden
                     className="z-[2] absolute inset-0 pointer-events-none isolate opacity-50 contain-strict hidden lg:block">
-                    <div className="w-[35rem] h-[80rem] -translate-y-[350px] absolute left-0 top-0 -rotate-45 rounded-full bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,hsla(0,0%,85%,.08)_0,hsla(0,0%,55%,.02)_50%,hsla(0,0%,45%,0)_80%)]" />
-                    <div className="h-[80rem] absolute left-0 top-0 w-56 -rotate-45 rounded-full bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.06)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] [translate:5%_-50%]" />
+                    <div className="w-[35rem] h-[80rem] -translate-y-[350px] absolute left-0 top-0 -rotate-45 rounded-none bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,hsla(0,0%,85%,.08)_0,hsla(0,0%,55%,.02)_50%,hsla(0,0%,45%,0)_80%)]" />
+                    <div className="h-[80rem] absolute left-0 top-0 w-56 -rotate-45 rounded-none bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.06)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] [translate:5%_-50%]" />
                     <div className="h-[80rem] -translate-y-[350px] absolute left-0 top-0 w-56 -rotate-45 bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.04)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)]" />
                 </div>
                 <section>
@@ -79,11 +79,11 @@ export function HeroSection() {
                                 <AnimatedGroup variants={transitionVariants}>
                                     <Link
                                         href="/sign-up"
-                                        className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 dark:border-t-white/5 dark:shadow-zinc-950">
+                                        className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-none border p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 dark:border-t-white/5 dark:shadow-zinc-950">
                                         <span className="text-foreground text-sm">Introducing Support for AI Models</span>
                                         <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
 
-                                        <div className="bg-background group-hover:bg-muted size-6 overflow-hidden rounded-full duration-500">
+                                        <div className="bg-background group-hover:bg-muted size-6 overflow-hidden rounded-none duration-500">
                                             <div className="flex w-12 -translate-x-1/2 duration-500 ease-in-out group-hover:translate-x-0">
                                                 <span className="flex size-6">
                                                     <ArrowRight className="m-auto size-3" />
@@ -120,11 +120,11 @@ export function HeroSection() {
                                     className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row">
                                     <div
                                         key={1}
-                                        className="bg-foreground/10 rounded-[14px] border p-0.5">
+                                        className="bg-foreground/10 rounded-none border p-0.5">
                                         <Button
                                             asChild
                                             size="lg"
-                                            className="rounded-xl px-5 text-base">
+                                            className="rounded-none px-5 text-base">
                                             <Link href="/dashboard">
                                                 <span className="text-nowrap">Start Building</span>
                                             </Link>
@@ -135,7 +135,7 @@ export function HeroSection() {
                                         asChild
                                         size="lg"
                                         variant="ghost"
-                                        className="h-10.5 rounded-xl px-5">
+                                        className="h-10.5 rounded-none px-5">
                                         <Link href="#demo">
                                             <span className="text-nowrap">Watch Demo</span>
                                         </Link>
@@ -161,16 +161,16 @@ export function HeroSection() {
                                     aria-hidden
                                     className="bg-gradient-to-b to-background absolute inset-0 z-10 from-transparent from-35%"
                                 />
-                                <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
+                                <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-none border p-4 shadow-lg shadow-zinc-950/15 ring-1">
                                     <img
-                                        className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
+                                        className="bg-background aspect-15/8 relative hidden rounded-none dark:block"
                                         src="https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75"
                                         alt="app screen"
                                         width="2700"
                                         height="1440"
                                     />
                                     <img
-                                        className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
+                                        className="z-2 border-border/25 aspect-15/8 relative rounded-none border dark:hidden"
                                         src="https://tailark.com/_next/image?url=%2Fmail2-light.png&w=3840&q=75"
                                         alt="app screen"
                                         width="2700"
@@ -181,91 +181,35 @@ export function HeroSection() {
                         </AnimatedGroup>
                     </div>
                 </section>
-                <section className="bg-background pb-16 pt-16 md:pb-32">
-                    <div className="group relative m-auto max-w-5xl px-6">
-                        <div className="absolute inset-0 z-10 flex scale-95 items-center justify-center opacity-0 duration-500 group-hover:scale-100 group-hover:opacity-100">
-                            <Link
-                                href="/"
-                                className="block text-sm duration-150 hover:opacity-75">
-                                <span> Meet Our Customers</span>
-
-                                <ChevronRight className="ml-1 inline-block size-3" />
-                            </Link>
-                        </div>
-                        <div className="group-hover:blur-xs mx-auto mt-12 grid max-w-2xl grid-cols-4 gap-x-12 gap-y-8 transition-all duration-500 group-hover:opacity-50 sm:gap-x-16 sm:gap-y-14">
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-5 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/nvidia.svg"
-                                    alt="Nvidia Logo"
-                                    height="20"
-                                    width="auto"
-                                />
+                <section className="border-y border-border/50 bg-background py-12">
+                    <div className="mx-auto max-w-7xl px-6">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+                            <div className="shrink-0">
+                                <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Protocol Validation</p>
+                                <p className="text-xs text-muted-foreground mt-1">Validated across 12+ EVM chains.</p>
                             </div>
-
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-4 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/column.svg"
-                                    alt="Column Logo"
-                                    height="16"
-                                    width="auto"
-                                />
-                            </div>
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-4 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/github.svg"
-                                    alt="GitHub Logo"
-                                    height="16"
-                                    width="auto"
-                                />
-                            </div>
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-5 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/nike.svg"
-                                    alt="Nike Logo"
-                                    height="20"
-                                    width="auto"
-                                />
-                            </div>
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-5 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/lemonsqueezy.svg"
-                                    alt="Lemon Squeezy Logo"
-                                    height="20"
-                                    width="auto"
-                                />
-                            </div>
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-4 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/laravel.svg"
-                                    alt="Laravel Logo"
-                                    height="16"
-                                    width="auto"
-                                />
-                            </div>
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-7 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/lilly.svg"
-                                    alt="Lilly Logo"
-                                    height="28"
-                                    width="auto"
-                                />
-                            </div>
-
-                            <div className="flex">
-                                <img
-                                    className="mx-auto h-6 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/openai.svg"
-                                    alt="OpenAI Logo"
-                                    height="24"
-                                    width="auto"
-                                />
+                            
+                            <div className="flex-1 flex flex-wrap justify-center md:justify-end items-center gap-x-12 gap-y-8 grayscale opacity-40 hover:opacity-100 transition-opacity duration-700">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono text-muted-foreground">[01]</span>
+                                    <span className="text-sm font-black tracking-tighter uppercase">Ethereum</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono text-muted-foreground">[02]</span>
+                                    <span className="text-sm font-black tracking-tighter uppercase">Arbitrum</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono text-muted-foreground">[03]</span>
+                                    <span className="text-sm font-black tracking-tighter uppercase">Polygon</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono text-muted-foreground">[04]</span>
+                                    <span className="text-sm font-black tracking-tighter uppercase">Optimism</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono text-muted-foreground">[05]</span>
+                                    <span className="text-sm font-black tracking-tighter uppercase">Base</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -297,7 +241,7 @@ const HeroHeader = () => {
             <nav
                 data-state={menuState && 'active'}
                 className="fixed z-20 w-full px-2 group">
-                <div className={cn('mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
+                <div className={cn('mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', isScrolled && 'bg-background/50 max-w-4xl rounded-none border backdrop-blur-lg lg:px-5')}>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
                             <Link
@@ -330,7 +274,7 @@ const HeroHeader = () => {
                             </ul>
                         </div>
 
-                        <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+                        <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-none border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
                             <div className="lg:hidden">
                                 <ul className="space-y-6 text-base">
                                     {menuItems.map((item, index) => (

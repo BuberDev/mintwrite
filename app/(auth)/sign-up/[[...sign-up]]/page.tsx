@@ -5,7 +5,7 @@ export default function SignUpPage() {
     <div className="flex min-h-screen items-center justify-center bg-dark-900">
       <SignUp appearance={{
         elements: {
-          card: "bg-dark-800 border border-dark-600 shadow-2xl rounded-2xl",
+          card: "bg-dark-800 border border-dark-600 shadow-2xl rounded-none",
           headerTitle: "text-dark-100",
           headerSubtitle: "text-dark-400",
           socialButtonsBlockButton: "bg-dark-700 border-dark-600 text-dark-100 hover:bg-dark-600",

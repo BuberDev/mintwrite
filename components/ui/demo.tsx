@@ -8,109 +8,63 @@ import { cn } from '@/lib/utils'
 
 export function Demo() {
     const [isPlaying, setIsPlaying] = React.useState(false)
-    const [device, setDevice] = React.useState<'desktop' | 'tablet' | 'mobile'>('desktop')
 
     return (
-        <section id="demo" className="py-24 relative overflow-hidden">
+        <section id="demo" className="py-32 relative border-t border-white/5 bg-zinc-950 text-white">
             <div className="mx-auto max-w-7xl px-6">
-                <div className="flex flex-col items-center text-center mb-16">
-                    <Badge variant="agency" className="mb-4">Live Demo</Badge>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">Experience the Power of AI</h2>
-                    <p className="text-muted-foreground max-w-2xl text-lg">
-                        See how CryptoScribe transforms complex project data into engaging content across all your favorite platforms.
-                    </p>
-                </div>
-
-                <div className="relative mx-auto max-w-5xl">
-                    <div className="flex justify-center gap-4 mb-8">
-                        <Button 
-                            variant={device === 'desktop' ? 'default' : 'outline'} 
-                            size="sm"
-                            onClick={() => setDevice('desktop')}
-                            className="rounded-full"
-                        >
-                            <Monitor className="size-4 mr-2" />
-                            Desktop
-                        </Button>
-                        <Button 
-                            variant={device === 'tablet' ? 'default' : 'outline'} 
-                            size="sm"
-                            onClick={() => setDevice('tablet')}
-                            className="rounded-full"
-                        >
-                            <Tablet className="size-4 mr-2" />
-                            Tablet
-                        </Button>
-                        <Button 
-                            variant={device === 'mobile' ? 'default' : 'outline'} 
-                            size="sm"
-                            onClick={() => setDevice('mobile')}
-                            className="rounded-full"
-                        >
-                            <Smartphone className="size-4 mr-2" />
-                            Mobile
-                        </Button>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                    <div className="lg:col-span-4">
+                        <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-6">Process Preview</p>
+                        <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight leading-tight mb-8">
+                            Distilled <br /> Intelligence.
+                        </h2>
+                        <p className="text-zinc-400 text-sm leading-relaxed mb-12 max-w-sm">
+                            Watch how we ingest raw protocol documentation and output production-grade social architecture in seconds. No prompt engineering required.
+                        </p>
+                        
+                        <div className="space-y-6 border-l border-white/10 pl-6">
+                            <div className="group cursor-pointer">
+                                <p className="text-[10px] font-mono text-primary mb-1">01 / INGESTION</p>
+                                <p className="text-sm font-bold group-hover:translate-x-1 transition-transform">Protocol Spec Upload</p>
+                            </div>
+                            <div className="group cursor-pointer opacity-50">
+                                <p className="text-[10px] font-mono text-zinc-500 mb-1">02 / CALIBRATION</p>
+                                <p className="text-sm font-bold group-hover:translate-x-1 transition-transform">Tone & Vector Tuning</p>
+                            </div>
+                            <div className="group cursor-pointer opacity-50">
+                                <p className="text-[10px] font-mono text-zinc-500 mb-1">03 / SYNTHESIS</p>
+                                <p className="text-sm font-bold group-hover:translate-x-1 transition-transform">Multi-Platform Output</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className={cn(
-                        "mx-auto transition-all duration-500 ease-in-out rounded-2xl border bg-card shadow-2xl overflow-hidden relative",
-                        device === 'desktop' ? "w-full aspect-video" : 
-                        device === 'tablet' ? "w-[600px] aspect-[3/4]" : 
-                        "w-[320px] aspect-[9/19.5]"
-                    )}>
-                        {/* Browser/Device Header */}
-                        <div className="h-10 bg-muted border-b flex items-center px-4 justify-between">
-                            <div className="flex gap-1.5">
-                                <div className="size-3 rounded-full bg-destructive/50" />
-                                <div className="size-3 rounded-full bg-yellow-500/50" />
-                                <div className="size-3 rounded-full bg-green-500/50" />
-                            </div>
-                            <div className="bg-background rounded px-3 py-0.5 text-[10px] text-muted-foreground border">
-                                cryptoscribe.ai/dashboard
-                            </div>
-                            <div className="size-4" />
-                        </div>
-
-                        {/* Player Content */}
-                        <div className="absolute inset-0 top-10 flex items-center justify-center bg-black/90 group cursor-pointer" onClick={() => setIsPlaying(!isPlaying)}>
-                            {!isPlaying && (
-                                <div className="size-20 rounded-full bg-primary/20 flex items-center justify-center border border-primary/50 group-hover:scale-110 transition-transform duration-300">
-                                    <div className="size-16 rounded-full bg-primary flex items-center justify-center shadow-lg">
-                                        <Play className="size-8 text-primary-foreground fill-current ml-1" />
+                    <div className="lg:col-span-8">
+                        <div className="relative group aspect-video bg-muted border border-border shadow-2xl overflow-hidden rounded-none">
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors cursor-pointer" onClick={() => setIsPlaying(!isPlaying)}>
+                                {!isPlaying && (
+                                    <div className="size-16 flex items-center justify-center border border-white/20 bg-white/10 backdrop-blur-md group-hover:scale-110 transition-transform">
+                                        <Play className="size-6 text-white fill-current" />
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                             
-                            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent flex flex-col gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div className="h-1 bg-white/20 rounded-full overflow-hidden">
-                                    <div className={cn("h-full bg-primary", isPlaying ? "w-1/3" : "w-0")} />
+                            {/* Technical Overlay */}
+                            <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start pointer-events-none">
+                                <div className="text-[9px] font-mono text-white/40 bg-black/40 px-2 py-1 backdrop-blur-sm">
+                                    CS_CORE_SYSTEM // BUFFER_ACTIVE
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8">
-                                            {isPlaying ? <Pause className="size-4 fill-current" /> : <Play className="size-4 fill-current" />}
-                                        </Button>
-                                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8">
-                                            <RotateCcw className="size-4" />
-                                        </Button>
-                                        <div className="flex items-center gap-2 group/vol">
-                                            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8">
-                                                <Volume2 className="size-4" />
-                                            </Button>
-                                            <div className="w-16 h-1 bg-white/20 rounded-full overflow-hidden hidden group-hover/vol:block">
-                                                <div className="h-full bg-white w-2/3" />
-                                            </div>
-                                        </div>
-                                        <span className="text-xs text-white/70 font-mono">01:24 / 03:45</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8">
-                                            <Settings className="size-4" />
-                                        </Button>
-                                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8">
-                                            <Maximize className="size-4" />
-                                        </Button>
-                                    </div>
+                                <div className="text-[9px] font-mono text-white/40 bg-black/40 px-2 py-1 backdrop-blur-sm">
+                                    LATENCY: 14MS
+                                </div>
+                            </div>
+
+                            <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col gap-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                                <div className="h-[2px] bg-white/10 w-full overflow-hidden">
+                                    <div className={cn("h-full bg-primary transition-all duration-500", isPlaying ? "w-1/3" : "w-0")} />
+                                </div>
+                                <div className="flex items-center justify-between text-white/60 font-mono text-[10px]">
+                                    <span className="tracking-widest uppercase">Playback Terminal</span>
+                                    <span>01:24 // 03:45</span>
                                 </div>
                             </div>
                         </div>

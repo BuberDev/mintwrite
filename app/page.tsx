@@ -61,153 +61,153 @@ UserButton.displayName = "UserButton";
 
 // ─── Content Sections ────────────────────────────────────────────────────────
 
-// ─── Features (Content Types) ───────────────────────────────────────────────
+// ─── Capability Ledger (Formerly Features) ──────────────────────────────────
 
-const Features = () => {
-  const contentTypes = [
-    { title: "Twitter Threads", icon: Twitter, desc: "8-12 tweet threads optimized for the X algorithm with perfect hooks." },
-    { title: "Discord Updates", icon: MessageSquare, desc: "Formatted community announcements with markdown, emojis, and CTAs." },
-    { title: "Tokenomics", icon: Zap, desc: "Human-readable explainers for vesting, allocation, and utility." },
-    { title: "Blog Posts", icon: BookOpen, desc: "Medium-ready articles explaining your launch milestones and vision." },
-    { title: "AMA Scripts", icon: Users, desc: "Ready-to-use Q&A scripts for community and investor sessions." },
-    { title: "Whitepapers", icon: FileText, desc: "Technical executive summaries that build investor confidence." },
-    { title: "Project Strategy", icon: Lightbulb, desc: "Content calendars and tone calibration for your protocol." },
+const Capabilities = () => {
+  const capabilities = [
+    { title: "Thread Architect", label: "Twitter/X", code: "TH-812", desc: "Native 8-12 tweet sequences engineered for algorithmic retention. Not just content, but social architecture." },
+    { title: "Community Pulse", label: "Discord", code: "DC-402", desc: "Announcement frameworks with built-in community hooks and markdown-optimized formatting." },
+    { title: "Protocol Spec", label: "Tokenomics", code: "TK-001", desc: "Technical documentation distilled into human-readable value propositions. Zero fluff, pure utility." },
+    { title: "Medium Lead", label: "Long-form", code: "LF-750", desc: "High-authority articles for project launches, milestones, and technical vision statements." },
+    { title: "Dialogue Scripts", label: "AMA/IR", code: "IR-992", desc: "Strategic Q&A frameworks for community engagement and investor relations." },
   ]
 
   return (
-    <section id="features" className="py-32 px-6 bg-background/50">
+    <section id="features" className="py-32 px-6 bg-zinc-950 text-white border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-24">
-          <Badge variant="pro" className="mb-6">7 Core Templates</Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-display tracking-tight">The ultimate Web3 content engine</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            Generic AI doesn't understand your protocol. We do. Our engine is trained on thousands of successful Web3 launches.
-          </p>
+        <div className="flex flex-col md:flex-row justify-between items-start mb-24 gap-12">
+          <div className="max-w-xl">
+            <h2 className="text-5xl md:text-7xl font-bold font-display tracking-tighter leading-[0.9] mb-8">
+              Engineered for <br /> <span className="text-primary">High-Stakes</span> Content.
+            </h2>
+          </div>
+          <div className="max-w-sm text-zinc-400 pt-4 border-t border-primary/20">
+            <p className="text-sm font-mono uppercase tracking-widest mb-4">Core Capabilities // v2.4</p>
+            <p className="text-base leading-relaxed">
+              Standard LLMs fail in Web3 because they lack protocol-level context. CryptoScribe is a specific intelligence layer designed for founders.
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {contentTypes.map((type, i) => (
+        <div className="divide-y divide-white/5 border-y border-white/5">
+          {capabilities.map((item, i) => (
             <motion.div
-              key={type.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              key={item.title}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
+              className="group py-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center hover:bg-white/[0.02] transition-colors px-4"
             >
-              <Card variant="glass" className="h-full p-8 rounded-[2rem] border-white/5 hover:border-brand-500/30 transition-all group cursor-default">
-                <div className="h-14 w-14 rounded-2xl bg-brand-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <type.icon className="h-7 w-7 text-brand-500" />
-                </div>
-                <h3 className="text-xl font-bold mb-3">{type.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{type.desc}</p>
-              </Card>
+              <div className="md:col-span-1 text-xs font-mono text-zinc-500">
+                [{item.code}]
+              </div>
+              <div className="md:col-span-4">
+                <h3 className="text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-primary/60 font-black">
+                  {item.label}
+                </span>
+              </div>
+              <div className="md:col-span-5 text-zinc-400 text-sm leading-relaxed">
+                {item.desc}
+              </div>
+              <div className="md:col-span-2 flex justify-end">
+                <div className="h-px w-12 bg-white/10 group-hover:w-24 group-hover:bg-primary transition-all duration-500" />
+              </div>
             </motion.div>
           ))}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.35 }}
-            className="lg:col-span-1"
-          >
-            <Card variant="glass" className="h-full p-8 rounded-[2rem] border-brand-500/20 bg-brand-500/5 flex flex-col items-center justify-center text-center group cursor-pointer">
-              <Sparkles className="h-10 w-10 text-brand-500 mb-4 animate-pulse" />
-              <h3 className="text-xl font-bold mb-2">More coming</h3>
-              <p className="text-muted-foreground/80 text-xs">V2.0 Roadmap: Full Content Calendars & Brand Voice Training</p>
-            </Card>
-          </motion.div>
         </div>
       </div>
     </section>
   )
 }
 
-// ─── Pricing Section ────────────────────────────────────────────────────────
+// ─── Subscription Matrix (Formerly Pricing) ──────────────────────────────────
 
-const Pricing = () => {
+const PricingMatrix = () => {
   const tiers = [
     {
-      name: "Free",
+      name: "Standard",
       price: "0",
-      desc: "Perfect for testing the engine.",
-      features: ["5 Generations per month", "3 Content types", "7-day history", "Standard support"],
-      cta: "Get Started Free",
-      variant: "secondary" as const,
+      type: "Foundational",
+      features: ["5 Monthly Generations", "3 Content Vectors", "Standard Latency"],
+      cta: "Initialize",
+      primary: false
     },
     {
-      name: "Pro",
+      name: "Professional",
       price: "49",
-      popular: true,
-      desc: "For serious Web3 founders.",
-      features: ["Unlimited generations", "All 7 content types", "Unlimited history", "TokenForge AI Import", "Priority support"],
-      cta: "Start Pro Trial",
-      variant: "primary" as const,
+      type: "High-Throughput",
+      features: ["Unlimited Generations", "All Content Vectors", "Priority Support", "History Export"],
+      cta: "Deploy",
+      primary: true
     },
     {
-      name: "Agency",
-      price: "149",
-      desc: "Scale multiple projects.",
-      features: ["Everything in Pro", "Unlimited projects", "Team collaboration", "API Access", "Dedicated account manager"],
-      cta: "Contact Sales",
-      variant: "secondary" as const,
+      name: "Enterprise",
+      price: "Custom",
+      type: "Multi-Protocol",
+      features: ["White-label API", "Team Clusters", "Brand Voice DNA", "Account Lead"],
+      cta: "Inquire",
+      primary: false
     }
   ]
 
   return (
-    <section id="pricing" className="py-32 px-6 relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-[600px] bg-brand-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
-      
+    <section id="pricing" className="py-32 px-6 bg-zinc-950 text-white border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-display">Simple, value-based pricing</h2>
-          <p className="text-muted-foreground text-lg">Stop paying $5,000/mo to agencies. Scale with AI.</p>
+        <div className="text-center mb-24">
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-primary mb-4">Value Proposition</p>
+          <h2 className="text-5xl md:text-6xl font-bold font-display tracking-tight">Scale Your <span className="italic">Authority</span>.</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {tiers.map((tier) => (
-            <Card 
-              key={tier.name} 
-              variant={tier.popular ? "default" : "glass"}
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-white/5 rounded-none overflow-hidden bg-black/40 backdrop-blur-xl">
+          {tiers.map((tier, i) => (
+            <div 
+              key={tier.name}
               className={cn(
-                "p-10 rounded-[2.5rem] flex flex-col h-full relative border-white/5",
-                tier.popular && "border-brand-500/50 shadow-[0_0_60px_rgba(0,212,170,0.1)]"
+                "p-12 flex flex-col border-white/5",
+                i < 2 && "md:border-r border-b md:border-b-0",
+                tier.primary && "bg-white/[0.02] relative"
               )}
             >
-              {tier.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-500 text-primary-foreground text-[10px] font-black uppercase tracking-widest py-1 px-4 rounded-full">
-                  Recommended
+              {tier.primary && (
+                <div className="absolute top-0 right-0 p-4">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-primary border border-primary/20 px-2 py-1 rounded-none">
+                    Preferred
+                  </div>
                 </div>
               )}
-              <div className="mb-8">
-                <h3 className="text-xl font-bold mb-2">{tier.name}</h3>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold font-display">${tier.price}</span>
-                  <span className="text-muted-foreground text-sm">/month</span>
+              <div className="mb-12">
+                <p className="text-[10px] font-mono uppercase text-zinc-500 mb-2">[{tier.type}]</p>
+                <h3 className="text-3xl font-bold mb-4">{tier.name}</h3>
+                <div className="flex items-baseline">
+                  {tier.price !== "Custom" && <span className="text-sm font-mono mr-1 text-primary">$</span>}
+                  <span className="text-5xl font-bold tracking-tighter">{tier.price}</span>
+                  {tier.price !== "Custom" && <span className="text-xs text-zinc-500 ml-2">/mo</span>}
                 </div>
-                <p className="text-muted-foreground text-sm mt-4">{tier.desc}</p>
               </div>
 
-              <div className="space-y-4 mb-10 flex-1">
+              <div className="space-y-4 mb-16 flex-1">
                 {tier.features.map((f) => (
-                  <div key={f} className="flex items-center gap-3 text-sm text-foreground/80">
-                    <div className="h-5 w-5 rounded-full bg-brand-500/10 flex items-center justify-center shrink-0">
-                      <Check className="h-3 w-3 text-brand-500" />
-                    </div>
+                  <div key={f} className="flex items-center gap-3 text-xs uppercase tracking-wider font-semibold text-zinc-400">
+                    <div className="size-1 bg-primary" />
                     {f}
                   </div>
                 ))}
               </div>
 
-              <UserButton 
-                variant={tier.variant} 
+              <Button 
+                variant={tier.primary ? "default" : "outline"} 
                 className={cn(
-                  "w-full h-14 rounded-2xl font-bold text-base",
-                  tier.name === "Pro" && "bg-brand-500 text-primary-foreground hover:bg-brand-400"
+                  "w-full h-14 rounded-none font-bold uppercase tracking-[0.2em] text-xs transition-all",
+                  tier.primary ? "bg-primary text-black hover:bg-primary/90" : "border-white/10 hover:bg-white/5",
+                  tier.primary && "hover:tracking-[0.3em]"
                 )}
               >
                 {tier.cta}
-              </UserButton>
-            </Card>
+              </Button>
+            </div>
           ))}
         </div>
       </div>
@@ -215,28 +215,20 @@ const Pricing = () => {
   )
 }
 
-// ─── CTA Section ────────────────────────────────────────────────────────────
+// ─── Narrative CTA ──────────────────────────────────────────────────────────
 
-const CTA = () => {
+const FinalCTA = () => {
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-5xl mx-auto bg-card border border-border rounded-[3.5rem] p-12 md:p-24 text-center relative overflow-hidden group">
-        <div className="absolute inset-0 bg-brand-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-        <Badge variant="pro" className="mb-8">Join 200+ founders</Badge>
-        <h2 className="text-4xl md:text-6xl font-bold mb-8 font-display tracking-tight">Ready to scale <br className="hidden md:block" /> your community?</h2>
-        <p className="text-muted-foreground text-lg mb-12 max-w-xl mx-auto leading-relaxed">
-          Generate your first content pack in under 60 seconds. No credit card required to start.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-          <Link href="/dashboard">
-            <UserButton variant="gradient" size="lg" className="rounded-2xl px-12 h-16 text-lg shadow-2xl">
-              Get Started Free
-            </UserButton>
-          </Link>
-          <Link href="#pricing">
-            <UserButton variant="ghost" size="lg" className="rounded-2xl px-10 h-16 text-lg border border-white/10">
-              View Pricing
-            </UserButton>
+    <section className="py-48 px-6 text-center bg-zinc-950 text-white border-t border-white/5">
+      <div className="max-w-3xl mx-auto">
+        <p className="text-xs font-mono uppercase tracking-[0.4em] text-primary mb-12">Execution Phase</p>
+        <h2 className="text-6xl md:text-8xl font-bold font-display tracking-tight mb-12">Stop <span className="text-zinc-500">Drafting.</span> <br /> Start Leading.</h2>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <Button size="lg" className="h-16 px-12 rounded-none text-sm uppercase tracking-widest font-black bg-primary text-black hover:bg-primary/90">
+            Get Access Now
+          </Button>
+          <Link href="#pricing" className="text-xs uppercase tracking-[0.3em] font-bold text-zinc-400 hover:text-primary transition-colors py-4">
+            Browse Methodology
           </Link>
         </div>
       </div>
@@ -251,12 +243,12 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/30 selection:text-primary-foreground">
       <main>
         <HeroSection />
-        <Features />
+        <Capabilities />
         
         <Demo />
 
-        <Pricing />
-        <CTA />
+        <PricingMatrix />
+        <FinalCTA />
       </main>
       <Footer />
     </div>

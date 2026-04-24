@@ -1,8 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/Button"
-import { Card } from "@/components/ui/Card"
-import { Badge } from "@/components/ui/Badge"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Check, Crown, Building2, Zap } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
@@ -81,9 +81,9 @@ export default function PricingPage() {
             <span className={`text-sm ${!isAnnual ? 'text-dark-100' : 'text-dark-500'}`}>Monthly</span>
             <button 
               onClick={() => setIsAnnual(!isAnnual)}
-              className="w-12 h-6 rounded-full bg-dark-700 relative p-1 transition-colors"
+              className="w-12 h-6 rounded-none bg-dark-700 relative p-1 transition-colors"
             >
-              <div className={`h-4 w-4 rounded-full bg-brand-500 transition-all duration-200 ${isAnnual ? 'ml-6' : 'ml-0'}`} />
+              <div className={`h-4 w-4 rounded-none bg-brand-500 transition-all duration-200 ${isAnnual ? 'ml-6' : 'ml-0'}`} />
             </button>
             <span className={`text-sm ${isAnnual ? 'text-dark-100' : 'text-dark-500'}`}>
               Annual <span className="text-brand-500 font-bold ml-1">(-20%)</span>
@@ -99,7 +99,7 @@ export default function PricingPage() {
               className={`flex flex-col h-full border-dark-600 ${plan.highlight ? 'ring-2 ring-brand-500' : ''}`}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className={`p-2 rounded-lg ${plan.highlight ? 'bg-brand-500 text-dark-950' : 'bg-dark-700 text-dark-300'}`}>
+                <div className={`p-2 rounded-none ${plan.highlight ? 'bg-brand-500 text-dark-950' : 'bg-dark-700 text-dark-300'}`}>
                   <plan.icon className="h-5 w-5" />
                 </div>
                 <h3 className="text-xl font-bold">{plan.name}</h3>

@@ -1,12 +1,10 @@
-import { Inter, Outfit } from 'next/font/google'
+import { Inter, Outfit, Source_Serif_4 } from 'next/font/google'
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 import './globals.css'
 import { Toast } from '@/components/ui/Toast'
 import { cn } from "@/lib/utils";
-
-// Removed missing Geist font
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -16,6 +14,12 @@ const inter = Inter({
 const outfit = Outfit({ 
   subsets: ['latin'],
   variable: '--font-outfit',
+})
+
+const serif = Source_Serif_4({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  style: ['italic', 'normal'],
 })
 
 export const metadata: Metadata = {
@@ -55,10 +59,22 @@ export default function RootLayout({
           colorInputBackground: '#262626',
           colorInputText: '#e5e5e5',
           colorTextOnPrimaryBackground: '#000000',
+          borderRadius: '0',
+        },
+        elements: {
+          card: 'rounded-none',
+          navbar: 'rounded-none',
+          footer: 'rounded-none',
+          formButtonPrimary: 'rounded-none',
+          formFieldInput: 'rounded-none',
+          userButtonAvatarBox: 'rounded-none',
+          userButtonTrigger: 'rounded-none',
+          userButtonPopoverCard: 'rounded-none',
+          organizationSwitcherTrigger: 'rounded-none',
         }
       }}
     >
-      <html lang="en" className={cn("dark", inter.variable, outfit.variable)}>
+      <html lang="en" className={cn("dark", inter.variable, outfit.variable, serif.variable)}>
         <body className="font-sans">
           {children}
           <Toast />

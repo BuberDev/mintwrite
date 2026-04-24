@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Input } from "@/components/ui/Input"
-import { Button } from "@/components/ui/Button"
-import { Card } from "@/components/ui/Card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { toast } from "sonner"
 import { ProjectCategory } from "@/types"
 

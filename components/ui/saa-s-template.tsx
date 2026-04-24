@@ -13,7 +13,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "default", size = "default", className = "", children, ...props }, ref) => {
-    const baseStyles = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+    const baseStyles = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
     
     const variants = {
       default: "bg-white text-black hover:bg-gray-100",
@@ -51,7 +51,7 @@ const Navigation = React.memo(() => {
       <nav className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded bg-brand-500 flex items-center justify-center text-dark-950 font-bold text-xs">C</div>
+            <div className="h-8 w-8 rounded-none bg-brand-500 flex items-center justify-center text-dark-950 font-bold text-xs">C</div>
             <span className="text-xl font-bold text-white tracking-tight">CryptoScribe</span>
           </div>
           
@@ -132,9 +132,9 @@ Navigation.displayName = "Navigation"
 const Hero = React.memo(() => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start px-6 py-32 md:py-48 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[500px] bg-brand-500/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[500px] bg-brand-500/10 blur-[120px] rounded-none pointer-events-none" />
 
-      <aside className="mb-8 inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 backdrop-blur-sm max-w-full animate-fade-in">
+      <aside className="mb-8 inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-none border border-gray-700 bg-gray-800/50 backdrop-blur-sm max-w-full animate-fade-in">
         <span className="text-xs text-center whitespace-nowrap text-dark-300">
           New version 2.0 is now live!
         </span>
@@ -171,7 +171,7 @@ const Hero = React.memo(() => {
           type="button"
           variant="gradient"
           size="lg"
-          className="rounded-xl flex items-center justify-center min-w-[200px] h-14"
+          className="rounded-none flex items-center justify-center min-w-[200px] h-14"
           aria-label="Get started with the template"
         >
           Start Generating
@@ -180,18 +180,18 @@ const Hero = React.memo(() => {
           type="button"
           variant="ghost"
           size="lg"
-          className="rounded-xl flex items-center justify-center min-w-[200px] h-14 border border-dark-600"
+          className="rounded-none flex items-center justify-center min-w-[200px] h-14 border border-dark-600"
         >
           View Documentation
         </Button>
       </div>
 
       <div className="w-full max-w-6xl relative animate-slide-up [animation-delay:600ms]">
-        <div className="relative z-10 p-2 glass rounded-3xl border border-white/10 shadow-2xl">
+        <div className="relative z-10 p-2 glass rounded-none border border-white/10 shadow-2xl">
           <img
             src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop"
             alt="Web3 Dashboard Preview"
-            className="w-full h-auto rounded-2xl shadow-2xl"
+            className="w-full h-auto rounded-none shadow-2xl"
             loading="eager"
           />
         </div>

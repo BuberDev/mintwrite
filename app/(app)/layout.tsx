@@ -3,8 +3,8 @@
 import { UserButton, useUser } from "@clerk/nextjs"
 import { LayoutDashboard, History, PlusCircle, CreditCard, Settings, Menu, LogOut } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/Button"
-import { Badge } from "@/components/ui/Badge"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 
@@ -39,7 +39,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <aside className="hidden w-64 border-r border-dark-600 bg-dark-900 lg:flex flex-col sticky top-0 h-screen">
         <div className="p-6">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-brand-500 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-none bg-brand-500 flex items-center justify-center">
               <span className="text-dark-950 font-bold text-xl">C</span>
             </div>
             <span className="font-bold text-xl tracking-tight">
@@ -49,38 +49,45 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 px-4 space-y-1">
-          {navItems.map((item) => (
+          {navItems.map((item, i) => (
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-dark-300 hover:text-dark-100 hover:bg-dark-800 transition-all duration-200 group"
+              className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-none text-dark-300 hover:text-dark-100 hover:bg-dark-800 transition-all duration-200 group"
             >
-              <item.icon className="h-5 w-5 text-dark-500 group-hover:text-brand-500 transition-colors" />
+              <span className="text-[9px] font-mono text-dark-500 group-hover:text-brand-500 transition-colors w-6">
+                [0{i + 1}]
+              </span>
+              <item.icon className="h-4 w-4 text-dark-500 group-hover:text-brand-500 transition-colors" />
               {item.label}
             </Link>
           ))}
         </nav>
 
         <div className="p-4 border-t border-dark-600">
-          <div className="bg-dark-800/50 rounded-2xl p-4 border border-dark-600">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-dark-400 uppercase tracking-widest">Plan</span>
+          <div className="bg-dark-900/50 rounded-none p-4 border border-dark-600">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-[9px] font-mono text-brand-500 uppercase tracking-widest">Protocol Status</p>
+                <h4 className="text-xs font-bold uppercase tracking-tighter">Active Node</h4>
+              </div>
               <Badge variant={tierInfo?.tier || 'free'}>{tierInfo?.tier || 'Free'}</Badge>
             </div>
-            <div className="space-y-2">
-              <div className="h-1.5 w-full bg-dark-700 rounded-full overflow-hidden">
+            <div className="space-y-3">
+              <div className="flex justify-between text-[10px] font-mono text-dark-500">
+                <span>Bandwidth</span>
+                <span>{tierInfo?.generationsUsed || 0} / {tierInfo?.generationsLimit === 1000000 ? '∞' : tierInfo?.generationsLimit || 5}</span>
+              </div>
+              <div className="h-[3px] w-full bg-dark-700 rounded-none overflow-hidden">
                 <div 
                   className="h-full bg-brand-500 transition-all duration-500" 
                   style={{ width: `${tierInfo ? Math.min((tierInfo.generationsUsed / tierInfo.generationsLimit) * 100, 100) : 0}%` }}
                 />
               </div>
-              <p className="text-[11px] text-dark-400 text-center">
-                {tierInfo?.generationsUsed || 0} of {tierInfo?.generationsLimit === 1000000 ? '∞' : tierInfo?.generationsLimit || 5} used
-              </p>
               {tierInfo?.tier === 'free' && (
                 <Link href="/billing">
-                  <Button variant="primary" size="sm" className="w-full mt-2 py-2 text-xs">
-                    Upgrade to Pro
+                  <Button variant="primary" size="sm" className="w-full mt-4 h-9 text-[10px] font-black uppercase tracking-widest">
+                    Upgrade Access
                   </Button>
                 </Link>
               )}
@@ -104,7 +111,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Mobile Header */}
         <header className="lg:hidden h-16 border-b border-dark-600 bg-dark-900 flex items-center justify-between px-4 sticky top-0 z-50">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-brand-500 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-none bg-brand-500 flex items-center justify-center">
               <span className="text-dark-950 font-bold text-lg">C</span>
             </div>
           </Link>
