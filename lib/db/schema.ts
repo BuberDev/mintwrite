@@ -26,7 +26,7 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
-  tierCheck: check("users_tier_check", sql`${table.tier} IN ('free', 'standard', 'pro', 'enterprise')`),
+  tierCheck: check("users_tier_check", sql`${table.tier} IN ('free', 'pro', 'agency')`),
 }));
 
 // --- AUTH: Password Credentials ---
@@ -79,7 +79,7 @@ export const billing = pgTable("billing", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
-  planCheck: check("billing_plan_check", sql`${table.plan} IN ('free', 'standard', 'pro', 'enterprise')`),
+  planCheck: check("billing_plan_check", sql`${table.plan} IN ('free', 'pro', 'agency')`),
   cycleCheck: check("billing_cycle_check", sql`${table.cycle} IN ('monthly', 'annual')`),
 }));
 

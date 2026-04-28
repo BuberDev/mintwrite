@@ -6,7 +6,7 @@ import { isPostgresConfigured } from "@/lib/db/postgres";
 export { isPostgresConfigured } from "@/lib/db/postgres";
 
 export type BillingCycle = "monthly" | "annual";
-export type BillingPlan = "free" | "standard" | "pro" | "enterprise";
+export type BillingPlan = "free" | "pro" | "agency";
 
 function toBillingState(row: any | null) {
   return {
@@ -99,9 +99,9 @@ export async function upsertBillingState({
 
     // Also update the tier in the user table for redundancy/ease of access
     await tx.update(users)
-      .set({ 
-        tier: plan, 
-        updatedAt: new Date() 
+      .set({
+        tier: plan,
+        updatedAt: new Date()
       })
       .where(eq(users.id, ownerId));
 

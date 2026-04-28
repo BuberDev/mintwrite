@@ -50,8 +50,14 @@ export default function BillingPage() {
     {
       name: "Free",
       price: "$0",
-      description: "For testing and light usage.",
-      features: ["5 generations / month", "1 project", "Core content types", "Community support"],
+      description: "Lead generation and testing.",
+      features: [
+        "5 generations / month",
+        "3 of 7 content types",
+        "1 project profile",
+        "Basic generation history",
+        "Community support",
+      ],
       icon: Sparkles,
       buttonText: billing?.plan === "free" ? "Current plan" : "Downgrade available in portal",
       variant: "free" as const,
@@ -59,9 +65,17 @@ export default function BillingPage() {
     },
     {
       name: "Pro",
-      price: cycle === "annual" ? "$490" : "$49",
-      description: "For founders shipping consistently.",
-      features: ["Unlimited generations", "Higher throughput", "Priority support", "History and export"],
+      price: cycle === "annual" ? "$39 / mo" : "$49",
+      description: "The standard for Web3 founders.",
+      features: [
+        "Unlimited generations",
+        "All 7 content types",
+        "5 project profiles",
+        "Unlimited generation history",
+        "Export as PDF / Markdown",
+        "TokenForge AI Import",
+        "Priority email support",
+      ],
       icon: Crown,
       buttonText: billing?.plan === "pro" ? "Current plan" : "Upgrade to Pro",
       variant: "pro" as const,
@@ -69,9 +83,16 @@ export default function BillingPage() {
     },
     {
       name: "Agency",
-      price: cycle === "annual" ? "$1,490" : "$149",
-      description: "For teams and consultants.",
-      features: ["Everything in Pro", "More projects", "Team workflows", "Dedicated support"],
+      price: cycle === "annual" ? "$119 / mo" : "$149",
+      description: "For agencies and in-house teams.",
+      features: [
+        "Everything in Pro",
+        "Unlimited projects",
+        "API access for bulk creation",
+        "Dedicated account manager",
+        "Multi-user workspace (Soon)",
+        "Custom brand voice (Soon)",
+      ],
       icon: ShieldCheck,
       buttonText: billing?.plan === "agency" ? "Current plan" : "Upgrade to Agency",
       variant: "agency" as const,
@@ -197,7 +218,7 @@ export default function BillingPage() {
             <div className="mb-10">
               <div className="flex items-baseline">
                 <span className="text-4xl font-bold tracking-tighter">{plan.price}</span>
-                <span className="text-xs text-dark-500 font-mono ml-2 uppercase">/ cycle</span>
+                <span className="text-xs text-dark-500 font-mono ml-2 uppercase">{cycle === "annual" && plan.variant !== "free" ? "billed annually" : "/ mo"}</span>
               </div>
               <p className="text-sm text-dark-400 mt-4 leading-relaxed font-medium">{plan.description}</p>
             </div>

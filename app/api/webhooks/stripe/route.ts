@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 function getPlanFromMetadata(metadata: Record<string, string> | null | undefined): BillingPlan {
   const plan = metadata?.plan;
-  if (plan === "standard" || plan === "pro" || plan === "enterprise") {
+  if (plan === "pro" || plan === "agency") {
     return plan as BillingPlan;
   }
   return "free";

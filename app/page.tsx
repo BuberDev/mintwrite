@@ -130,33 +130,33 @@ const PricingMatrix = () => {
 
   const tiers = [
     {
-      id: "standard",
-      name: "Standard",
-      priceMonthly: "19",
-      priceAnnual: "190",
-      type: "Foundational",
-      features: ["50 Monthly Generations", "Basic Content Vectors", "Standard Latency", "Email Support"],
-      cta: "Initialize",
+      id: "free",
+      name: "Free",
+      priceMonthly: "0",
+      priceAnnual: "0",
+      type: "Lead generation",
+      features: ["5 Monthly Generations", "3 of 7 Content Types", "1 Project Profile", "Community Support"],
+      cta: "Start Free",
       primary: false
     },
     {
       id: "pro",
-      name: "Professional",
+      name: "Pro",
       priceMonthly: "49",
-      priceAnnual: "490",
-      type: "High-Throughput",
-      features: ["Unlimited Generations", "All Content Vectors", "Ultra-Low Latency", "History Export", "24/7 Priority Support"],
-      cta: "Deploy",
+      priceAnnual: "39",
+      type: "Web3 Founders",
+      features: ["Unlimited Generations", "All 7 Content Types", "5 Project Profiles", "History Export PDF/MD", "TokenForge AI Import", "Priority Email Support"],
+      cta: "Get Pro",
       primary: true
     },
     {
-      id: "enterprise",
-      name: "Enterprise",
-      priceMonthly: "199",
-      priceAnnual: "1990",
-      type: "Multi-Protocol",
-      features: ["White-label API", "Team Clusters", "Brand Voice DNA", "Dedicated Account Lead", "Custom Onboarding"],
-      cta: "Inquire",
+      id: "agency",
+      name: "Agency",
+      priceMonthly: "149",
+      priceAnnual: "119",
+      type: "Teams & Agencies",
+      features: ["Everything in Pro", "Unlimited Projects", "API Access", "Dedicated Account Manager", "Multi-user Workspace (Soon)", "Custom Brand Voice (Soon)"],
+      cta: "Get Agency",
       primary: false
     }
   ]
@@ -167,15 +167,15 @@ const PricingMatrix = () => {
         <div className="text-center mb-20">
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-primary mb-4">Value Proposition</p>
           <h2 className="text-5xl md:text-6xl font-bold font-display tracking-tight mb-8">Scale Your <span className="italic">Authority</span>.</h2>
-          
+
           {/* Cycle Toggle */}
           <div className="flex items-center justify-center gap-4">
             <span className={cn("text-xs font-bold uppercase tracking-widest transition-colors", cycle === "monthly" ? "text-white" : "text-zinc-600")}>Monthly</span>
-            <button 
+            <button
               onClick={() => setCycle(cycle === "monthly" ? "annual" : "monthly")}
               className="relative w-14 h-7 rounded-none bg-white/5 border border-white/10 p-1 transition-colors hover:border-white/20"
             >
-              <motion.div 
+              <motion.div
                 animate={{ x: cycle === "monthly" ? 0 : 28 }}
                 className="w-5 h-5 rounded-none bg-primary"
               />
@@ -208,7 +208,7 @@ const PricingMatrix = () => {
                 <div className="flex items-baseline h-12">
                   <span className="text-sm font-mono mr-1 text-primary">$</span>
                   <AnimatePresence mode="wait">
-                    <motion.span 
+                    <motion.span
                       key={cycle}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -218,7 +218,7 @@ const PricingMatrix = () => {
                       {cycle === "monthly" ? tier.priceMonthly : tier.priceAnnual}
                     </motion.span>
                   </AnimatePresence>
-                  <span className="text-xs text-zinc-500 ml-2">/{cycle === "monthly" ? "mo" : "yr"}</span>
+                  <span className="text-xs text-zinc-500 ml-2">/{cycle === "monthly" ? "mo" : "mo, billed annually"}</span>
                 </div>
               </div>
 
@@ -235,8 +235,8 @@ const PricingMatrix = () => {
                 href={`/api/billing?plan=${tier.id}&cycle=${cycle}`}
                 className={cn(
                   "flex items-center justify-center w-full h-14 rounded-none font-bold uppercase tracking-[0.2em] text-xs transition-all",
-                  tier.primary 
-                    ? "bg-primary text-black hover:bg-primary/90 hover:tracking-[0.3em]" 
+                  tier.primary
+                    ? "bg-primary text-black hover:bg-primary/90 hover:tracking-[0.3em]"
                     : "border border-white/10 text-white hover:bg-white/5"
                 )}
               >

@@ -13,10 +13,10 @@ function toBillingCycle(value: unknown): BillingCycle {
 }
 
 function getTierForPlan(plan: unknown): BillingPlan {
-  if (plan === "enterprise" || plan === "pro" || plan === "standard") {
+  if (plan === "agency" || plan === "pro") {
     return plan as BillingPlan;
   }
-  return "standard";
+  return "pro";
 }
 
 export async function GET(req: NextRequest) {

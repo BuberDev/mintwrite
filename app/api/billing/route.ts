@@ -10,12 +10,12 @@ function getPlanAndCycle(searchParams: URLSearchParams) {
   const planParam = searchParams.get("plan");
   const cycleParam = searchParams.get("cycle");
 
-  const plan: BillingPlan = (["standard", "pro", "enterprise"] as string[]).includes(planParam ?? "")
+  const plan: BillingPlan = (["pro", "agency"] as string[]).includes(planParam ?? "")
     ? (planParam as BillingPlan)
-    : "standard";
-    
+    : "pro";
+
   const cycle: BillingCycle = cycleParam === "annual" ? "annual" : "monthly";
-  
+
   return { plan, cycle } as const;
 }
 

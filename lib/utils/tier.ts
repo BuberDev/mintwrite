@@ -24,9 +24,8 @@ export async function getUserTierInfo(userId: string) {
 
   const limits: Record<UserTier | string, { gens: number; projects: number }> = {
     free: { gens: 5, projects: 1 },
-    standard: { gens: 50, projects: 3 },
-    pro: { gens: 1000000, projects: 50 },
-    enterprise: { gens: 1000000, projects: 1000000 },
+    pro: { gens: 10_000_000, projects: 5 },
+    agency: { gens: 10_000_000, projects: 10_000_000 },
   }
 
   const userTier = user.tier
@@ -36,13 +35,13 @@ export async function getUserTierInfo(userId: string) {
     tier: userTier as UserTier,
     generationsUsed: user.generationsUsedThisMonth,
     generationsLimit: limit.gens,
-    canGenerate: true, // BYPASS FOR TESTING: later user.generationsUsedThisMonth < limit.gens
+    canGenerate: user.generationsUsedThisMonth < limit.gens, // BYPASS FOR TESTING: later user.generationsUsedThisMonth < limit.gens
     projectLimit: limit.projects,
   }
 }
 
 export function canAccessContentType(tier: UserTier | string, contentType: ContentType) {
-  if (tier === 'enterprise' || tier === 'pro') return true;
-  if (tier === 'standard') return true; // Standard has access to basic vectors
-  return contentType.tier === 'free'
+  if (tier === 'agency' || tier === 'pro') return true;
+  return contentType.tier === 'free';
 }
+
