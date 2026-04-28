@@ -1,20 +1,22 @@
-import { auth, currentUser } from "@clerk/nextjs/server"
-import { db, getOrCreateUser } from "@/lib/db/client"
+import { db } from "@/lib/db/drizzle"
+import { projects, users } from "@/lib/db/schema"
 import { ProjectInputSchema } from "@/lib/ai/schema"
 import { NextResponse } from "next/server"
+import { getCurrentAuth, getCurrentUserId } from "@/lib/auth/session"
+import { eq, desc } from "drizzle-orm"
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const { userId } = auth()
+  const userId = await getCurrentUserId()
   if (!userId) return new Response("Unauthorized", { status: 401 })
 
   try {
-    const res = await db.query(
-      'SELECT * FROM projects WHERE user_id = $1 ORDER BY created_at DESC',
-      [userId]
-    )
-    return NextResponse.json(res.rows)
+    const userProjects = await db.query.projects.findMany({
+      where: eq(projects.userId, userId),
+      orderBy: [desc(projects.createdAt)],
+    })
+    return NextResponse.json(userProjects)
   } catch (error) {
     console.error('Failed to fetch projects:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
@@ -22,8 +24,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { userId } = auth()
-  const user = await currentUser()
+  const auth = await getCurrentAuth()
+  const userId = auth?.user.id
+  const user = auth?.user
   if (!userId || !user) return new Response("Unauthorized", { status: 401 })
 
   try {
@@ -34,19 +37,38 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid input', details: result.error.format() }, { status: 400 })
     }
 
-    // Ensure user exists in our DB
-    await getOrCreateUser(userId, user.emailAddresses[0].emailAddress)
+    // Ensure user exists in our DB (Drizzle style)
+    await db.insert(users)
+      .values({
+        id: userId,
+        email: user.email,
+        emailNormalized: user.email.toLowerCase(),
+        displayName: user.displayName || user.email.split('@')[0],
+      })
+      .onConflictDoUpdate({
+        target: users.id,
+        set: { 
+          email: user.email,
+          updatedAt: new Date()
+        }
+      })
 
     const { name, ticker, category, tagline, website, twitter, discord } = result.data
 
-    const res = await db.query(
-      `INSERT INTO projects (user_id, name, ticker, category, tagline, website, twitter, discord)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-       RETURNING *`,
-      [userId, name, ticker, category, tagline, website, twitter, discord]
-    )
+    const [newProject] = await db.insert(projects)
+      .values({
+        userId,
+        name,
+        ticker,
+        category,
+        tagline,
+        website,
+        twitter,
+        discord,
+      })
+      .returning()
 
-    return NextResponse.json(res.rows[0])
+    return NextResponse.json(newProject)
   } catch (error) {
     console.error('Failed to create project:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

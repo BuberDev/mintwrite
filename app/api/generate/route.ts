@@ -1,79 +1,97 @@
-import { anthropic } from '@ai-sdk/anthropic'
 import { streamText } from 'ai'
 import { MINTWRITE_SYSTEM_PROMPT } from '@/lib/ai/prompts/system'
 import { getContentType } from '@/lib/ai/content-types'
 import { GenerateRequestSchema } from '@/lib/ai/schema'
 import { NextResponse } from 'next/server'
-import { auth } from '@clerk/nextjs/server'
-import { db } from '@/lib/db/client'
+import { db } from '@/lib/db/drizzle'
+import { projects } from '@/lib/db/schema'
 import { getUserTierInfo } from '@/lib/utils/tier'
+import { getCurrentUserId } from '@/lib/auth/session'
+import { getOpenRouterModel, isOpenRouterConfigured } from '@/lib/ai/openrouter'
+import { eq, and } from 'drizzle-orm'
 
-// Set timeout to 2 minutes as requested
 export const maxDuration = 120
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
   try {
+    // Guard: API key must be present before doing any work
+    if (!isOpenRouterConfigured()) {
+      return NextResponse.json(
+        {
+          error:
+            'AI generation is not configured. Add OPENROUTER_API_KEY to your environment variables.',
+        },
+        { status: 503 },
+      )
+    }
+
     const json = await req.json()
     const result = GenerateRequestSchema.safeParse(json)
 
     if (!result.success) {
       return NextResponse.json(
         { error: 'Invalid request', details: result.error.format() },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
     const { projectId, contentTypeId, context } = result.data
-    const { userId } = auth()
-    if (!userId) return new Response("Unauthorized", { status: 401 })
+    const userId = await getCurrentUserId()
 
-    // Fetch real project from DB
-    const projectRes = await db.query(
-      'SELECT * FROM projects WHERE id = $1 AND user_id = $2',
-      [projectId, userId]
-    )
+    if (!userId) {
+      return new Response('Unauthorized', { status: 401 })
+    }
 
-    if (projectRes.rows.length === 0) {
+    // Verify the project belongs to the authenticated user
+    const project = await db.query.projects.findFirst({
+      where: and(
+        eq(projects.id, projectId),
+        eq(projects.userId, userId)
+      )
+    })
+
+    if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 
-    const project = projectRes.rows[0]
     const contentType = getContentType(contentTypeId)
 
-    // Check tier limits
+    // Enforce tier limits
     const { tier, canGenerate } = await getUserTierInfo(userId)
-    
+
     if (!canGenerate) {
       return NextResponse.json(
         { error: 'Monthly generation limit reached. Upgrade to Pro for unlimited access.' },
-        { status: 403 }
+        { status: 403 },
       )
     }
 
     if (contentType.tier === 'pro' && tier === 'free') {
       return NextResponse.json(
         { error: 'This content type is only available for Pro users.' },
-        { status: 403 }
+        { status: 403 },
       )
     }
 
-    const userPrompt = contentType.buildPrompt(project, context)
+    const userPrompt = contentType.buildPrompt(project as any, context)
 
     const response = await streamText({
-      model: anthropic('claude-3-5-sonnet-20240620'),
+      model: getOpenRouterModel(),
       system: MINTWRITE_SYSTEM_PROMPT,
       prompt: userPrompt,
       temperature: 0.7,
     })
 
-    return response.toDataStreamResponse()
+    return new Response(response.textStream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Transfer-Encoding': 'chunked',
+      },
+    })
   } catch (error) {
-    console.error('Generation error:', error)
-    return NextResponse.json(
-      { error: 'Failed to generate content' },
-      { status: 500 }
-    )
+    console.error('[MintWrite] Generation error:', error)
+    return NextResponse.json({ error: 'Failed to generate content' }, { status: 500 })
   }
 }

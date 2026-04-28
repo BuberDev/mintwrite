@@ -1,11 +1,11 @@
-import { auth } from "@clerk/nextjs/server"
 import { getUserTierInfo } from "@/lib/utils/tier"
 import { NextResponse } from "next/server"
+import { getCurrentUserId } from "@/lib/auth/session"
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const { userId } = auth()
+  const userId = await getCurrentUserId()
   if (!userId) return new Response("Unauthorized", { status: 401 })
 
   try {

@@ -1,50 +1,61 @@
-import { createPool, VercelPool } from '@vercel/postgres'
+import { db as drizzle } from "./drizzle";
+import { users } from "./schema";
+import { eq } from "drizzle-orm";
 
-let pool: VercelPool | null = null
+/**
+ * LEGACY DATABASE CLIENT WRAPPER
+ * 
+ * This file is maintained for backward compatibility during the Drizzle ORM migration.
+ * It uses the same unified connection pool as the new Drizzle client.
+ * 
+ * New code should import 'db' from '@/lib/db/drizzle' and use Drizzle's type-safe API.
+ */
 
-export const getPool = () => {
-  if (!pool) {
-    if (!process.env.POSTGRES_URL) {
-      throw new Error('POSTGRES_URL is not defined. Please check your environment variables.')
-    }
-    pool = createPool({
-      connectionString: process.env.POSTGRES_URL,
-    })
-  }
-  return pool
-}
+// Re-export drizzle as db for compatibility where only 'db' is expected
+export const db = drizzle as any;
 
-// Proxy the db object to the pool
-export const db = new Proxy({} as VercelPool, {
-  get: (target, prop) => {
-    const p = getPool()
-    return (p as any)[prop]
-  }
-})
-
-// Helper to handle simple queries
+// Helper to handle simple raw SQL queries (Legacy compatibility)
 export async function query<T>(text: string, params?: any[]) {
-  const start = Date.now()
-  const res = await getPool().query(text, params)
-  const duration = Date.now() - start
-  console.log('Executed query', { text, duration, rows: res.rowCount })
-  return res
+  const start = Date.now();
+  
+  // Use drizzle.execute to run raw SQL on the same pool
+  const res = await drizzle.execute(text as any);
+  
+  const duration = Date.now() - start;
+  console.log('[Legacy Query] Executed', { text, duration, rows: res.rowCount });
+  return res;
 }
 
-// User helpers
-export async function getOrCreateUser(clerkId: string, email: string) {
-  const res = await getPool().query(
-    'SELECT * FROM users WHERE id = $1',
-    [clerkId]
-  )
+// User helpers (Legacy compatibility)
+export async function getOrCreateUser(userId: string, email: string) {
+  const existingUser = await drizzle.query.users.findFirst({
+    where: eq(users.id, userId),
+  });
   
-  if (res.rows.length > 0) {
-    return res.rows[0]
+  if (existingUser) {
+    const [updatedUser] = await drizzle.update(users)
+      .set({ 
+        email, 
+        updatedAt: new Date() 
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
   }
 
-  const insertRes = await getPool().query(
-    'INSERT INTO users (id, email) VALUES ($1, $2) RETURNING *',
-    [clerkId, email]
-  )
-  return insertRes.rows[0]
+  const [newUser] = await drizzle.insert(users)
+    .values({
+      id: userId,
+      email,
+      emailNormalized: email.toLowerCase(),
+      displayName: email.split("@")[0],
+    })
+    .returning();
+    
+  return newUser;
+}
+
+// ensureAppTables is no longer needed with Drizzle Kit but we keep it empty to not break imports
+export async function ensureAppTables() {
+  return Promise.resolve();
 }

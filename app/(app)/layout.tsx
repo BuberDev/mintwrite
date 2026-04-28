@@ -1,19 +1,34 @@
 "use client"
 
-import { UserButton, useUser } from "@clerk/nextjs"
-import { LayoutDashboard, History, PlusCircle, CreditCard, Settings, Menu, LogOut } from "lucide-react"
+import { LayoutDashboard, History, PlusCircle, CreditCard, Settings, Menu } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
+import { UserAccountNav } from "@/components/layout/UserAccountNav"
+import AuthControls from "@/components/auth/AuthControls"
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const { user } = useUser()
+  const [user, setUser] = useState<{ email: string; displayName: string; avatarUrl: string | null } | null>(null)
   const [tierInfo, setTierInfo] = useState<any>(null)
 
   useEffect(() => {
+    async function fetchAccount() {
+      try {
+        const res = await fetch('/api/auth/me', { cache: 'no-store' })
+        const data = await res.json()
+        setUser(data?.user ? { 
+          email: data.user.email, 
+          displayName: data.user.displayName,
+          avatarUrl: data.user.avatarUrl
+        } : null)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
     async function fetchTier() {
       try {
         const res = await fetch('/api/user/tier')
@@ -23,6 +38,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         console.error(err)
       }
     }
+    fetchAccount()
     fetchTier()
   }, [pathname])
   const navItems = [
@@ -30,7 +46,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { label: 'History', icon: History, href: '/history' },
     { label: 'New Project', icon: PlusCircle, href: '/projects/new' },
     { label: 'Billing', icon: CreditCard, href: '/billing' },
-    { label: 'Settings', icon: Settings, href: '/settings' },
+    { label: 'Account', icon: Settings, href: '/account' },
   ]
 
   return (
@@ -95,15 +111,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <div className="p-4 border-t border-dark-600 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <UserButton afterSignOutUrl="/" />
-            <div className="flex flex-col max-w-[120px]">
-              <span className="text-sm font-semibold truncate">{user?.fullName || 'User'}</span>
-              <span className="text-[10px] text-dark-500 truncate">{user?.primaryEmailAddress?.emailAddress}</span>
-            </div>
-          </div>
-        </div>
+        {user && <UserAccountNav user={user} />}
       </aside>
 
       {/* Main Content */}
@@ -116,7 +124,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </Link>
           <div className="flex items-center gap-4">
-            <UserButton afterSignOutUrl="/" />
+            <AuthControls mode="mobile" />
             <Button variant="ghost" size="icon">
               <Menu className="h-6 w-6" />
             </Button>

@@ -18,11 +18,11 @@ import { buildWhitepaperSummaryPrompt } from './prompts/whitepaper-summary'
 export const CONTENT_TYPES: Record<string, ContentType> = {
   'twitter-thread': {
     id: 'twitter-thread',
-    label: 'Twitter / X Thread',
+    label: 'X (Twitter) Thread',
     description: 'Hook-optimised thread for announcements, launches, or updates',
     icon: 'twitter',
     tier: 'free',
-    outputLabel: 'Your Twitter Thread',
+    outputLabel: 'Your X Thread',
     outputDescription: 'Each tweet is separated. Copy the full thread or individual tweets.',
     fields: [
       {
@@ -103,7 +103,7 @@ export const CONTENT_TYPES: Record<string, ContentType> = {
   'community-update': {
     id: 'community-update',
     label: 'Weekly Community Update',
-    description: 'Weekly project update for Discord, Telegram, or Twitter',
+    description: 'Weekly project update for Discord, Telegram, or X',
     icon: 'users',
     tier: 'free',
     outputLabel: 'Your Community Update',
@@ -237,7 +237,7 @@ export const CONTENT_TYPES: Record<string, ContentType> = {
           'Community (Discord/Telegram)',
           'Investor (VC/Angel)',
           'Press/Media',
-          'Twitter Space',
+          'X Space',
         ],
       },
       {

@@ -3,8 +3,7 @@
 import { getContentType } from "@/lib/ai/content-types"
 import { GenerationForm } from "@/components/forms/GenerationForm"
 import { ContentOutput } from "@/components/output/ContentOutput"
-import { useState, useEffect } from "react"
-import { useCompletion } from "ai/react"
+import { useState, useEffect, useRef } from "react"
 import { toast } from "sonner"
 import {
   ChevronLeft,
@@ -21,6 +20,7 @@ import {
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+import { CreateProjectModal } from "@/components/modals/CreateProjectModal"
 
 const ICON_MAP: Record<string, any> = {
   'twitter': Twitter,
@@ -38,8 +38,21 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
   const [projects, setProjects] = useState<any[]>([])
   const [selectedProjectId, setSelectedProjectId] = useState<string>("")
   const [isInitialLoading, setIsInitialLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [generatedContent, setGeneratedContent] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  
+  // Persistence across re-renders
+  const contentRef = useRef("")
 
   useEffect(() => {
+    // Load from cache if exists
+    const cached = localStorage.getItem(`mint_cache_${params.type}`)
+    if (cached) {
+      setGeneratedContent(cached)
+      contentRef.current = cached
+    }
+
     async function fetchProjects() {
       try {
         const res = await fetch('/api/projects')
@@ -55,55 +68,79 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
       }
     }
     fetchProjects()
-  }, [])
+  }, [params.type])
 
-  const { complete, completion, isLoading } = useCompletion({
-    api: '/api/generate',
-    onFinish: async (prompt, result) => {
-      toast.success("Content generated successfully!")
-
-      try {
-        const project = projects.find(p => p.id === selectedProjectId)
-        await fetch('/api/generations', {
-          method: 'POST',
-          body: JSON.stringify({
-            projectId: selectedProjectId,
-            projectName: project?.name || 'Unknown Project',
-            contentTypeId: contentType.id,
-            contentTypeLabel: contentType.label,
-            context: lastContext,
-            output: result,
-          })
-        })
-      } catch (err) {
-        console.error("Failed to save generation:", err)
-      }
-    },
-    onError: (err) => {
-      toast.error("Failed to generate content. Please try again.")
-      console.error(err)
-    }
-  })
+  const handleProjectCreated = (newProject: any) => {
+    setProjects(prev => [newProject, ...prev])
+    setSelectedProjectId(newProject.id)
+    setIsModalOpen(false)
+  }
 
   const handleSubmit = async (context: Record<string, string>) => {
     if (!selectedProjectId) {
-      toast.error("Please select or create a project first")
+      toast.error("Please select a project")
       return
     }
 
+    setIsLoading(true)
+    setGeneratedContent("")
+    contentRef.current = ""
     setLastContext(context)
-    await complete('', {
-      body: {
-        projectId: selectedProjectId,
-        contentTypeId: contentType.id,
-        context,
+
+    try {
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectId: selectedProjectId,
+          contentTypeId: contentType.id,
+          context,
+        })
+      })
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error("No reader available")
+
+      const decoder = new TextDecoder()
+      
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        
+        const chunk = decoder.decode(value, { stream: true })
+        contentRef.current += chunk
+        setGeneratedContent(contentRef.current)
+        // Persistence
+        localStorage.setItem(`mint_cache_${params.type}`, contentRef.current)
       }
-    })
+
+      toast.success("Content generated!")
+      
+      // Save to database
+      const project = projects.find(p => p.id === selectedProjectId)
+      await fetch('/api/generations', {
+        method: 'POST',
+        body: JSON.stringify({
+          projectId: selectedProjectId,
+          projectName: project?.name || 'Unknown Project',
+          contentTypeId: contentType.id,
+          contentTypeLabel: contentType.label,
+          context: lastContext,
+          output: contentRef.current,
+        })
+      })
+
+    } catch (err) {
+      console.error("[MintWrite] Manual Fetch Error:", err)
+      toast.error("Generation failed. Check console.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const handleRegenerate = () => {
-    handleSubmit(lastContext)
-  }
+  const handleRegenerate = () => handleSubmit(lastContext)
 
   return (
     <div className="max-w-7xl mx-auto space-y-12 pb-24 px-4">
@@ -127,7 +164,6 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <div className="size-1.5 bg-brand-500 animate-pulse" />
                 <span className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.3em]">Engine Active // {contentType.id.toUpperCase()}</span>
               </div>
               <h1 className="text-4xl font-display font-bold tracking-tight leading-none">{contentType.label}</h1>
@@ -136,10 +172,26 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
           </div>
         </div>
 
-        <div className="hidden xl:flex items-center gap-6 bg-dark-900/50 p-6 border border-dark-600 backdrop-blur-sm">
-          <div className="space-y-1 text-right">
-            <p className="text-[9px] font-mono text-dark-500 uppercase tracking-widest">Model Latency</p>
-            <p className="text-sm font-bold font-mono">14.2MS</p>
+        <div className="flex items-center gap-6 bg-dark-900/50 p-6 border border-dark-600 backdrop-blur-sm">
+          <div className="space-y-2">
+            <p className="text-[9px] font-mono text-dark-500 uppercase tracking-widest">Active Context</p>
+            {projects.length > 0 ? (
+              <select 
+                value={selectedProjectId}
+                onChange={(e) => setSelectedProjectId(e.target.value)}
+                className="bg-transparent text-sm font-bold border-none p-0 focus:ring-0 cursor-pointer hover:text-brand-500 transition-colors"
+              >
+                {projects.map((p) => (
+                  <option key={p.id} value={p.id} className="bg-dark-900 text-white">
+                    {p.name} ({p.ticker})
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <Button onClick={() => setIsModalOpen(true)} variant="ghost" size="sm" className="h-6 px-2 text-[10px] bg-brand-500/10 text-brand-500 hover:bg-brand-500/20">
+                + Create Project
+              </Button>
+            )}
           </div>
           <div className="h-8 w-px bg-dark-700" />
           <div className="space-y-1 text-right">
@@ -150,7 +202,6 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
       </motion.header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        {/* Form Column */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -161,57 +212,41 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <span className="text-6xl font-black font-mono">01</span>
             </div>
-
             <div className="flex items-center gap-4 mb-10 border-b border-dark-800 pb-8">
               <div className="space-y-1">
                 <p className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.2em]">Calibration Phase</p>
                 <h3 className="text-lg font-bold tracking-tight">Context Injection</h3>
               </div>
             </div>
-
             <GenerationForm
               contentType={contentType}
               onSubmit={handleSubmit}
               isLoading={isLoading}
             />
           </div>
-
-          <div className="p-8 rounded-none bg-brand-500/[0.02] border border-brand-500/10 flex items-start gap-6 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-brand-500/[0.05] to-transparent pointer-events-none" />
-            <div className="h-12 w-12 rounded-none bg-brand-500/10 border border-brand-500/20 flex items-center justify-center shrink-0">
-              <Wand2 className="h-6 w-6 text-brand-500" />
-            </div>
-            <div className="space-y-2">
-              <p className="text-[10px] font-mono text-brand-500 uppercase tracking-widest">Vector Tuning</p>
-              <h4 className="text-sm font-bold text-dark-100 uppercase tracking-tighter">Strategic Insight</h4>
-              <p className="text-sm text-dark-400 leading-relaxed italic">
-                "Inject specific metrics like TVL or Holder count. Generic AI drafts for users; MintWrite drafts for investors."
-              </p>
-            </div>
-          </div>
         </motion.div>
 
-        {/* Output Column */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
           className="lg:col-span-7"
         >
-          <div className="relative group">
-            {/* Animated Glow behind output */}
-            {isLoading && (
-              <div className="absolute inset-0 bg-brand-500/5 blur-[100px] animate-pulse rounded-full" />
-            )}
-            <ContentOutput
-              content={completion}
-              contentType={contentType}
-              isGenerating={isLoading}
-              onRegenerate={handleRegenerate}
-            />
-          </div>
+          <ContentOutput
+            key={generatedContent.length > 0 ? 'has-content' : 'empty'}
+            content={generatedContent}
+            contentType={contentType}
+            isGenerating={isLoading}
+            onRegenerate={handleRegenerate}
+          />
         </motion.div>
       </div>
+
+      <CreateProjectModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleProjectCreated}
+      />
     </div>
   )
 }

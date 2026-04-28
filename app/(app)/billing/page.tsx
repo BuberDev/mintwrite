@@ -3,72 +3,91 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, Zap, Building2, Crown } from "lucide-react"
-import { useState, useEffect } from "react"
+import { Check, Sparkles, Crown, ShieldCheck, ArrowRight, CreditCard } from "lucide-react"
+import { useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
+import Link from "next/link"
+
+type BillingCycle = "monthly" | "annual"
+type BillingPlan = "free" | "pro" | "agency"
+
+type BillingState = {
+  ownerId: string | null
+  plan: BillingPlan
+  cycle: BillingCycle | null
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+  stripeSessionId: string | null
+  stripeInvoiceId: string | null
+  stripeInvoiceUrl: string | null
+  stripeStatus: string | null
+}
 
 export default function BillingPage() {
-  const [tierInfo, setTierInfo] = useState<any>(null)
+  const [billing, setBilling] = useState<BillingState | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [cycle, setCycle] = useState<BillingCycle>("monthly")
 
   useEffect(() => {
-    async function fetchTier() {
+    async function fetchBilling() {
       try {
-        const res = await fetch('/api/user/tier')
-        if (!res.ok) throw new Error("Failed to fetch")
+        const res = await fetch("/api/billing/status")
+        if (!res.ok) throw new Error("Failed to fetch billing state")
         const data = await res.json()
-        setTierInfo(data)
+        setBilling(data.billing ?? null)
       } catch (err) {
-        toast.error("Failed to load your plan info")
+        toast.error("Failed to load billing information")
       } finally {
         setIsLoading(false)
       }
     }
-    fetchTier()
+
+    fetchBilling()
   }, [])
 
-  const plans = [
+  const plans = useMemo(() => [
     {
-      name: 'Free',
-      price: '$0',
-      description: 'Perfect for testing the waters',
-      features: ['5 generations / month', '3 content types', '1 project', 'Basic support'],
-      icon: Zap,
-      buttonText: 'Current Plan',
-      variant: 'free',
+      name: "Free",
+      price: "$0",
+      description: "For testing and light usage.",
+      features: ["5 generations / month", "1 project", "Core content types", "Community support"],
+      icon: Sparkles,
+      buttonText: billing?.plan === "free" ? "Current plan" : "Downgrade available in portal",
+      variant: "free" as const,
       disabled: true,
     },
     {
-      name: 'Pro',
-      price: '$49',
-      description: 'For serious Web3 founders',
-      features: ['Unlimited generations', 'All 7 content types', '5 projects', 'Priority support', 'History export'],
+      name: "Pro",
+      price: cycle === "annual" ? "$490" : "$49",
+      description: "For founders shipping consistently.",
+      features: ["Unlimited generations", "Higher throughput", "Priority support", "History and export"],
       icon: Crown,
-      buttonText: 'Upgrade to Pro',
-      variant: 'pro',
+      buttonText: billing?.plan === "pro" ? "Current plan" : "Upgrade to Pro",
+      variant: "pro" as const,
       highlight: true,
     },
     {
-      name: 'Agency',
-      price: '$149',
-      description: 'For teams managing multiple projects',
-      features: ['Everything in Pro', 'Unlimited projects', 'API Access (Coming soon)', 'Dedicated account manager'],
-      icon: Building2,
-      buttonText: 'Get Agency',
-      variant: 'agency',
-    }
-  ]
+      name: "Agency",
+      price: cycle === "annual" ? "$1,490" : "$149",
+      description: "For teams and consultants.",
+      features: ["Everything in Pro", "More projects", "Team workflows", "Dedicated support"],
+      icon: ShieldCheck,
+      buttonText: billing?.plan === "agency" ? "Current plan" : "Upgrade to Agency",
+      variant: "agency" as const,
+    },
+  ], [billing?.plan, cycle])
 
-  const handleUpgrade = async (plan: string) => {
-    toast.info(`Redirecting to checkout for ${plan}...`)
-    // Here we would call the checkout API from Phase 5
+  const billingHref = (plan: Exclude<BillingPlan, "free">) =>
+    `/api/billing?plan=${plan}&cycle=${cycle}`
+
+  const handlePortal = async () => {
+    window.location.assign("/api/billing/portal")
   }
 
   return (
     <div className="max-w-7xl mx-auto space-y-12 pb-24 px-4">
-      <motion.header 
+      <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-dark-600 pb-12"
@@ -76,44 +95,84 @@ export default function BillingPage() {
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <div className="size-2 bg-brand-500" />
-            <span className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.3em]">Billing Terminal // SECURE</span>
+            <span className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.3em]">Billing Terminal // Stripe</span>
           </div>
           <h1 className="text-5xl font-display font-bold tracking-tight leading-none">License Management</h1>
           <p className="text-dark-400 text-lg max-w-xl">
-            Protocol licensing and bandwidth allocation. Select a tier to scale your synthesis capacity.
+            Manage your Stripe subscription, billing cycle, invoices, and account portal from one place.
           </p>
+        </div>
+
+        <div className="flex items-center gap-2 rounded-none border border-dark-600 bg-dark-900 p-1">
+          <button
+            type="button"
+            onClick={() => setCycle("monthly")}
+            className={`px-4 py-2 text-xs font-black uppercase tracking-[0.18em] ${cycle === "monthly" ? "bg-brand-500 text-dark-950" : "text-dark-300"}`}
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            onClick={() => setCycle("annual")}
+            className={`px-4 py-2 text-xs font-black uppercase tracking-[0.18em] ${cycle === "annual" ? "bg-brand-500 text-dark-950" : "text-dark-300"}`}
+          >
+            Annual
+          </button>
         </div>
       </motion.header>
 
-      {tierInfo && (
-        <section className="max-w-xl">
+      {billing && (
+        <section className="max-w-2xl">
           <div className="bg-dark-900/50 p-10 border border-dark-600 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <span className="text-4xl font-black font-mono">NODE</span>
+              <span className="text-4xl font-black font-mono">MW</span>
             </div>
-            
+
             <div className="flex items-center justify-between mb-10 border-b border-dark-800 pb-6">
               <div className="space-y-1">
                 <p className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.2em]">Active License</p>
-                <h3 className="text-xl font-bold tracking-tight">{tierInfo.tier.toUpperCase()}</h3>
+                <h3 className="text-xl font-bold tracking-tight">{billing.plan.toUpperCase()}</h3>
               </div>
-              <Badge variant={tierInfo.tier as any}>{tierInfo.tier}</Badge>
+              <Badge variant={billing.plan as any}>{billing.plan}</Badge>
             </div>
-            
-            <div className="space-y-6">
-              <div className="flex justify-between text-[11px] font-mono text-dark-500 uppercase tracking-widest">
-                <span>Bandwidth Consumption</span>
-                <span className="text-dark-100">{tierInfo.generationsUsed} / {tierInfo.generationsLimit === 1000000 ? '∞' : tierInfo.generationsLimit}</span>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-none border border-dark-700 bg-black/30 p-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-dark-500">Stripe customer</p>
+                <p className="mt-2 break-all text-sm text-dark-100">{billing.stripeCustomerId ?? "Not created yet"}</p>
               </div>
-              <div className="h-[2px] w-full bg-dark-800 rounded-none overflow-hidden">
-                <div 
-                  className="h-full bg-brand-500 transition-all duration-500" 
-                  style={{ width: `${(tierInfo.generationsUsed / tierInfo.generationsLimit) * 100}%` }}
-                />
+              <div className="rounded-none border border-dark-700 bg-black/30 p-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-dark-500">Subscription</p>
+                <p className="mt-2 break-all text-sm text-dark-100">{billing.stripeSubscriptionId ?? "Not created yet"}</p>
               </div>
-              <p className="text-[10px] text-dark-500 font-mono italic">
-                * Resetting in {30 - new Date().getDate()} days.
-              </p>
+            </div>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-none border border-dark-700 bg-black/30 p-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-dark-500">Billing cycle</p>
+                <p className="mt-2 text-sm text-dark-100">{billing.cycle ?? cycle}</p>
+              </div>
+              <div className="rounded-none border border-dark-700 bg-black/30 p-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-dark-500">Latest invoice</p>
+                {billing.stripeInvoiceUrl ? (
+                  <Link href={billing.stripeInvoiceUrl} target="_blank" rel="noreferrer" className="mt-2 inline-flex text-sm font-medium text-dark-100 underline decoration-white/30 underline-offset-4">
+                    Open invoice
+                  </Link>
+                ) : (
+                  <p className="mt-2 text-sm text-dark-400">Available after the next successful charge.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button variant="primary" onClick={handlePortal} className="h-11 rounded-none px-4 text-xs font-black uppercase tracking-[0.2em]">
+                Open customer portal
+              </Button>
+              <Button asChild variant="outline" className="h-11 rounded-none px-4 text-xs font-black uppercase tracking-[0.2em]">
+                <Link href="/account">
+                  View account
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -121,18 +180,12 @@ export default function BillingPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {plans.map((plan, i) => (
-          <Card 
-            key={plan.name} 
-            className={cn(
-              "flex flex-col h-full p-10 border-dark-600 transition-all duration-500 bg-black/20",
-              plan.highlight ? "border-brand-500 ring-1 ring-brand-500/20" : "hover:border-dark-400"
-            )}
+          <Card
+            key={plan.name}
+            className={`flex flex-col h-full p-10 border-dark-600 transition-all duration-500 bg-black/20 ${plan.highlight ? "border-brand-500 ring-1 ring-brand-500/20" : "hover:border-dark-400"}`}
           >
             <div className="flex items-center gap-4 mb-10">
-              <div className={cn(
-                "h-12 w-12 rounded-none flex items-center justify-center border transition-colors",
-                plan.highlight ? "bg-brand-500 text-dark-950 border-brand-500" : "bg-dark-800 text-dark-400 border-dark-700"
-              )}>
+              <div className={`h-12 w-12 rounded-none flex items-center justify-center border transition-colors ${plan.highlight ? "bg-brand-500 text-dark-950 border-brand-500" : "bg-dark-800 text-dark-400 border-dark-700"}`}>
                 <plan.icon className="h-6 w-6" />
               </div>
               <div className="space-y-1">
@@ -140,7 +193,7 @@ export default function BillingPage() {
                 <h3 className="text-xl font-bold tracking-tight leading-none">{plan.name}</h3>
               </div>
             </div>
-            
+
             <div className="mb-10">
               <div className="flex items-baseline">
                 <span className="text-4xl font-bold tracking-tighter">{plan.price}</span>
@@ -158,17 +211,24 @@ export default function BillingPage() {
               ))}
             </ul>
 
-            <Button 
-              variant={plan.highlight ? 'primary' : 'outline'} 
-              className={cn(
-                "w-full h-14 rounded-none font-black text-[10px] uppercase tracking-[0.2em] transition-all",
-                plan.highlight ? "shadow-2xl shadow-brand-500/10 hover:tracking-[0.3em]" : "border-dark-700 hover:bg-dark-800"
-              )}
-              disabled={plan.disabled}
-              onClick={() => handleUpgrade(plan.name)}
-            >
-              {plan.buttonText}
-            </Button>
+            {plan.variant === "free" ? (
+              <Button variant="outline" className="w-full h-14 rounded-none font-black text-[10px] uppercase tracking-[0.2em]" disabled>
+                {plan.buttonText}
+              </Button>
+            ) : (
+              <Button
+                asChild
+                variant={plan.highlight ? "primary" : "outline"}
+                className={`w-full h-14 rounded-none font-black text-[10px] uppercase tracking-[0.2em] transition-all ${plan.highlight ? "shadow-2xl shadow-brand-500/10 hover:tracking-[0.3em]" : "border-dark-700 hover:bg-dark-800"}`}
+              >
+                <Link href={billingHref(plan.variant)}>
+                  <span className="inline-flex items-center gap-2">
+                    {plan.buttonText}
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              </Button>
+            )}
           </Card>
         ))}
       </div>

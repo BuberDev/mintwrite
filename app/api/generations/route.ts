@@ -1,19 +1,21 @@
-import { auth } from "@clerk/nextjs/server"
-import { db } from "@/lib/db/client"
+import { db } from "@/lib/db/drizzle"
+import { generations, users } from "@/lib/db/schema"
 import { NextResponse } from "next/server"
+import { getCurrentUserId } from "@/lib/auth/session"
+import { eq, desc, sql } from "drizzle-orm"
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const { userId } = auth()
+  const userId = await getCurrentUserId()
   if (!userId) return new Response("Unauthorized", { status: 401 })
 
   try {
-    const res = await db.query(
-      'SELECT * FROM generations WHERE user_id = $1 ORDER BY created_at DESC',
-      [userId]
-    )
-    return NextResponse.json(res.rows)
+    const results = await db.query.generations.findMany({
+      where: eq(generations.userId, userId),
+      orderBy: [desc(generations.createdAt)],
+    })
+    return NextResponse.json(results)
   } catch (error) {
     console.error('Failed to fetch generations:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
@@ -21,26 +23,37 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { userId } = auth()
+  const userId = await getCurrentUserId()
   if (!userId) return new Response("Unauthorized", { status: 401 })
 
   try {
     const { projectId, projectName, contentTypeId, contentTypeLabel, context, output } = await req.json()
 
-    const res = await db.query(
-      `INSERT INTO generations (user_id, project_id, project_name, content_type_id, content_type_label, context, output)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING *`,
-      [userId, projectId, projectName, contentTypeId, contentTypeLabel, context, output]
-    )
+    const [newGeneration] = await db.transaction(async (tx) => {
+      const [res] = await tx.insert(generations)
+        .values({
+          userId,
+          projectId,
+          projectName,
+          contentTypeId,
+          contentTypeLabel,
+          context,
+          output,
+        })
+        .returning()
 
-    // Increment user's generation count
-    await db.query(
-      'UPDATE users SET generations_used_this_month = generations_used_this_month + 1 WHERE id = $1',
-      [userId]
-    )
+      // Increment user's generation count
+      await tx.update(users)
+        .set({ 
+          generationsUsedThisMonth: sql`${users.generationsUsedThisMonth} + 1`,
+          updatedAt: new Date()
+        })
+        .where(eq(users.id, userId))
 
-    return NextResponse.json(res.rows[0])
+      return [res]
+    })
+
+    return NextResponse.json(newGeneration)
   } catch (error) {
     console.error('Failed to save generation:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

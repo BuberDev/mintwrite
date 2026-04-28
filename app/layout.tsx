@@ -1,7 +1,5 @@
 import { Inter, Outfit, Source_Serif_4 } from 'next/font/google'
 import type { Metadata } from 'next'
-import { ClerkProvider } from '@clerk/nextjs'
-import { dark } from '@clerk/themes'
 import './globals.css'
 import { Toast } from '@/components/ui/toast'
 import { cn } from "@/lib/utils";
@@ -28,10 +26,10 @@ export const metadata: Metadata = {
     template: '%s | Mint Write',
   },
   description:
-    'Generate Twitter threads, Discord announcements, tokenomics explainers, and more for your Web3 project in under 60 seconds.',
+    'Generate X threads, Discord announcements, tokenomics explainers, and more for your Web3 project in under 60 seconds.',
   keywords: [
     'Web3 content generator',
-    'crypto Twitter thread writer',
+    'crypto X thread writer',
     'Discord announcement generator crypto',
     'tokenomics explainer',
     'blockchain content marketing',
@@ -50,36 +48,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-        variables: {
-          colorPrimary: '#f59e0b',
-          colorBackground: '#171717',
-          colorInputBackground: '#262626',
-          colorInputText: '#e5e5e5',
-          colorTextOnPrimaryBackground: '#000000',
-          borderRadius: '0',
-        },
-        elements: {
-          card: 'rounded-none',
-          navbar: 'rounded-none',
-          footer: 'rounded-none',
-          formButtonPrimary: 'rounded-none',
-          formFieldInput: 'rounded-none',
-          userButtonAvatarBox: 'rounded-none',
-          userButtonTrigger: 'rounded-none',
-          userButtonPopoverCard: 'rounded-none',
-          organizationSwitcherTrigger: 'rounded-none',
-        }
-      }}
-    >
-      <html lang="en" className={cn("dark", inter.variable, outfit.variable, serif.variable)}>
-        <body className="font-sans">
-          {children}
-          <Toast />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className={cn("dark", inter.variable, outfit.variable, serif.variable)}>
+      <body className="font-sans">
+        {children}
+        <Toast />
+      </body>
+    </html>
   )
 }

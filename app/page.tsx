@@ -30,7 +30,7 @@ interface UserButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 
 const UserButton = React.forwardRef<HTMLButtonElement, UserButtonProps>(
   ({ variant = "default", size = "default", className = "", children, ...props }, ref) => {
-    const baseStyles = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+    const baseStyles = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
 
     const variants = {
       default: "bg-white text-black hover:bg-gray-100",
@@ -126,28 +126,36 @@ const Capabilities = () => {
 // ─── Subscription Matrix (Formerly Pricing) ──────────────────────────────────
 
 const PricingMatrix = () => {
+  const [cycle, setCycle] = useState<"monthly" | "annual">("monthly")
+
   const tiers = [
     {
+      id: "standard",
       name: "Standard",
-      price: "0",
+      priceMonthly: "19",
+      priceAnnual: "190",
       type: "Foundational",
-      features: ["5 Monthly Generations", "3 Content Vectors", "Standard Latency"],
+      features: ["50 Monthly Generations", "Basic Content Vectors", "Standard Latency", "Email Support"],
       cta: "Initialize",
       primary: false
     },
     {
+      id: "pro",
       name: "Professional",
-      price: "49",
+      priceMonthly: "49",
+      priceAnnual: "490",
       type: "High-Throughput",
-      features: ["Unlimited Generations", "All Content Vectors", "Priority Support", "History Export"],
+      features: ["Unlimited Generations", "All Content Vectors", "Ultra-Low Latency", "History Export", "24/7 Priority Support"],
       cta: "Deploy",
       primary: true
     },
     {
+      id: "enterprise",
       name: "Enterprise",
-      price: "Custom",
+      priceMonthly: "199",
+      priceAnnual: "1990",
       type: "Multi-Protocol",
-      features: ["White-label API", "Team Clusters", "Brand Voice DNA", "Account Lead"],
+      features: ["White-label API", "Team Clusters", "Brand Voice DNA", "Dedicated Account Lead", "Custom Onboarding"],
       cta: "Inquire",
       primary: false
     }
@@ -156,9 +164,25 @@ const PricingMatrix = () => {
   return (
     <section id="pricing" className="py-32 px-6 bg-zinc-950 text-white border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-24">
+        <div className="text-center mb-20">
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-primary mb-4">Value Proposition</p>
-          <h2 className="text-5xl md:text-6xl font-bold font-display tracking-tight">Scale Your <span className="italic">Authority</span>.</h2>
+          <h2 className="text-5xl md:text-6xl font-bold font-display tracking-tight mb-8">Scale Your <span className="italic">Authority</span>.</h2>
+          
+          {/* Cycle Toggle */}
+          <div className="flex items-center justify-center gap-4">
+            <span className={cn("text-xs font-bold uppercase tracking-widest transition-colors", cycle === "monthly" ? "text-white" : "text-zinc-600")}>Monthly</span>
+            <button 
+              onClick={() => setCycle(cycle === "monthly" ? "annual" : "monthly")}
+              className="relative w-14 h-7 rounded-none bg-white/5 border border-white/10 p-1 transition-colors hover:border-white/20"
+            >
+              <motion.div 
+                animate={{ x: cycle === "monthly" ? 0 : 28 }}
+                className="w-5 h-5 rounded-none bg-primary"
+              />
+            </button>
+            <span className={cn("text-xs font-bold uppercase tracking-widest transition-colors", cycle === "annual" ? "text-white" : "text-zinc-600")}>Annual</span>
+            <Badge variant="default" className="text-[10px] bg-primary/10 text-primary border-primary/20 font-black">20% OFF</Badge>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 border border-white/5 rounded-none overflow-hidden bg-black/40 backdrop-blur-xl">
@@ -181,10 +205,20 @@ const PricingMatrix = () => {
               <div className="mb-12">
                 <p className="text-[10px] font-mono uppercase text-zinc-500 mb-2">[{tier.type}]</p>
                 <h3 className="text-3xl font-bold mb-4">{tier.name}</h3>
-                <div className="flex items-baseline">
-                  {tier.price !== "Custom" && <span className="text-sm font-mono mr-1 text-primary">$</span>}
-                  <span className="text-5xl font-bold tracking-tighter">{tier.price}</span>
-                  {tier.price !== "Custom" && <span className="text-xs text-zinc-500 ml-2">/mo</span>}
+                <div className="flex items-baseline h-12">
+                  <span className="text-sm font-mono mr-1 text-primary">$</span>
+                  <AnimatePresence mode="wait">
+                    <motion.span 
+                      key={cycle}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-5xl font-bold tracking-tighter"
+                    >
+                      {cycle === "monthly" ? tier.priceMonthly : tier.priceAnnual}
+                    </motion.span>
+                  </AnimatePresence>
+                  <span className="text-xs text-zinc-500 ml-2">/{cycle === "monthly" ? "mo" : "yr"}</span>
                 </div>
               </div>
 
@@ -197,16 +231,17 @@ const PricingMatrix = () => {
                 ))}
               </div>
 
-              <Button
-                variant={tier.primary ? "default" : "outline"}
+              <Link
+                href={`/api/billing?plan=${tier.id}&cycle=${cycle}`}
                 className={cn(
-                  "w-full h-14 rounded-none font-bold uppercase tracking-[0.2em] text-xs transition-all",
-                  tier.primary ? "bg-primary text-black hover:bg-primary/90" : "border-white/10 hover:bg-white/5",
-                  tier.primary && "hover:tracking-[0.3em]"
+                  "flex items-center justify-center w-full h-14 rounded-none font-bold uppercase tracking-[0.2em] text-xs transition-all",
+                  tier.primary 
+                    ? "bg-primary text-black hover:bg-primary/90 hover:tracking-[0.3em]" 
+                    : "border border-white/10 text-white hover:bg-white/5"
                 )}
               >
                 {tier.cta}
-              </Button>
+              </Link>
             </div>
           ))}
         </div>

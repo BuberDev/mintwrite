@@ -27,7 +27,7 @@ export type ProjectInput = Omit<Project, 'id' | 'userId' | 'createdAt' | 'update
 
 // ─── User & Tiers ─────────────────────────────────────────────────────────────
 
-export type UserTier = 'free' | 'pro' | 'agency'
+export type UserTier = 'free' | 'standard' | 'pro' | 'enterprise'
 
 export interface UserTierInfo {
   tier: UserTier

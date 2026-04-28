@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Check, Crown, Building2, Zap } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import AuthControls from "@/components/auth/AuthControls"
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(false)
@@ -24,7 +25,7 @@ export default function PricingPage() {
       ],
       icon: Zap,
       buttonText: 'Start for Free',
-      href: '/dashboard',
+      href: '/sign-up',
       variant: 'free',
     },
     {
@@ -42,7 +43,7 @@ export default function PricingPage() {
       ],
       icon: Crown,
       buttonText: 'Get Pro Access',
-      href: '/dashboard',
+      href: '/sign-up?intent=upgrade&plan=pro&cycle=' + (isAnnual ? 'annual' : 'monthly'),
       variant: 'pro',
       highlight: true,
     },
@@ -60,7 +61,7 @@ export default function PricingPage() {
       ],
       icon: Building2,
       buttonText: 'Get Agency Access',
-      href: '/dashboard',
+      href: '/sign-up?intent=upgrade&plan=agency&cycle=' + (isAnnual ? 'annual' : 'monthly'),
       variant: 'agency',
     }
   ]
@@ -68,6 +69,9 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-dark-900 text-dark-100 py-24 px-6">
       <div className="max-w-6xl mx-auto">
+        <div className="flex justify-end mb-10">
+          <AuthControls mode="landing" />
+        </div>
         <header className="text-center mb-16">
           <Badge variant="pro" className="mb-4">Pricing Plans</Badge>
           <h1 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
@@ -125,14 +129,11 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link href={plan.href} className="w-full">
-                <Button
-                  variant={plan.highlight ? 'primary' : 'secondary'}
-                  className="w-full h-12 text-md"
-                >
+              <Button asChild variant={plan.highlight ? 'primary' : 'secondary'} className="w-full h-12 text-md">
+                <Link href={plan.href}>
                   {plan.buttonText}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </Card>
           ))}
         </div>
