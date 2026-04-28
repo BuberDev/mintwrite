@@ -46,7 +46,10 @@ export default function BillingPage() {
     fetchBilling()
   }, [])
 
-  const plans = useMemo(() => [
+  const plans = useMemo(() => {
+    const isPaidUser = billing?.plan !== "free" && billing?.plan !== undefined && billing?.stripeSubscriptionId != null;
+
+    return [
     {
       name: "Free",
       price: "$0",
@@ -59,7 +62,7 @@ export default function BillingPage() {
         "Community support",
       ],
       icon: Sparkles,
-      buttonText: billing?.plan === "free" ? "Current plan" : "Downgrade available in portal",
+      buttonText: billing?.plan === "free" ? "Current plan" : (isPaidUser ? "Downgrade in portal" : "Downgrade"),
       variant: "free" as const,
       disabled: true,
     },
@@ -77,7 +80,7 @@ export default function BillingPage() {
         "Priority email support",
       ],
       icon: Crown,
-      buttonText: billing?.plan === "pro" ? "Current plan" : "Upgrade to Pro",
+      buttonText: billing?.plan === "pro" ? "Current plan" : (isPaidUser ? "Change plan in portal" : "Upgrade to Pro"),
       variant: "pro" as const,
       highlight: true,
     },
@@ -94,13 +97,17 @@ export default function BillingPage() {
         "Custom brand voice (Soon)",
       ],
       icon: ShieldCheck,
-      buttonText: billing?.plan === "agency" ? "Current plan" : "Upgrade to Agency",
+      buttonText: billing?.plan === "agency" ? "Current plan" : (isPaidUser ? "Change plan in portal" : "Upgrade to Agency"),
       variant: "agency" as const,
     },
-  ], [billing?.plan, cycle])
+  ]}, [billing?.plan, billing?.stripeSubscriptionId, cycle])
 
-  const billingHref = (plan: Exclude<BillingPlan, "free">) =>
-    `/api/billing?plan=${plan}&cycle=${cycle}`
+  const billingHref = (plan: Exclude<BillingPlan, "free">) => {
+    if (billing?.plan !== "free" && billing?.stripeSubscriptionId) {
+      return "/api/billing/portal"
+    }
+    return `/api/billing?plan=${plan}&cycle=${cycle}`
+  }
 
   const handlePortal = async () => {
     window.location.assign("/api/billing/portal")
@@ -152,7 +159,14 @@ export default function BillingPage() {
             <div className="flex items-center justify-between mb-10 border-b border-dark-800 pb-6">
               <div className="space-y-1">
                 <p className="text-[10px] font-mono text-brand-500 uppercase tracking-[0.2em]">Active License</p>
-                <h3 className="text-xl font-bold tracking-tight">{billing.plan.toUpperCase()}</h3>
+                <div className="flex items-center gap-3">
+                  <h3 className="text-xl font-bold tracking-tight">{billing.plan.toUpperCase()}</h3>
+                  {billing.stripeStatus && billing.stripeStatus !== "active" && billing.plan !== "free" && (
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-red-500 bg-red-500/10 px-2 py-1 border border-red-500/20">
+                      {billing.stripeStatus.replace("_", " ")}
+                    </span>
+                  )}
+                </div>
               </div>
               <Badge variant={billing.plan as any}>{billing.plan}</Badge>
             </div>

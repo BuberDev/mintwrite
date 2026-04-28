@@ -2,7 +2,9 @@ import { NextRequest } from "next/server";
 import { upsertBillingState, BillingPlan } from "@/lib/db/billing";
 import { getStripe } from "@/lib/stripe";
 import { getCurrentUserId } from "@/lib/auth/session";
-import { db } from "@/lib/db/client";
+import { db } from "@/lib/db/drizzle";
+import { users } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 export const runtime = "nodejs";
 
@@ -66,9 +68,10 @@ export async function GET(req: NextRequest) {
     }
 
     const plan = getTierForPlan(session.metadata?.plan);
-    const tier = plan;
 
-    await db.query("UPDATE users SET tier = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2", [tier, ownerId]);
+    await db.update(users)
+      .set({ tier: plan, updatedAt: new Date() })
+      .where(eq(users.id, ownerId));
 
     await upsertBillingState({
       ownerId,

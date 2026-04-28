@@ -17,6 +17,23 @@ function getPlanFromMetadata(metadata: Record<string, string> | null | undefined
   return "free";
 }
 
+function getPlanFromPriceId(priceId: string | undefined): BillingPlan | null {
+  if (!priceId) return null;
+  if (priceId === process.env.STRIPE_PRO_MONTHLY_PRICE_ID) return "pro";
+  if (priceId === process.env.STRIPE_PRO_ANNUAL_PRICE_ID) return "pro";
+  if (priceId === process.env.STRIPE_AGENCY_MONTHLY_PRICE_ID) return "agency";
+  if (priceId === process.env.STRIPE_AGENCY_ANNUAL_PRICE_ID) return "agency";
+  return null;
+}
+
+function getCycleFromPriceId(priceId: string | undefined): "monthly" | "annual" | null {
+  if (!priceId) return null;
+  if (priceId === process.env.STRIPE_PRO_ANNUAL_PRICE_ID || priceId === process.env.STRIPE_AGENCY_ANNUAL_PRICE_ID) {
+    return "annual";
+  }
+  return "monthly";
+}
+
 export async function POST(req: Request) {
   const stripe = getStripe();
   const rawBody = await req.text();
@@ -87,7 +104,12 @@ export async function POST(req: Request) {
         const ownerId = await findBillingOwnerIdByStripeCustomerId(customerId);
         if (!ownerId) break;
 
-        const plan = getPlanFromMetadata(subscription.metadata);
+        const priceId = subscription.items?.data?.[0]?.price?.id;
+        const derivedPlan = getPlanFromPriceId(priceId);
+        const derivedCycle = getCycleFromPriceId(priceId);
+
+        const plan = derivedPlan || getPlanFromMetadata(subscription.metadata);
+        const cycle = derivedCycle || (subscription.metadata?.cycle === "annual" ? "annual" : "monthly");
         const activePlan = event.type === "customer.subscription.deleted" ? "free" : plan;
 
         await db.update(users)
@@ -97,7 +119,7 @@ export async function POST(req: Request) {
         await upsertBillingState({
           ownerId,
           plan: activePlan,
-          cycle: subscription.metadata?.cycle === "annual" ? "annual" : "monthly",
+          cycle,
           stripeCustomerId: customerId,
           stripeSubscriptionId: subscription.id,
           stripeStatus: subscription.status ?? null,

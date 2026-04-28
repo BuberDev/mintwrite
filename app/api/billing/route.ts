@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { getCurrentUserId } from "@/lib/auth/session";
 import { getStripe } from "@/lib/stripe";
-import { BillingPlan, BillingCycle } from "@/lib/db/billing";
+import { BillingPlan, BillingCycle, getBillingState } from "@/lib/db/billing";
 import { getStripePriceId, SUBSCRIPTION_TIERS } from "@/lib/subscriptions";
 
 export const runtime = "nodejs";
@@ -43,8 +43,14 @@ export async function GET(req: NextRequest) {
     return Response.redirect(signInUrl.toString(), 302);
   }
 
+  const billingState = await getBillingState(ownerId);
+
+  if (billingState.plan !== "free" && billingState.stripeSubscriptionId) {
+    return Response.redirect(new URL("/api/billing/portal", req.url).toString(), 302);
+  }
+
   try {
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig: any = {
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${appUrl}/api/billing/complete?session_id={CHECKOUT_SESSION_ID}`,
@@ -63,7 +69,14 @@ export async function GET(req: NextRequest) {
         },
       },
       allow_promotion_codes: true,
-    });
+    };
+
+    if (billingState.stripeCustomerId) {
+      sessionConfig.customer = billingState.stripeCustomerId;
+      sessionConfig.customer_update = { name: "auto" };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     if (!session.url) {
       throw new Error("Stripe session URL is missing");
