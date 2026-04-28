@@ -1,0 +1,73 @@
+# Mint Write
+
+> AI-native content marketing platform for Web3 founders. Generate Twitter/X threads, Discord announcements, tokenomics explainers, blog posts, AMA scripts, and whitepaper summaries in under 60 seconds.
+
+Mint Write is a SaaS platform that generates professional marketing and community content specifically designed for Web3 projects. Unlike generic AI tools (ChatGPT, Jasper, Copy.ai), Mint Write understands Web3 terminology, tokenomics vocabulary, DeFi culture, and required regulatory disclaimers ("not financial advice"). It is purpose-built for crypto founders, not adapted from general-purpose writers.
+
+## The Problem Mint Write Solves
+
+Web3 founders are typically developers, not marketers. Writing quality content for every platform (Twitter/X, Discord, Medium, community forums) takes 4–8 hours per milestone. Generic AI tools produce inaccurate crypto content — wrong tokenomics language, missing disclaimers, no protocol-level context. Web3 marketing agencies charge $5,000–$20,000/month.
+
+Mint Write fills this gap at $49/month — 100× cheaper than an agency.
+
+## Content Types Generated
+
+- **Twitter/X Threads** — 8–12 tweet sequences engineered for algorithmic retention and community growth
+- **Discord Announcements** — Community posts with engagement hooks and Discord markdown formatting
+- **Tokenomics Explainers** — Complex token mechanics translated into clear, human-readable value propositions
+- **Blog Posts / Medium Articles** — Long-form content for project launches, milestones, and technical vision
+- **AMA Scripts** — Strategic Q&A frameworks for community AMAs and investor relations sessions
+- **Whitepaper Summaries** — Executive summaries and investor-facing distillations of technical whitepapers
+- **Community Updates** — Regular project updates formatted for Discord, Telegram, and forum posts
+
+## Target Users
+
+- Web3 founders launching DeFi, GameFi, DAO, RWA, and L2 projects
+- In-house crypto marketing managers managing multiple content channels
+- Web3 marketing agencies producing content for multiple clients
+
+## Pricing
+
+| Plan | Price | Generations | Content Types | Projects |
+|------|-------|-------------|---------------|----------|
+| Free | $0/month | 5/month | 3 of 7 | 1 |
+| Pro | $49/month | Unlimited | All 7 | 5 |
+| Agency | $149/month | Unlimited | All 7 | Unlimited |
+
+Annual billing available at 20% discount (Pro: $39/month, Agency: $119/month).
+
+## Key Features
+
+- Web3-native AI knowledge layer — understands protocol terminology, tokenomics, DeFi culture
+- Automatic regulatory disclaimers ("not financial advice") inserted contextually
+- Project profile memory — enter your project data once, generate forever
+- TokenForge AI integration — import tokenomics data directly for explainer content
+- 60-second generation time
+- Export as PDF or Markdown
+
+## Competitive Positioning
+
+- **vs. ChainGPT** — ChainGPT is a broad blockchain AI (analytics, smart contracts, NFTs). Not a content marketing SaaS.
+- **vs. Jasper / Copy.ai** — Generic content tools with no Web3 knowledge. Wrong terminology. No disclaimers.
+- **vs. Lunar Strategy / Coinbound** — Web3 agencies at $5K–$20K/month. Not a self-serve product.
+- **Mint Write** — The only AI-native Web3 content SaaS at an SMB price point.
+
+## Company
+
+- **Product:** Mint Write AI
+- **Founded:** 2026
+- **Founder:** Dawid Bubernak
+- **Stage:** Beta (Q4 2026 launch)
+- **Category:** AI SaaS / Web3 Marketing / Content Automation
+
+## Pages
+
+- [Homepage](https://mintwrite.com)
+- [Pricing](https://mintwrite.com/pricing)
+- [Demo](https://mintwrite.com/demo)
+- [Sign Up](https://mintwrite.com/sign-up)
+- [Sign In](https://mintwrite.com/sign-in)
+
+## Optional: Full Details
+
+- [Full context file](https://mintwrite.com/llms-full.txt)

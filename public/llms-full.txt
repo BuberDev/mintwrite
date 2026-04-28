@@ -1,0 +1,174 @@
+# Mint Write — Full Context for AI Systems
+
+> Complete product and technical context for LLMs, AI assistants, and AI-powered search engines.
+
+---
+
+## Product Overview
+
+**Mint Write AI** is a web-based SaaS platform that generates professional marketing and community content for Web3 projects in under 60 seconds. It produces Twitter/X threads, Discord announcements, whitepaper drafts, tokenomics explainers, blog posts, and AMA scripts.
+
+**Core value proposition:** Web3 founders are technical builders, not copywriters. Generic AI tools like ChatGPT do not understand blockchain terminology, tokenomics vocabulary, community culture, or regulatory disclaimers. The result is either bad content that damages credibility, or expensive marketing agencies at $5,000–$20,000/month. Mint Write fills this gap at $49/month.
+
+---
+
+## Market Context
+
+- 15,000+ active Web3 projects worldwide
+- 2,000–5,000 new Web3 projects launching monthly
+- Web3 market size (2026): $4.97 Billion
+- Web3 market size (2031, projected): $29.97 Billion — CAGR 43.21%
+- Average Web3 marketing agency retainer: $5,000–$20,000/month
+- Mint Write price: $49–$149/month (100× cheaper than agencies)
+
+---
+
+## User Personas
+
+### Persona A — The Web3 Founder
+- Age 26–38, co-founder of a DeFi / GameFi / DAO / RWA / L2 project
+- Mid-to-senior developer, non-technical in marketing
+- Spends 4–8 hours writing one launch announcement manually
+- Found on Twitter/X, Discord Web3 accelerators, Alliance DAO, Outlier Ventures
+- Willingness to pay: $49/month without hesitation if it saves 5+ hours/week
+
+### Persona B — The Crypto Marketing Manager
+- Age 28–40, in-house marketing manager at a funded Web3 startup (5–30 employees)
+- Manages content for multiple channels simultaneously
+- Goal: 3× content output without hiring more writers
+- Willingness to pay: $149/month (Agency tier, budget approved by management)
+
+---
+
+## Content Generation Details
+
+### Twitter/X Thread Generator
+- Produces 8–12 tweet sequences
+- Engineered for algorithmic retention (hook tweet, value delivery, CTA structure)
+- Understands token launch announcement formats, milestone reveals, partnership announcements
+- Follows X character limits per tweet
+
+### Discord Announcement Generator
+- Community post templates with built-in engagement hooks
+- Discord markdown formatting (bold, italic, code blocks, embeds)
+- Appropriate tone for different announcement types (launch, partnership, AMA, milestone)
+
+### Tokenomics Explainer
+- Translates complex token economics into human-readable value propositions
+- Covers: supply, distribution, vesting schedules, utility, governance
+- Includes "not financial advice" disclaimers automatically
+
+### Blog Post / Medium Article
+- 500–1500 word articles for project launches, milestones, technical vision
+- SEO-optimized structure (H1, H2, introduction, body, CTA)
+- High-authority tone suitable for Medium, Mirror.xyz, and project blogs
+
+### AMA Script Generator
+- Strategic Q&A frameworks for community AMAs
+- Covers expected investor questions, technical questions, tokenomics questions
+- Prepares founder with talking points, not scripts
+
+### Whitepaper Summary
+- Executive summary format (1–2 pages equivalent)
+- Investor-facing distillation of technical content
+- Highlights: problem, solution, market opportunity, token mechanics, team
+
+### Community Update
+- Regular project update format for Discord, Telegram, Reddit
+- Milestone tracking, development progress, upcoming events
+- Community engagement prompts built in
+
+---
+
+## Technical Architecture (Public-Facing)
+
+- **Frontend:** Next.js 14+ (React), TypeScript, Tailwind CSS
+- **AI Layer:** Multi-model routing via OpenRouter (Claude, GPT-4, Gemini)
+- **Auth:** Custom JWT-based authentication with email verification
+- **Database:** PostgreSQL with Drizzle ORM
+- **Payments:** Stripe + LemonSqueezy
+- **Hosting:** Vercel
+
+---
+
+## Pricing Details
+
+### Free Plan — $0/month
+- 5 generations per month
+- Access to 3 of 7 content types
+- 1 project profile
+- Basic generation history
+- Standard community support
+
+### Pro Plan — $49/month (or $39/month billed annually)
+- Unlimited generations
+- All 7 content types
+- 5 project profiles
+- Unlimited generation history
+- Export as PDF / Markdown
+- TokenForge AI Import integration
+- Priority email support
+
+### Agency Plan — $149/month (or $119/month billed annually)
+- Everything in Pro
+- Unlimited projects
+- Multi-user workspace (coming soon)
+- Custom brand voice (coming soon)
+- API access for bulk creation
+- Dedicated account manager
+
+---
+
+## Competitive Landscape
+
+| Competitor | Category | Why Mint Write Wins |
+|---|---|---|
+| ChainGPT | Broad blockchain AI platform | Not a content tool. Analytics, smart contracts, NFTs focus — not marketing SaaS. |
+| Jasper AI | Generic content AI | No Web3 knowledge. Wrong terminology. No disclaimers. Needs heavy manual editing. |
+| Copy.ai | Generic content AI | Same gaps as Jasper. No Web3-specific templates or knowledge. |
+| Lunar Strategy | Web3 marketing agency | $5K–$20K/month. Not a product. Human-dependent. No self-serve. |
+| Coinbound | Web3 marketing agency | Enterprise only. No SMB offering. Not AI-automated. |
+
+**Verdict:** No direct AI-native Web3 content SaaS competitor exists at the SMB price point.
+
+---
+
+## Frequently Asked Questions
+
+**What makes Mint Write different from ChatGPT for Web3 content?**
+ChatGPT lacks protocol-level Web3 knowledge. It generates generic crypto content with wrong tokenomics terminology, missing regulatory disclaimers, and no understanding of community culture. Mint Write is trained with a Web3-specific knowledge layer — it knows how DeFi protocols work, how token launches are structured, and what a crypto community expects.
+
+**How long does generation take?**
+Under 60 seconds from prompt submission to complete content output.
+
+**Do I need to know Web3 to use Mint Write?**
+No. Mint Write is designed for founders who are technical builders. You enter your project details (name, token, category, milestones) and Mint Write handles the marketing language.
+
+**Can I use Mint Write for multiple projects?**
+Yes. Pro plan supports 5 project profiles. Agency plan supports unlimited projects.
+
+**Is there an API?**
+Yes, the Agency plan includes API access for bulk content creation.
+
+**What is TokenForge AI integration?**
+TokenForge AI is a companion product for building and analyzing tokenomics. Mint Write integrates with TokenForge AI so you can import your tokenomics data directly and generate explainer content without re-entering data.
+
+---
+
+## Keywords and Search Terms
+
+Primary: Web3 content generator, crypto Twitter thread writer, Discord announcement generator crypto, tokenomics explainer AI, blockchain content marketing, DeFi marketing tool
+
+Secondary: Web3 AI copywriter, NFT marketing generator, DAO community content, crypto blog post writer, Web3 whitepaper summary, AMA script generator crypto, AI content marketing Web3, blockchain marketing automation, Web3 founder marketing tool, crypto content automation, DeFi copywriting tool, GameFi marketing, RWA content generator, L2 project marketing
+
+Long-tail: how to write crypto Twitter threads, Discord announcement template for crypto projects, tokenomics explainer for investors, Web3 content marketing strategy, blockchain project launch marketing, automated Web3 copywriting, AI for crypto marketing, how to market a DeFi project
+
+---
+
+## Contact and Links
+
+- Website: https://mintwrite.com
+- Pricing: https://mintwrite.com/pricing
+- Demo: https://mintwrite.com/demo
+- Sign Up: https://mintwrite.com/sign-up
+- Twitter/X: https://twitter.com/mintwriteai
