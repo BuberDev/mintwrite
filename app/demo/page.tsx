@@ -1,6 +1,5 @@
-import React from "react"
-import SaasTemplate from "@/components/ui/saa-s-template"
+import { redirect } from 'next/navigation'
 
 export default function DemoPage() {
-  return <SaasTemplate />
+  redirect('/#demo')
 }

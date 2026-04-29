@@ -10,7 +10,7 @@ CREATE TABLE "billing" (
 	"stripe_status" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	CONSTRAINT "billing_plan_check" CHECK ("billing"."plan" IN ('free', 'standard', 'pro', 'enterprise')),
+	CONSTRAINT "billing_plan_check" CHECK ("billing"."plan" IN ('free', 'pro', 'agency')),
 	CONSTRAINT "billing_cycle_check" CHECK ("billing"."cycle" IN ('monthly', 'annual'))
 );
 --> statement-breakpoint

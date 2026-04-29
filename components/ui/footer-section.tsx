@@ -1,8 +1,7 @@
 'use client';
 import React from 'react';
 import type { ComponentProps, ReactNode } from 'react';
-import { motion, useReducedMotion } from 'framer-motion'; // Changed to framer-motion as it's the standard for React 18+ and supports the features
-import { FacebookIcon, InstagramIcon, LinkedinIcon, YoutubeIcon, GithubIcon } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface FooterLink {
 	title: string;
@@ -19,37 +18,24 @@ const footerLinks: FooterSection[] = [
 	{
 		label: 'Product',
 		links: [
-			{ title: 'Features', href: '#features' },
-			{ title: 'Pricing', href: '#pricing' },
-			{ title: 'Testimonials', href: '#testimonials' },
-			{ title: 'Integration', href: '/' },
+			{ title: 'Features', href: '/#features' },
+			{ title: 'Pricing', href: '/pricing' },
+			{ title: 'Demo', href: '/#demo' },
+			{ title: 'FAQ', href: '/faq' },
 		],
 	},
 	{
-		label: 'Company',
+		label: 'Legal',
 		links: [
-			{ title: 'FAQs', href: '/faqs' },
-			{ title: 'About Us', href: '/about' },
 			{ title: 'Privacy Policy', href: '/privacy' },
-			{ title: 'Terms of Services', href: '/terms' },
+			{ title: 'Terms of Service', href: '/terms' },
 		],
 	},
 	{
-		label: 'Resources',
+		label: 'Support',
 		links: [
-			{ title: 'Blog', href: '/blog' },
-			{ title: 'Changelog', href: '/changelog' },
-			{ title: 'Brand', href: '/brand' },
-			{ title: 'Help', href: '/help' },
-		],
-	},
-	{
-		label: 'Social Links',
-		links: [
-			{ title: 'Twitter', href: '#', icon: GithubIcon }, // Using Github as placeholder for X/Twitter if needed
-			{ title: 'Instagram', href: '#', icon: InstagramIcon },
-			{ title: 'Youtube', href: '#', icon: YoutubeIcon },
-			{ title: 'LinkedIn', href: '#', icon: LinkedinIcon },
+			{ title: 'Contact Us', href: 'mailto:support@mintwrite.com' },
+			{ title: 'Twitter / X', href: 'https://twitter.com/mintwriteai' },
 		],
 	},
 ];
@@ -71,6 +57,9 @@ export function Footer() {
 					</div>
 					<p className="text-muted-foreground mt-8 text-sm md:mt-0">
 						© {new Date().getFullYear()} Mint Write. All rights reserved.
+					</p>
+					<p className="text-zinc-600 text-xs mt-2">
+						support@mintwrite.com
 					</p>
 				</AnimatedContainer>
 

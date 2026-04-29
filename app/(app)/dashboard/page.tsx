@@ -4,16 +4,16 @@ import { CONTENT_TYPES } from "@/lib/ai/content-types"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { 
-  ArrowRight, 
-  Lock, 
-  Sparkles, 
-  Twitter, 
-  MessagesSquare, 
-  Users, 
-  BarChart3, 
-  FileText, 
-  Mic2, 
+import {
+  ArrowRight,
+  Lock,
+  Sparkles,
+  XIcon,
+  MessagesSquare,
+  Users,
+  BarChart3,
+  FileText,
+  Mic2,
   BookOpen,
   Plus
 } from "lucide-react"
@@ -23,7 +23,7 @@ import { CreateProjectModal } from "@/components/modals/CreateProjectModal"
 import { useState, useEffect } from "react"
 
 const ICON_MAP: Record<string, any> = {
-  'twitter': Twitter,
+  'twitter': XIcon,
   'discord': MessagesSquare,
   'users': Users,
   'bar-chart': BarChart3,
@@ -46,7 +46,7 @@ export default function DashboardPage() {
         if (Array.isArray(data)) {
           setProjects(data)
         }
-      } catch (err) {
+      } catch {
         console.error("Failed to fetch projects")
       } finally {
         setIsLoadingProjects(false)
@@ -62,14 +62,14 @@ export default function DashboardPage() {
       if (Array.isArray(data)) {
         setProjects(data)
       }
-    } catch (err) {
+    } catch {
       console.error("Failed to refresh projects")
     }
   }
 
   return (
     <div className="max-w-7xl mx-auto space-y-12 py-8 px-4">
-      <motion.header 
+      <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-dark-600 pb-12"
@@ -83,7 +83,7 @@ export default function DashboardPage() {
             Protocol-level content synthesis. Select an specialized engine to begin documentation.
           </p>
         </div>
-        
+
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="flex items-center gap-6 bg-dark-900/50 p-6 border border-dark-600 backdrop-blur-sm">
             <div className="space-y-1">
@@ -96,10 +96,10 @@ export default function DashboardPage() {
               <p className="text-sm font-bold">12 / 20 <span className="text-dark-500 font-normal ml-1 text-[10px]">Assets</span></p>
             </div>
           </div>
-          
-          <Button 
+
+          <Button
             onClick={() => setIsModalOpen(true)}
-            variant="outline" 
+            variant="outline"
             className="h-20 px-8 border-brand-500/20 bg-brand-500/5 text-brand-500 hover:bg-brand-500/10 hover:border-brand-500/40 transition-all group"
           >
             <Plus className="size-4 mr-3 group-hover:scale-125 transition-transform" />
@@ -108,9 +108,9 @@ export default function DashboardPage() {
         </div>
       </motion.header>
 
-      <CreateProjectModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+      <CreateProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         onSuccess={refreshProjects}
       />
 
@@ -127,9 +127,10 @@ export default function DashboardPage() {
         </div>
 
         {projects.length === 0 && !isLoadingProjects ? (
-          <div 
+          <button
+            type="button"
             onClick={() => setIsModalOpen(true)}
-            className="group cursor-pointer p-12 border border-dashed border-dark-700 bg-white/[0.01] hover:bg-white/[0.02] hover:border-brand-500/50 transition-all text-center flex flex-col items-center gap-4"
+            className="group cursor-pointer p-12 border border-dashed border-dark-700 bg-white/[0.01] hover:bg-white/[0.02] hover:border-brand-500/50 transition-all text-center flex flex-col items-center gap-4 w-full"
           >
             <div className="h-12 w-12 rounded-full bg-dark-800 flex items-center justify-center text-dark-500 group-hover:text-brand-500 transition-colors">
               <Plus className="size-6" />
@@ -138,7 +139,7 @@ export default function DashboardPage() {
               <p className="text-sm font-bold text-dark-300">No project contexts initialized.</p>
               <p className="text-xs text-dark-500">Create your first project to enable specialized AI engines.</p>
             </div>
-          </div>
+          </button>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {projects.map((project, i) => (
@@ -159,7 +160,7 @@ export default function DashboardPage() {
                 </div>
                 <h3 className="text-lg font-bold text-white mb-1 group-hover:text-brand-500 transition-colors">{project.name}</h3>
                 <p className="text-xs text-dark-400 line-clamp-1 mb-6">{project.tagline}</p>
-                
+
                 <div className="flex items-center gap-2">
                   <Link href={`/generate/twitter-thread?project=${project.id}`} className="flex-1">
                     <Button variant="ghost" size="sm" className="w-full h-9 rounded-none bg-dark-800 text-[9px] font-black uppercase tracking-widest hover:bg-brand-500 hover:text-black transition-all">
@@ -184,7 +185,7 @@ export default function DashboardPage() {
             const isPro = type.tier === 'pro'
             const modelId = `CS-ENG-00${i + 1}`
             const Icon = ICON_MAP[type.icon] || Sparkles
-            
+
             return (
               <motion.div
                 key={type.id}
@@ -215,7 +216,7 @@ export default function DashboardPage() {
                     <p className="text-sm text-dark-400 leading-relaxed font-medium">
                       {type.description}
                     </p>
-                    
+
                     <div className="pt-6 border-t border-dark-800 space-y-3">
                       <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-dark-500">
                         <span>Latency</span>

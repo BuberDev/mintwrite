@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { getCurrentUserId } from "@/lib/auth/session";
 import { getStripe } from "@/lib/stripe";
 import { BillingPlan, BillingCycle, getBillingState } from "@/lib/db/billing";
-import { getStripePriceId, SUBSCRIPTION_TIERS } from "@/lib/subscriptions";
+import { getStripePriceId } from "@/lib/subscriptions";
 
 export const runtime = "nodejs";
 

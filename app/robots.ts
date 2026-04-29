@@ -9,11 +9,13 @@ export default function robots(): MetadataRoute.Robots {
                 allow: [
                     '/',
                     '/pricing',
-                    '/demo',
                     '/sign-in',
                     '/sign-up',
                     '/forgot-password',
                     '/reset-password',
+                    '/faq',
+                    '/privacy',
+                    '/terms',
                 ],
                 disallow: [
                     '/api/',

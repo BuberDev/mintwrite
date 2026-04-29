@@ -1,19 +1,12 @@
 "use client"
 
 import React, { useState } from "react"
-import {
-  ArrowRight, Menu, X, Check, Zap, Shield, Sparkles,
-  ChevronRight, Twitter, MessageSquare, BookOpen,
-  FileText, Users, Presentation, Lightbulb, Play
-} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { motion, AnimatePresence, Variants } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Footer } from "@/components/ui/footer-section"
-import { AnimatedGroup } from "@/components/ui/animated-group"
 
 import { HeroSection } from "@/components/ui/hero-section-1"
 import { Demo } from "@/components/ui/demo"
@@ -252,6 +245,154 @@ const PricingMatrix = () => {
 
 // ─── Narrative CTA ──────────────────────────────────────────────────────────
 
+// ─── Narrative CTA ──────────────────────────────────────────────────────────
+
+const HowItWorks = () => {
+  const steps = [
+    {
+      num: '01',
+      title: 'Create your project profile',
+      desc: 'Enter your project name, token ticker, category (DeFi, GameFi, RWA…), tagline, and social links. This is your brand voice — stored once, used every time.',
+    },
+    {
+      num: '02',
+      title: 'Choose your content type',
+      desc: 'Pick from 7 content types: X Thread, Discord Announcement, Tokenomics Explainer, Blog Post, AMA Script, Whitepaper Summary, or Community Update.',
+    },
+    {
+      num: '03',
+      title: 'Add context and generate',
+      desc: 'Fill in a few fields (topic, key points, tone) and hit Generate. Your Web3-native content streams to screen in under 60 seconds. Copy, edit, publish.',
+    },
+  ]
+
+  return (
+    <section id="how-it-works" className="py-32 px-6 bg-black text-white border-t border-white/5">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-20">
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-primary mb-4">Workflow</p>
+          <h2 className="text-5xl md:text-6xl font-bold font-display tracking-tight mb-6">
+            Three steps to <span className="italic text-primary">publish-ready</span> content.
+          </h2>
+          <p className="text-zinc-400 max-w-xl mx-auto text-sm">
+            No prompt engineering. No agency briefing. No waiting 3 days for a draft.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10">
+          {steps.map((step, i) => (
+            <div
+              key={step.num}
+              className={cn(
+                'p-12 flex flex-col border-white/10',
+                i < 2 && 'md:border-r',
+              )}
+            >
+              <span className="text-5xl font-black font-mono text-primary/20 mb-8">{step.num}</span>
+              <h3 className="text-xl font-bold mb-4 tracking-tight">{step.title}</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── FAQ Preview ──────────────────────────────────────────────────────────────
+
+const FaqPreview = () => {
+  const faqs = [
+    {
+      q: 'How is this different from ChatGPT?',
+      a: 'Generic AI models produce corporate-sounding copy with incorrect Web3 terminology. Mint Write is built on a protocol-level intelligence layer: it knows the difference between TGE and ICO, understands vesting mechanics, and writes in authentic founder voice.',
+    },
+    {
+      q: 'Who owns the content I generate?',
+      a: 'You do. Mint Write grants you a perpetual, worldwide licence to use, publish, and modify all generated content. We claim no IP rights over your outputs.',
+    },
+    {
+      q: 'Is it really 100× cheaper than an agency?',
+      a: 'Yes. Web3 content agencies charge $3,000–$10,000/month. Mint Write Pro is $49/month with unlimited generations.',
+    },
+    {
+      q: 'Does the free plan require a credit card?',
+      a: 'No. Free is genuinely free — 5 generations/month, 3 content types, 1 project profile. Upgrade when you need more.',
+    },
+  ]
+
+  return (
+    <section className="py-32 px-6 bg-zinc-950 text-white border-t border-white/5">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-16">
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-primary mb-4">FAQ</p>
+          <h2 className="text-4xl font-bold tracking-tight">Common questions.</h2>
+        </div>
+        <div className="divide-y divide-white/10 border border-white/10">
+          {faqs.map((item) => (
+            <details key={item.q} className="group">
+              <summary className="flex items-center justify-between gap-4 cursor-pointer p-6 list-none hover:bg-white/[0.02] transition-colors">
+                <span className="font-semibold text-sm leading-relaxed">{item.q}</span>
+                <span className="text-primary shrink-0 text-lg font-mono group-open:rotate-45 transition-transform duration-200">+</span>
+              </summary>
+              <div className="px-6 pb-6 text-zinc-400 text-sm leading-relaxed">{item.a}</div>
+            </details>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <a href="/faq" className="text-xs font-mono uppercase tracking-widest text-primary hover:opacity-70 transition-opacity">
+            View all questions →
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Roadmap ─────────────────────────────────────────────────────────────────
+
+const Roadmap = () => {
+  const items = [
+    { status: 'live', label: 'Live', title: 'X Thread Generator', desc: '280-char formatted threads with hooks and calls to action.' },
+    { status: 'live', label: 'Live', title: 'Discord Announcements', desc: 'Role-mention formatted messages for server drops and updates.' },
+    { status: 'live', label: 'Live', title: 'Tokenomics Explainer', desc: 'Markdown tables, vesting schedules, and emission narratives.' },
+    { status: 'building', label: 'Building', title: 'Multi-user Workspaces', desc: 'Invite your team. Shared project profiles, roles, and review queues.' },
+    { status: 'building', label: 'Building', title: 'Custom Brand Voice', desc: 'Upload past content — Mint Write learns your project\'s unique tone.' },
+    { status: 'planned', label: 'Planned', title: 'API Access', desc: 'Generate content programmatically. Pipe directly into your CMS or bot.' },
+    { status: 'planned', label: 'Planned', title: 'TokenForge AI Import', desc: 'Paste your tokenomics JSON — auto-generate full community explainer.' },
+  ]
+
+  const badge: Record<string, string> = {
+    live: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    building: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    planned: 'bg-zinc-800 text-zinc-500 border-zinc-700',
+  }
+
+  return (
+    <section className="py-32 px-6 bg-black text-white border-t border-white/5">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-20">
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-primary mb-4">Roadmap</p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">What we're building.</h2>
+          <p className="text-zinc-400 text-sm">Transparent. Public. Shaped by community feedback.</p>
+        </div>
+        <div className="space-y-0 border border-white/10 divide-y divide-white/10">
+          {items.map((item) => (
+            <div key={item.title} className="flex items-start gap-8 px-8 py-6 hover:bg-white/[0.02] transition-colors">
+              <span className={cn('mt-0.5 shrink-0 text-[9px] font-mono uppercase tracking-widest border px-2 py-0.5', badge[item.status])}>
+                {item.label}
+              </span>
+              <div>
+                <p className="font-semibold text-sm">{item.title}</p>
+                <p className="text-zinc-500 text-xs mt-1">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 const FinalCTA = () => {
   return (
     <section className="py-48 px-6 text-center bg-zinc-950 text-white border-t border-white/5">
@@ -279,10 +420,11 @@ export default function LandingPage() {
       <main>
         <HeroSection />
         <Capabilities />
-
+        <HowItWorks />
         <Demo />
-
         <PricingMatrix />
+        <Roadmap />
+        <FaqPreview />
         <FinalCTA />
       </main>
       <Footer />

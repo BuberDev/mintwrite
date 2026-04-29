@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, Sparkles, Crown, ShieldCheck, ArrowRight, CreditCard } from "lucide-react"
+import { Sparkles, Crown, ShieldCheck, ArrowRight } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
@@ -26,7 +26,6 @@ type BillingState = {
 
 export default function BillingPage() {
   const [billing, setBilling] = useState<BillingState | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [cycle, setCycle] = useState<BillingCycle>("monthly")
 
   useEffect(() => {
@@ -36,10 +35,8 @@ export default function BillingPage() {
         if (!res.ok) throw new Error("Failed to fetch billing state")
         const data = await res.json()
         setBilling(data.billing ?? null)
-      } catch (err) {
+      } catch {
         toast.error("Failed to load billing information")
-      } finally {
-        setIsLoading(false)
       }
     }
 
@@ -49,58 +46,72 @@ export default function BillingPage() {
   const plans = useMemo(() => {
     const isPaidUser = billing?.plan !== "free" && billing?.plan !== undefined && billing?.stripeSubscriptionId != null;
 
+    function freeButtonText() {
+      if (billing?.plan === "free") return "Current plan";
+      return isPaidUser ? "Downgrade in portal" : "Downgrade";
+    }
+    function proButtonText() {
+      if (billing?.plan === "pro") return "Current plan";
+      return isPaidUser ? "Change plan in portal" : "Upgrade to Pro";
+    }
+    function agencyButtonText() {
+      if (billing?.plan === "agency") return "Current plan";
+      return isPaidUser ? "Change plan in portal" : "Upgrade to Agency";
+    }
+
     return [
-    {
-      name: "Free",
-      price: "$0",
-      description: "Lead generation and testing.",
-      features: [
-        "5 generations / month",
-        "3 of 7 content types",
-        "1 project profile",
-        "Basic generation history",
-        "Community support",
-      ],
-      icon: Sparkles,
-      buttonText: billing?.plan === "free" ? "Current plan" : (isPaidUser ? "Downgrade in portal" : "Downgrade"),
-      variant: "free" as const,
-      disabled: true,
-    },
-    {
-      name: "Pro",
-      price: cycle === "annual" ? "$39 / mo" : "$49",
-      description: "The standard for Web3 founders.",
-      features: [
-        "Unlimited generations",
-        "All 7 content types",
-        "5 project profiles",
-        "Unlimited generation history",
-        "Export as PDF / Markdown",
-        "TokenForge AI Import",
-        "Priority email support",
-      ],
-      icon: Crown,
-      buttonText: billing?.plan === "pro" ? "Current plan" : (isPaidUser ? "Change plan in portal" : "Upgrade to Pro"),
-      variant: "pro" as const,
-      highlight: true,
-    },
-    {
-      name: "Agency",
-      price: cycle === "annual" ? "$119 / mo" : "$149",
-      description: "For agencies and in-house teams.",
-      features: [
-        "Everything in Pro",
-        "Unlimited projects",
-        "API access for bulk creation",
-        "Dedicated account manager",
-        "Multi-user workspace (Soon)",
-        "Custom brand voice (Soon)",
-      ],
-      icon: ShieldCheck,
-      buttonText: billing?.plan === "agency" ? "Current plan" : (isPaidUser ? "Change plan in portal" : "Upgrade to Agency"),
-      variant: "agency" as const,
-    },
-  ]}, [billing?.plan, billing?.stripeSubscriptionId, cycle])
+      {
+        name: "Free",
+        price: "$0",
+        description: "Lead generation and testing.",
+        features: [
+          "5 generations / month",
+          "3 of 7 content types",
+          "1 project profile",
+          "Basic generation history",
+          "Community support",
+        ],
+        icon: Sparkles,
+        buttonText: freeButtonText(),
+        variant: "free" as const,
+        disabled: true,
+      },
+      {
+        name: "Pro",
+        price: cycle === "annual" ? "$39 / mo" : "$49",
+        description: "The standard for Web3 founders.",
+        features: [
+          "Unlimited generations",
+          "All 7 content types",
+          "5 project profiles",
+          "Unlimited generation history",
+          "Export as PDF / Markdown",
+          "TokenForge AI Import",
+          "Priority email support",
+        ],
+        icon: Crown,
+        buttonText: proButtonText(),
+        variant: "pro" as const,
+        highlight: true,
+      },
+      {
+        name: "Agency",
+        price: cycle === "annual" ? "$119 / mo" : "$149",
+        description: "For agencies and in-house teams.",
+        features: [
+          "Everything in Pro",
+          "Unlimited projects",
+          "API access for bulk creation",
+          "Dedicated account manager",
+          "Multi-user workspace (Soon)",
+          "Custom brand voice (Soon)",
+        ],
+        icon: ShieldCheck,
+        buttonText: agencyButtonText(),
+        variant: "agency" as const,
+      },
+    ]
+  }, [billing?.plan, billing?.stripeSubscriptionId, cycle])
 
   const billingHref = (plan: Exclude<BillingPlan, "free">) => {
     if (billing?.plan !== "free" && billing?.stripeSubscriptionId) {
@@ -110,7 +121,7 @@ export default function BillingPage() {
   }
 
   const handlePortal = async () => {
-    window.location.assign("/api/billing/portal")
+    globalThis.location.assign("/api/billing/portal")
   }
 
   return (

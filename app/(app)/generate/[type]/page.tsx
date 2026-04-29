@@ -8,8 +8,7 @@ import { toast } from "sonner"
 import {
   ChevronLeft,
   Sparkles,
-  Wand2,
-  Twitter,
+  XIcon,
   MessagesSquare,
   Users,
   BarChart3,
@@ -23,7 +22,7 @@ import { motion } from "framer-motion"
 import { CreateProjectModal } from "@/components/modals/CreateProjectModal"
 
 const ICON_MAP: Record<string, any> = {
-  'twitter': Twitter,
+  'twitter': XIcon,
   'discord': MessagesSquare,
   'users': Users,
   'bar-chart': BarChart3,
@@ -32,16 +31,16 @@ const ICON_MAP: Record<string, any> = {
   'book-open': BookOpen,
 }
 
-export default function GeneratePage({ params }: { params: { type: string } }) {
+export default function GeneratePage({ params }: { readonly params: { type: string } }) {
   const contentType = getContentType(params.type)
   const [lastContext, setLastContext] = useState<Record<string, string>>({})
   const [projects, setProjects] = useState<any[]>([])
   const [selectedProjectId, setSelectedProjectId] = useState<string>("")
-  const [isInitialLoading, setIsInitialLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [generatedContent, setGeneratedContent] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  
+  const [showUpgradeBanner, setShowUpgradeBanner] = useState(false)
+
   // Persistence across re-renders
   const contentRef = useRef("")
 
@@ -61,10 +60,8 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
         if (data.length > 0) {
           setSelectedProjectId(data[0].id)
         }
-      } catch (err) {
+      } catch {
         toast.error("Failed to fetch projects")
-      } finally {
-        setIsInitialLoading(false)
       }
     }
     fetchProjects()
@@ -98,17 +95,23 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
         })
       })
 
-      if (!response.ok) throw new Error(`HTTP ${response.status}`)
-      
+      if (!response.ok) {
+        if (response.status === 403) {
+          setShowUpgradeBanner(true)
+          return
+        }
+        throw new Error(`HTTP ${response.status}`)
+      }
+
       const reader = response.body?.getReader()
       if (!reader) throw new Error("No reader available")
 
       const decoder = new TextDecoder()
-      
+
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
-        
+
         const chunk = decoder.decode(value, { stream: true })
         contentRef.current += chunk
         setGeneratedContent(contentRef.current)
@@ -117,7 +120,7 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
       }
 
       toast.success("Content generated!")
-      
+
       // Save to database
       const project = projects.find(p => p.id === selectedProjectId)
       await fetch('/api/generations', {
@@ -132,9 +135,13 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
         })
       })
 
-    } catch (err) {
+    } catch (err: any) {
       console.error("[MintWrite] Manual Fetch Error:", err)
-      toast.error("Generation failed. Check console.")
+      if (err?.message?.includes('403') || err?.message?.includes('HTTP 403')) {
+        setShowUpgradeBanner(true)
+      } else {
+        toast.error("Generation failed. Please try again.")
+      }
     } finally {
       setIsLoading(false)
     }
@@ -144,6 +151,19 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
 
   return (
     <div className="max-w-7xl mx-auto space-y-12 pb-24 px-4">
+      {showUpgradeBanner && (
+        <div className="border border-brand-500/40 bg-brand-500/10 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="font-semibold text-sm text-brand-400">Monthly generation limit reached</p>
+            <p className="text-xs text-dark-400 mt-1">Upgrade to Pro for unlimited generations and all 7 content types.</p>
+          </div>
+          <Link href="/billing">
+            <Button size="sm" className="shrink-0 bg-brand-500 hover:bg-brand-500/90 text-white rounded-none text-xs uppercase tracking-widest font-mono">
+              Upgrade to Pro
+            </Button>
+          </Link>
+        </div>
+      )}
       <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -176,7 +196,7 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
           <div className="space-y-2">
             <p className="text-[9px] font-mono text-dark-500 uppercase tracking-widest">Active Context</p>
             {projects.length > 0 ? (
-              <select 
+              <select
                 value={selectedProjectId}
                 onChange={(e) => setSelectedProjectId(e.target.value)}
                 className="bg-transparent text-sm font-bold border-none p-0 focus:ring-0 cursor-pointer hover:text-brand-500 transition-colors"
@@ -242,7 +262,7 @@ export default function GeneratePage({ params }: { params: { type: string } }) {
         </motion.div>
       </div>
 
-      <CreateProjectModal 
+      <CreateProjectModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSuccess={handleProjectCreated}

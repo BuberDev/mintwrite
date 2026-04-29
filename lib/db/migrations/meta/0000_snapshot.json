@@ -100,7 +100,7 @@
       "checkConstraints": {
         "billing_plan_check": {
           "name": "billing_plan_check",
-          "value": "\"billing\".\"plan\" IN ('free', 'standard', 'pro', 'enterprise')"
+          "value": "\"billing\".\"plan\" IN ('free', 'pro', 'agency')"
         },
         "billing_cycle_check": {
           "name": "billing_cycle_check",

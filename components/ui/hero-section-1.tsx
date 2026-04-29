@@ -95,14 +95,15 @@ export function HeroSection() {
                                             </div>
                                         </div>
                                     </Link>
-                        
+
                                     <h1
                                         className="mt-8 max-w-4xl mx-auto text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem] font-bold tracking-tighter leading-[0.9]">
                                         Technical <span className="text-primary italic">Authority</span> for Web3 Founders.
                                     </h1>
                                     <p
                                         className="mx-auto mt-8 max-w-2xl text-balance text-lg text-muted-foreground">
-                                        Standard LLMs fail in Web3 because they lack protocol-level context. Mint Write is the specific intelligence layer designed for high-stakes editorial, technical specs, and strategic communication.
+                                        Standard LLMs fail in Web3 because they lack protocol-level context. Mint Write is the specific intelligence layer designed for high-stakes editorial, technical specs, and strategic communication.{' '}
+                                        <span className="text-primary font-semibold">100× cheaper than a Web3 agency.</span>
                                     </p>
                                 </AnimatedGroup>
 
@@ -176,7 +177,7 @@ export function HeroSection() {
                                 <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary">Protocol Validation</p>
                                 <p className="text-xs text-muted-foreground mt-1">Validated across 12+ EVM chains.</p>
                             </div>
-                            
+
                             <div className="flex-1 flex flex-wrap justify-center md:justify-end items-center gap-x-12 gap-y-8 grayscale opacity-40 hover:opacity-100 transition-opacity duration-700">
                                 <div className="flex items-center gap-2">
                                     <span className="text-[10px] font-mono text-muted-foreground">[01]</span>
@@ -210,10 +211,10 @@ export function HeroSection() {
 const DashboardMockup = () => {
     const [activeTab, setActiveTab] = React.useState(0)
     const views = [
-        { 
-            name: 'Thread Architect', 
-            code: 'TH-812', 
-            title: 'L2 Scaling Strategy', 
+        {
+            name: 'Thread Architect',
+            code: 'TH-812',
+            title: 'L2 Scaling Strategy',
             file: 'ETH-L2-V2.MD',
             content: [
                 '1/ Scaling Ethereum is no longer just a technical hurdle; it\'s an editorial challenge. Modularity requires a new vocabulary. 🧵',
@@ -222,10 +223,10 @@ const DashboardMockup = () => {
             ],
             metrics: { signals: '82%', reach: 'High' }
         },
-        { 
-            name: 'Protocol Spec', 
-            code: 'TK-001', 
-            title: 'Tokenomics V3 Draft', 
+        {
+            name: 'Protocol Spec',
+            code: 'TK-001',
+            title: 'Tokenomics V3 Draft',
             file: 'TOKEN-MODEL.SPEC',
             content: [
                 '[PHASE-01] Deflationary mechanisms implemented via dynamic burn based on protocol volume.',
@@ -234,10 +235,10 @@ const DashboardMockup = () => {
             ],
             metrics: { logic: 'Validated', safety: 'Tier-1' }
         },
-        { 
-            name: 'Governance Proposal', 
-            code: 'GP-204', 
-            title: 'MIP-12 Integration', 
+        {
+            name: 'Governance Proposal',
+            code: 'GP-204',
+            title: 'MIP-12 Integration',
             file: 'GOV-MIP-12.MD',
             content: [
                 '## ABSTRACT: Proposal to integrate cross-chain liquidity anchors for the protocol treasury.',
@@ -246,10 +247,10 @@ const DashboardMockup = () => {
             ],
             metrics: { quorum: '65%', impact: 'High' }
         },
-        { 
-            name: 'Strategic Update', 
-            code: 'ST-910', 
-            title: 'Q3 Ecosystem Report', 
+        {
+            name: 'Strategic Update',
+            code: 'ST-910',
+            title: 'Q3 Ecosystem Report',
             file: 'STRAT-Q3.SPEC',
             content: [
                 '1/ TOTAL VALUE LOCKED: Growth of 124% YoY driven by institutional vaults.',
@@ -258,10 +259,10 @@ const DashboardMockup = () => {
             ],
             metrics: { growth: '124%', alpha: 'Tier-1' }
         },
-        { 
-            name: 'Community Pulse', 
-            code: 'DC-402', 
-            title: 'Protocol Launch', 
+        {
+            name: 'Community Pulse',
+            code: 'DC-402',
+            title: 'Protocol Launch',
             file: 'COMM-LAUNCH.TXT',
             content: [
                 '**ANNOUNCEMENT**: The Mint Write Protocol is now live on Mainnet. @everyone',
@@ -295,12 +296,12 @@ const DashboardMockup = () => {
                     </div>
                     <div className="h-px w-full bg-white/5" />
                 </div>
-                
+
                 <nav className="flex-1 space-y-1">
                     <p className="text-[8px] font-mono text-zinc-600 uppercase mb-4 tracking-widest">Workspace / Intelligence</p>
                     {views.map((item, i) => (
-                        <div 
-                            key={item.name} 
+                        <div
+                            key={item.name}
                             onClick={() => setActiveTab(i)}
                             className={cn(
                                 "flex items-center gap-3 py-2 px-3 transition-all duration-200 cursor-pointer group rounded-none",
@@ -323,7 +324,7 @@ const DashboardMockup = () => {
                     </div>
                 </div>
             </div>
-            
+
             {/* Main Area */}
             <div className="flex-1 flex flex-col bg-[#0a0a0a]">
                 <header className="h-14 border-b border-white/5 flex items-center justify-between px-8 bg-black/40">
@@ -353,7 +354,7 @@ const DashboardMockup = () => {
                         </div>
                     </div>
                 </header>
-                
+
                 <main className="flex-1 flex flex-col p-0">
                     <div className="bg-black/20 px-8 py-4 border-b border-white/5 flex justify-between items-center">
                         <div className="flex items-center gap-4">
@@ -369,12 +370,12 @@ const DashboardMockup = () => {
 
                     <div className="flex-1 p-10 space-y-12 overflow-hidden text-left relative">
                         <div className="absolute top-0 right-0 p-10 opacity-[0.02] pointer-events-none">
-                             <div className="text-[140px] font-black italic tracking-tighter uppercase leading-none">TERMINAL</div>
+                            <div className="text-[140px] font-black italic tracking-tighter uppercase leading-none">TERMINAL</div>
                         </div>
 
                         <div className="space-y-8">
                             <AnimatePresence mode="wait">
-                                <motion.div 
+                                <motion.div
                                     key={activeTab}
                                     initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
                                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -395,7 +396,7 @@ const DashboardMockup = () => {
                                 </motion.div>
                             </AnimatePresence>
                         </div>
-                        
+
                         <div className="pt-8 flex gap-8 items-center">
                             <div className="h-11 px-10 border border-primary flex items-center justify-center text-[10px] font-black uppercase tracking-[0.2em] text-black bg-primary hover:bg-primary/90 transition-all cursor-pointer active:scale-[0.98]">
                                 Finalize Output
@@ -407,12 +408,12 @@ const DashboardMockup = () => {
                         </div>
                     </div>
                 </main>
-                
+
                 <footer className="h-12 border-t border-white/5 bg-black/40 px-8 flex items-center justify-between text-[8px] font-mono text-zinc-600 tracking-[0.2em] uppercase">
                     <div className="flex gap-8 items-center">
                         <div className="flex items-center gap-2">
-                             <div className="size-1 bg-primary" />
-                             <span>Primary Node: 0x8A...2F4</span>
+                            <div className="size-1 bg-primary" />
+                            <span>Primary Node: 0x8A...2F4</span>
                         </div>
                         <span>Security: AES-256-GCM</span>
                         <span>Protocol: MV-LITE-X</span>

@@ -1,8 +1,10 @@
 import { Inter, Outfit, Source_Serif_4 } from 'next/font/google'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import './globals.css'
 import { Toast } from '@/components/ui/toast'
-import { cn } from "@/lib/utils";
+import { CookieBanner } from '@/components/ui/cookie-banner'
+import { cn } from "@/lib/utils"
 
 const inter = Inter({
   subsets: ['latin'],
@@ -108,7 +110,7 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Mint Write',
   url: BASE_URL,
-  logo: `${BASE_URL}/logo.png`,
+  logo: `${BASE_URL}/logo_mint_write.png`,
   sameAs: [
     'https://twitter.com/mintwriteai',
   ],
@@ -149,11 +151,6 @@ const softwareAppSchema = {
   description:
     'AI-powered Web3 content marketing platform. Generate Twitter/X threads, Discord announcements, tokenomics explainers, blog posts, AMA scripts, and whitepaper summaries for your crypto project in under 60 seconds.',
   screenshot: `${BASE_URL}/og-image.png`,
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.9',
-    reviewCount: '47',
-  },
 }
 
 export default function RootLayout({
@@ -176,6 +173,15 @@ export default function RootLayout({
       <body className="font-sans">
         {children}
         <Toast />
+        <CookieBanner />
+        {/* Plausible Analytics — only loads after cookie consent (handled in CookieBanner) */}
+        <Script
+          defer
+          data-domain="mintwrite.com"
+          src="https://plausible.io/js/script.js"
+          strategy="lazyOnload"
+          id="plausible"
+        />
       </body>
     </html>
   )
