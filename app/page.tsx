@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
@@ -297,6 +297,113 @@ const HowItWorks = () => {
   )
 }
 
+// ─── Process Preview (Distilled Intelligence) ───────────────────────────────
+
+const ProcessPreview = () => {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [text, setText] = useState("")
+  const fullText = `🧵 We've been building in silence. Today we break it.\n\nIntroducing $PROTO — a DeFi primitive that eliminates impermanent loss at the protocol level. Here's how it works: 1/8\n\nThe problem with existing AMMs: liquidity providers lose value during volatile periods. This "impermanent loss" has drained billions from LPs since Uniswap v2 launched.\n\nProtocol-level IL protection changes this entirely. 2/8`
+
+  useEffect(() => {
+    if (isPlaying) {
+      let i = 0
+      const interval = setInterval(() => {
+        setText(fullText.slice(0, i))
+        i++
+        if (i > fullText.length) clearInterval(interval)
+      }, 20)
+      return () => clearInterval(interval)
+    } else {
+      setText("")
+    }
+  }, [isPlaying])
+
+  const steps = [
+    { num: '01 /', title: 'INGESTION', desc: 'Protocol Spec Upload' },
+    { num: '02 /', title: 'CALIBRATION', desc: 'Tone & Vector Tuning' },
+    { num: '03 /', title: 'SYNTHESIS', desc: 'Multi-Platform Output' },
+  ]
+
+  return (
+    <section id="process" className="py-32 px-6 bg-zinc-950 text-white border-t border-white/5 relative overflow-hidden">
+      <div className="absolute top-0 right-0 p-32 opacity-[0.03] pointer-events-none">
+        <div className="text-[200px] font-black italic tracking-tighter uppercase leading-none">INTELLIGENCE</div>
+      </div>
+
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-6">Process Preview</p>
+            <h2 className="text-5xl md:text-7xl font-bold font-display tracking-tighter leading-none mb-8">
+              Distilled <br /> <span className="text-primary italic">Intelligence.</span>
+            </h2>
+            <p className="text-zinc-400 text-lg mb-12 max-w-md leading-relaxed">
+              Watch how we ingest raw protocol documentation and output production-grade social architecture in seconds. No prompt engineering required.
+            </p>
+
+            <div className="space-y-8">
+              {steps.map((step) => (
+                <div key={step.title} className="flex items-start gap-6 group">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-mono text-primary font-bold">{step.num}</span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black uppercase tracking-widest text-white mb-1">{step.title}</h3>
+                    <p className="text-xs text-zinc-500 uppercase tracking-widest">{step.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="aspect-video bg-black border border-white/10 relative overflow-hidden group shadow-2xl">
+              {/* Header */}
+              <div className="absolute top-0 inset-x-0 h-10 border-b border-white/10 bg-white/[0.02] flex items-center justify-between px-4 z-10">
+                <div className="flex items-center gap-4">
+                  <div className="size-2 rounded-full bg-red-500/20" />
+                  <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">CS_CORE_SYSTEM // BUFFER_ACTIVE</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="size-1 bg-primary animate-pulse" />
+                  <span className="text-[9px] font-mono text-primary uppercase">Syncing...</span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="absolute inset-0 p-12 pt-16 font-mono text-xs text-zinc-400 overflow-hidden">
+                {isPlaying ? (
+                  <pre className="whitespace-pre-wrap leading-relaxed text-zinc-300">
+                    {text}
+                    <span className="inline-block w-1.5 h-4 bg-primary animate-pulse ml-1 align-middle" />
+                  </pre>
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center text-center space-y-6">
+                    <button
+                      onClick={() => setIsPlaying(true)}
+                      className="size-20 rounded-full border border-primary/30 flex items-center justify-center bg-primary/10 hover:bg-primary hover:text-black transition-all group/play"
+                    >
+                      <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-current border-b-[12px] border-b-transparent ml-2" />
+                    </button>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600 font-bold group-hover:text-zinc-400 transition-colors">Click to synthesize demo</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Grid overlay */}
+              <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+            </div>
+
+            {/* Decorative elements */}
+            <div className="absolute -bottom-4 -right-4 size-24 border-r border-b border-primary/20 pointer-events-none" />
+            <div className="absolute -top-4 -left-4 size-24 border-l border-t border-primary/20 pointer-events-none" />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── FAQ Preview ──────────────────────────────────────────────────────────────
 
 const FaqPreview = () => {
@@ -356,8 +463,8 @@ const Roadmap = () => {
     { status: 'live', label: 'Live', title: 'Tokenomics Explainer', desc: 'Markdown tables, vesting schedules, and emission narratives.' },
     { status: 'live', label: 'Live', title: 'Multi-user Workspaces', desc: 'Invite your team. Shared project profiles, roles, and review queues.' },
     { status: 'live', label: 'Live', title: 'Custom Brand Voice', desc: 'Upload past content — Mint Write learns your project\'s unique tone.' },
-    { status: 'planned', label: 'Planned', title: 'API Access', desc: 'Generate content programmatically. Pipe directly into your CMS or bot.' },
-    { status: 'planned', label: 'Planned', title: 'TokenForge AI Import', desc: 'Paste your tokenomics JSON — auto-generate full community explainer.' },
+    { status: 'live', label: 'Live', title: 'API Access', desc: 'Generate content programmatically. Pipe directly into your CMS or bot.' },
+    { status: 'live', label: 'Live', title: 'TokenForge AI Import', desc: 'Paste your tokenomics JSON — auto-generate full community explainer.' },
   ]
 
   const badge: Record<string, string> = {
@@ -399,8 +506,8 @@ const FinalCTA = () => {
         <p className="text-xs font-mono uppercase tracking-[0.4em] text-primary mb-12">Execution Phase</p>
         <h2 className="text-6xl md:text-8xl font-bold font-display tracking-tight mb-12">Stop <span className="text-zinc-500">Drafting.</span> <br /> Start Leading.</h2>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-          <Button size="lg" className="h-16 px-12 rounded-none text-sm uppercase tracking-widest font-black bg-primary text-black hover:bg-primary/90">
-            Get Access Now
+          <Button asChild size="lg" className="h-16 px-12 rounded-none text-sm uppercase tracking-widest font-black bg-primary text-black hover:bg-primary/90">
+            <Link href="/sign-up">Get Access Now</Link>
           </Button>
           <Link href="#pricing" className="text-xs uppercase tracking-[0.3em] font-bold text-zinc-400 hover:text-primary transition-colors py-4">
             Browse Methodology
@@ -420,6 +527,7 @@ export default function LandingPage() {
         <HeroSection />
         <Capabilities />
         <HowItWorks />
+        <ProcessPreview />
         <Demo />
         <PricingMatrix />
         <Roadmap />

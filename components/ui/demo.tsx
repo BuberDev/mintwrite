@@ -40,9 +40,24 @@ const EXAMPLES = [
 
 export function Demo() {
     const [active, setActive] = React.useState(0)
+    const [isTyping, setIsTyping] = React.useState(false)
+    const [copied, setCopied] = React.useState(false)
 
     const example = EXAMPLES[active]
     const Icon = example.icon
+
+    React.useEffect(() => {
+        setIsTyping(true)
+        const timer = setTimeout(() => setIsTyping(false), 600)
+        return () => clearTimeout(timer)
+    }, [active])
+
+    const handleCopy = () => {
+        const text = example.content.join('\n\n')
+        navigator.clipboard.writeText(text)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+    }
 
     return (
         <section id="demo" className="py-32 relative border-t border-white/5 bg-zinc-950 text-white">
@@ -59,7 +74,7 @@ export function Demo() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Tab selector */}
-                    <div className="lg:col-span-3 flex flex-row lg:flex-col gap-2">
+                    <div className="lg:col-span-3 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0">
                         {EXAMPLES.map((ex, i) => {
                             const TabIcon = ex.icon
                             return (
@@ -67,13 +82,13 @@ export function Demo() {
                                     key={ex.id}
                                     onClick={() => setActive(i)}
                                     className={cn(
-                                        'flex items-center gap-3 px-4 py-3 text-left border transition-all duration-200 w-full',
+                                        'flex items-center gap-3 px-4 py-3 text-left border transition-all duration-200 min-w-[140px] lg:w-full rounded-none',
                                         active === i
-                                            ? 'border-primary bg-primary/10 text-white'
+                                            ? 'border-primary bg-primary/10 text-white shadow-[0_0_20px_rgba(0,212,170,0.05)]'
                                             : 'border-white/10 text-zinc-500 hover:border-white/20 hover:text-zinc-300'
                                     )}
                                 >
-                                    <TabIcon className="h-4 w-4 shrink-0" />
+                                    <TabIcon className={cn("h-4 w-4 shrink-0", active === i && "text-primary")} />
                                     <span className="text-xs font-mono uppercase tracking-widest">{ex.label}</span>
                                 </button>
                             )
@@ -91,36 +106,53 @@ export function Demo() {
 
                     {/* Output panel */}
                     <div className="lg:col-span-9">
-                        <div className="border border-white/10 bg-black/40 backdrop-blur-sm">
+                        <div className="border border-white/10 bg-black/40 backdrop-blur-sm relative group/panel">
                             {/* Header */}
                             <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/[0.02]">
                                 <div className="flex items-center gap-3">
                                     <Icon className="h-4 w-4 text-primary" />
                                     <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">{example.label} Output</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-[9px] font-mono text-zinc-600 uppercase">Generated in 4.2s</span>
-                                    <div className="size-2 rounded-full bg-primary animate-pulse" />
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[9px] font-mono text-zinc-600 uppercase">Generated in 4.2s</span>
+                                        <div className="size-2 rounded-full bg-primary animate-pulse" />
+                                    </div>
+                                    <button 
+                                        onClick={handleCopy}
+                                        className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 hover:text-primary transition-colors flex items-center gap-2 border border-white/10 px-2 py-1 bg-white/5"
+                                    >
+                                        {copied ? 'Copied' : 'Copy'}
+                                    </button>
                                 </div>
                             </div>
 
                             {/* Content */}
                             <div className="p-6 space-y-4 min-h-[320px]">
-                                {example.content.map((block, i) => (
-                                    <div key={block.slice(0, 30)} className="group relative">
-                                        {example.id === 'twitter' && (
-                                            <span className="absolute -top-1 -left-1 text-[9px] font-mono text-primary/40">
-                                                [{i + 1}/{example.content.length}]
-                                            </span>
-                                        )}
-                                        <pre className={cn(
-                                            "text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap font-sans",
-                                            example.id === 'twitter' && "pl-6 pb-2 border-b border-white/5 last:border-0"
-                                        )}>
-                                            {block}
-                                        </pre>
+                                {isTyping ? (
+                                    <div className="space-y-4">
+                                        <div className="h-4 bg-white/5 w-3/4 animate-pulse" />
+                                        <div className="h-4 bg-white/5 w-1/2 animate-pulse" />
+                                        <div className="h-4 bg-white/5 w-2/3 animate-pulse" />
+                                        <div className="h-4 bg-white/5 w-1/3 animate-pulse" />
                                     </div>
-                                ))}
+                                ) : (
+                                    example.content.map((block, i) => (
+                                        <div key={block.slice(0, 30)} className="group relative">
+                                            {example.id === 'twitter' && (
+                                                <span className="absolute -top-1 -left-1 text-[9px] font-mono text-primary/40">
+                                                    [{i + 1}/{example.content.length}]
+                                                </span>
+                                            )}
+                                            <pre className={cn(
+                                                "text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap font-sans",
+                                                example.id === 'twitter' && "pl-6 pb-2 border-b border-white/5 last:border-0"
+                                            )}>
+                                                {block}
+                                            </pre>
+                                        </div>
+                                    ))
+                                )}
                             </div>
 
                             {/* Footer */}
@@ -128,7 +160,7 @@ export function Demo() {
                                 <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
                                     Example output — fictional project for illustration
                                 </span>
-                                <Badge variant="default" className="text-[9px] bg-primary/10 text-primary border-primary/20">
+                                <Badge variant="default" className="text-[9px] bg-primary/10 text-primary border-primary/20 rounded-none">
                                     AI-generated
                                 </Badge>
                             </div>

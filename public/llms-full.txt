@@ -112,8 +112,8 @@
 ### Agency Plan — $149/month (or $119/month billed annually)
 - Everything in Pro
 - Unlimited projects
-- Multi-user workspace (coming soon)
-- Custom brand voice (coming soon)
+- Multi-user workspace
+- Custom brand voice
 - API access for bulk creation
 - Dedicated account manager
 
