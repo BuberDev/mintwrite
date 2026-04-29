@@ -9,6 +9,7 @@ import { getUserTierInfo } from '@/lib/utils/tier'
 import { getCurrentUserId } from '@/lib/auth/session'
 import { getOpenRouterModel, isOpenRouterConfigured } from '@/lib/ai/openrouter'
 import { eq, and } from 'drizzle-orm'
+import { getBrandVoiceById, buildBrandVoiceContext } from '@/lib/db/brand-voice'
 
 export const maxDuration = 120
 export const runtime = 'nodejs'
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
       )
     }
 
-    const { projectId, contentTypeId, context } = result.data
+    const { projectId, contentTypeId, context, brandVoiceId } = result.data
     const userId = await getCurrentUserId()
 
     if (!userId) {
@@ -77,9 +78,23 @@ export async function POST(req: Request) {
 
     const userPrompt = contentType.buildPrompt(project as any, context)
 
+    // Inject Brand Voice if provided (Agency feature)
+    let systemPrompt = MINTWRITE_SYSTEM_PROMPT
+    if (brandVoiceId && tier === 'agency') {
+      try {
+        const voice = await getBrandVoiceById(brandVoiceId, userId)
+        if (voice?.isAnalyzed && voice.analysis) {
+          const voiceContext = buildBrandVoiceContext(voice.analysis as any)
+          systemPrompt = `${MINTWRITE_SYSTEM_PROMPT}\n\n${voiceContext}`
+        }
+      } catch {
+        // Non-fatal: fallback to default prompt
+      }
+    }
+
     const response = await streamText({
       model: getOpenRouterModel(),
-      system: MINTWRITE_SYSTEM_PROMPT,
+      system: systemPrompt,
       prompt: userPrompt,
       temperature: 0.7,
     })

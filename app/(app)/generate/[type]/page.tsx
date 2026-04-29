@@ -14,7 +14,8 @@ import {
   BarChart3,
   FileText,
   Mic2,
-  BookOpen
+  BookOpen,
+  Fingerprint
 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -36,6 +37,8 @@ export default function GeneratePage({ params }: { readonly params: { type: stri
   const [lastContext, setLastContext] = useState<Record<string, string>>({})
   const [projects, setProjects] = useState<any[]>([])
   const [selectedProjectId, setSelectedProjectId] = useState<string>("")
+  const [brandVoices, setBrandVoices] = useState<any[]>([])
+  const [selectedBrandVoiceId, setSelectedBrandVoiceId] = useState<string>("")
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [generatedContent, setGeneratedContent] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -64,7 +67,22 @@ export default function GeneratePage({ params }: { readonly params: { type: stri
         toast.error("Failed to fetch projects")
       }
     }
+
+    async function fetchBrandVoices() {
+      try {
+        const res = await fetch('/api/brand-voice')
+        if (res.ok) {
+          const data = await res.json()
+          // Only show analyzed voices
+          setBrandVoices(data.filter((v: any) => v.isAnalyzed))
+        }
+      } catch {
+        // Non-fatal — brand voice is agency-only
+      }
+    }
+
     fetchProjects()
+    fetchBrandVoices()
   }, [params.type])
 
   const handleProjectCreated = (newProject: any) => {
@@ -92,6 +110,7 @@ export default function GeneratePage({ params }: { readonly params: { type: stri
           projectId: selectedProjectId,
           contentTypeId: contentType.id,
           context,
+          ...(selectedBrandVoiceId ? { brandVoiceId: selectedBrandVoiceId } : {}),
         })
       })
 
@@ -213,6 +232,26 @@ export default function GeneratePage({ params }: { readonly params: { type: stri
               </Button>
             )}
           </div>
+          {brandVoices.length > 0 && (
+            <>
+              <div className="h-8 w-px bg-dark-700" />
+              <div className="space-y-1">
+                <p className="text-[9px] font-mono text-dark-500 uppercase tracking-widest flex items-center gap-1.5">
+                  <Fingerprint className="size-2.5" /> Brand Voice
+                </p>
+                <select
+                  value={selectedBrandVoiceId}
+                  onChange={e => setSelectedBrandVoiceId(e.target.value)}
+                  className="bg-transparent text-sm font-bold border-none p-0 focus:ring-0 cursor-pointer hover:text-brand-500 transition-colors"
+                >
+                  <option value="">Default</option>
+                  {brandVoices.map(v => (
+                    <option key={v.id} value={v.id} className="bg-dark-900 text-white">{v.name}</option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
           <div className="h-8 w-px bg-dark-700" />
           <div className="space-y-1 text-right">
             <p className="text-[9px] font-mono text-dark-500 uppercase tracking-widest">Auth Level</p>

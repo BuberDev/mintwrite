@@ -21,6 +21,7 @@ export const GenerateRequestSchema = z.object({
   projectId: z.string().min(1, 'Project ID is required'),
   contentTypeId: z.string().min(1, 'Content type is required'),
   context: z.record(z.string(), z.string()),
+  brandVoiceId: z.string().optional(),
 })
 
 export type GenerateRequest = z.infer<typeof GenerateRequestSchema>

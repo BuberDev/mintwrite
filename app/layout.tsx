@@ -145,7 +145,7 @@ const softwareAppSchema = {
       name: 'Agency',
       price: '149',
       priceCurrency: 'USD',
-      description: 'Everything in Pro, unlimited projects, API access for bulk creation, dedicated account manager, multi-user workspace (Soon), custom brand voice (Soon). Annual billing: $119/month ($1,428/year).',
+      description: 'Everything in Pro, unlimited projects, API access for bulk creation, dedicated account manager, multi-user workspace, custom brand voice. Annual billing: $119/month ($1,428/year).',
     },
   ],
   description:

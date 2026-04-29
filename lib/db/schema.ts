@@ -2,6 +2,7 @@ import {
   pgTable,
   text,
   integer,
+  boolean,
   timestamp,
   uuid,
   jsonb,
@@ -83,10 +84,59 @@ export const billing = pgTable("billing", {
   cycleCheck: check("billing_cycle_check", sql`${table.cycle} IN ('monthly', 'annual')`),
 }));
 
+// --- AGENCY: Workspaces ---
+export const workspaces = pgTable("workspaces", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  ownerId: text("owner_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// --- AGENCY: Workspace Members ---
+export const workspaceMembers = pgTable("workspace_members", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  workspaceId: uuid("workspace_id").notNull().references(() => workspaces.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  role: text("role").notNull().default("member"), // admin | member | viewer
+  joinedAt: timestamp("joined_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => ({
+  roleCheck: check("workspace_members_role_check", sql`${table.role} IN ('admin', 'member', 'viewer')`),
+  memberUnique: unique().on(table.workspaceId, table.userId),
+}));
+
+// --- AGENCY: Workspace Invites ---
+export const workspaceInvites = pgTable("workspace_invites", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  workspaceId: uuid("workspace_id").notNull().references(() => workspaces.id, { onDelete: "cascade" }),
+  invitedByUserId: text("invited_by_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  email: text("email").notNull(),
+  role: text("role").notNull().default("member"),
+  token: text("token").notNull().unique(),
+  acceptedAt: timestamp("accepted_at", { withTimezone: true }),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// --- AGENCY: Brand Voices ---
+export const brandVoices = pgTable("brand_voices", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  projectId: uuid("project_id").references(() => projects.id, { onDelete: "set null" }),
+  name: text("name").notNull(),
+  samples: text("samples").array().notNull().default(sql`ARRAY[]::text[]`),
+  analysis: jsonb("analysis"), // { tone: string[], style: string[], keywords: string[], examples: string[] }
+  isAnalyzed: boolean("is_analyzed").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 // --- APP: Projects ---
 export const projects = pgTable("projects", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  workspaceId: uuid("workspace_id").references(() => workspaces.id, { onDelete: "set null" }),
   name: text("name").notNull(),
   ticker: text("ticker").notNull(),
   category: text("category").notNull(),
@@ -122,6 +172,51 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   }),
   oauthAccounts: many(oauthAccounts),
   sessions: many(sessions),
+  workspaceMemberships: many(workspaceMembers),
+  brandVoices: many(brandVoices),
+}));
+
+export const workspacesRelations = relations(workspaces, ({ one, many }) => ({
+  owner: one(users, {
+    fields: [workspaces.ownerId],
+    references: [users.id],
+  }),
+  members: many(workspaceMembers),
+  invites: many(workspaceInvites),
+  projects: many(projects),
+}));
+
+export const workspaceMembersRelations = relations(workspaceMembers, ({ one }) => ({
+  workspace: one(workspaces, {
+    fields: [workspaceMembers.workspaceId],
+    references: [workspaces.id],
+  }),
+  user: one(users, {
+    fields: [workspaceMembers.userId],
+    references: [users.id],
+  }),
+}));
+
+export const workspaceInvitesRelations = relations(workspaceInvites, ({ one }) => ({
+  workspace: one(workspaces, {
+    fields: [workspaceInvites.workspaceId],
+    references: [workspaces.id],
+  }),
+  invitedBy: one(users, {
+    fields: [workspaceInvites.invitedByUserId],
+    references: [users.id],
+  }),
+}));
+
+export const brandVoicesRelations = relations(brandVoices, ({ one }) => ({
+  user: one(users, {
+    fields: [brandVoices.userId],
+    references: [users.id],
+  }),
+  project: one(projects, {
+    fields: [brandVoices.projectId],
+    references: [projects.id],
+  }),
 }));
 
 export const projectsRelations = relations(projects, ({ one, many }) => ({
@@ -129,7 +224,12 @@ export const projectsRelations = relations(projects, ({ one, many }) => ({
     fields: [projects.userId],
     references: [users.id],
   }),
+  workspace: one(workspaces, {
+    fields: [projects.workspaceId],
+    references: [workspaces.id],
+  }),
   generations: many(generations),
+  brandVoices: many(brandVoices),
 }));
 
 export const generationsRelations = relations(generations, ({ one }) => ({

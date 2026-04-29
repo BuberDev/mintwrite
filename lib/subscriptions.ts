@@ -61,8 +61,8 @@ export const SUBSCRIPTION_TIERS: SubscriptionTier[] = [
     features: [
       "Everything in Pro",
       "Unlimited projects",
-      "Multi-user workspace (Soon)",
-      "Custom brand voice (Soon)",
+      "Multi-user workspace",
+      "Custom brand voice",
       "API access for bulk creation",
       "Dedicated account manager",
     ],

@@ -148,8 +148,7 @@ const PricingMatrix = () => {
       priceMonthly: "149",
       priceAnnual: "119",
       type: "Teams & Agencies",
-      features: ["Everything in Pro", "Unlimited Projects", "API Access", "Dedicated Account Manager", "Multi-user Workspace (Soon)", "Custom Brand Voice (Soon)"],
-      cta: "Get Agency",
+      features: ["Everything in Pro", "Unlimited Projects", "API Access", "Dedicated Account Manager", "Multi-user Workspace", "Custom Brand Voice"],
       primary: false
     }
   ]
@@ -355,8 +354,8 @@ const Roadmap = () => {
     { status: 'live', label: 'Live', title: 'X Thread Generator', desc: '280-char formatted threads with hooks and calls to action.' },
     { status: 'live', label: 'Live', title: 'Discord Announcements', desc: 'Role-mention formatted messages for server drops and updates.' },
     { status: 'live', label: 'Live', title: 'Tokenomics Explainer', desc: 'Markdown tables, vesting schedules, and emission narratives.' },
-    { status: 'building', label: 'Building', title: 'Multi-user Workspaces', desc: 'Invite your team. Shared project profiles, roles, and review queues.' },
-    { status: 'building', label: 'Building', title: 'Custom Brand Voice', desc: 'Upload past content — Mint Write learns your project\'s unique tone.' },
+    { status: 'live', label: 'Live', title: 'Multi-user Workspaces', desc: 'Invite your team. Shared project profiles, roles, and review queues.' },
+    { status: 'live', label: 'Live', title: 'Custom Brand Voice', desc: 'Upload past content — Mint Write learns your project\'s unique tone.' },
     { status: 'planned', label: 'Planned', title: 'API Access', desc: 'Generate content programmatically. Pipe directly into your CMS or bot.' },
     { status: 'planned', label: 'Planned', title: 'TokenForge AI Import', desc: 'Paste your tokenomics JSON — auto-generate full community explainer.' },
   ]

@@ -1,6 +1,6 @@
 "use client"
 
-import { LayoutDashboard, History, PlusCircle, CreditCard, Settings, Menu } from "lucide-react"
+import { LayoutDashboard, History, PlusCircle, CreditCard, Settings, Menu, Users2, Fingerprint } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -49,6 +49,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     { label: 'Account', icon: Settings, href: '/account' },
   ]
 
+  const agencyNavItems = [
+    { label: 'Workspace', icon: Users2, href: '/workspace' },
+    { label: 'Brand Voice', icon: Fingerprint, href: '/brand-voice' },
+  ]
+
   return (
     <div className="flex min-h-screen bg-dark-900 text-dark-100">
       {/* Sidebar Desktop */}
@@ -78,6 +83,28 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {item.label}
             </Link>
           ))}
+
+          {/* Agency-only nav */}
+          {tierInfo?.tier === 'agency' && (
+            <>
+              <div className="pt-4 pb-1 px-3">
+                <p className="text-[8px] font-mono text-dark-600 uppercase tracking-[0.35em]">Agency</p>
+              </div>
+              {agencyNavItems.map((item, i) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-none text-dark-300 hover:text-dark-100 hover:bg-dark-800 transition-all duration-200 group"
+                >
+                  <span className="text-[9px] font-mono text-dark-500 group-hover:text-brand-500 transition-colors w-6">
+                    [A{i + 1}]
+                  </span>
+                  <item.icon className="h-4 w-4 text-dark-500 group-hover:text-brand-500 transition-colors" />
+                  {item.label}
+                </Link>
+              ))}
+            </>
+          )}
         </nav>
 
         <div className="p-4 border-t border-dark-600">
