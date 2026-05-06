@@ -225,6 +225,7 @@ const PricingMatrix = () => {
 
               <Link
                 href={`/api/billing?plan=${tier.id}&cycle=${cycle}`}
+                rel="nofollow"
                 className={cn(
                   "flex items-center justify-center w-full h-14 rounded-none font-bold uppercase tracking-[0.2em] text-xs transition-all",
                   tier.primary
